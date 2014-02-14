@@ -1,0 +1,44 @@
+{
+  "author": {
+    "name": "28msec",
+    "email": "hello@28.io",
+    "url": "http://28.io"
+  },
+  "name": "28",
+  "description": "AngularJS bindings for 28.io.",
+  "version": "0.0.1",
+  "keywords": [
+    "jsoniq",
+    "xquery",
+    "dev",
+    "cloud"
+  ],
+  "homepage": "https://28.io",
+  "bugs": "https://github.com/28msec/28.io-angularjs/issues",
+  "repository": {
+    "url": "https://github.com/28msec/angularjs"
+  },
+  "postinstall": "bower install",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.6.3",
+  },
+  "optionalDependencies": {},
+  "contributors": [
+    {
+      "name": "William Candillon",
+      "email": "w@28.io"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "Apache 2",
+      "url": "https://github.com/28msec/28.io-angularjs/blob/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "grunt"
+  }
+}
