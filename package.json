@@ -4,7 +4,7 @@
     "email": "hello@28.io",
     "url": "http://28.io"
   },
-  "name": "28",
+  "name": "28.io-angularjs",
   "description": "AngularJS bindings for 28.io.",
   "version": "0.0.1",
   "keywords": [
@@ -24,8 +24,26 @@
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.6.3",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "karma": "~0.10.2",
+    "grunt-karma": "~0.6.2",
+    "grunt-cli": "~0.1.8",
+    "phantomjs": "~1.9.2-2",
+    "karma-script-launcher": "~0.1.0",
+    "karma-phantomjs-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.0",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-jasmine": "~0.1.3",
+    "karma-requirejs": "~0.1.0",
+    "karma-coffee-preprocessor": "~0.1.0",
+    "karma-coverage": "~0.1.0",
+    "time-grunt": "~0.1.1",
+    "load-grunt-tasks": "~0.2.0",
+    "grunt-karma-coveralls": "~2.0.2"
   },
-  "optionalDependencies": {},
   "contributors": [
     {
       "name": "William Candillon",
