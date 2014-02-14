@@ -19,8 +19,7 @@
     "url": "https://github.com/28msec/angularjs"
   },
   "postinstall": "bower install",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.6.3",
@@ -42,7 +41,8 @@
     "karma-coverage": "~0.1.0",
     "time-grunt": "~0.1.1",
     "load-grunt-tasks": "~0.2.0",
-    "grunt-karma-coveralls": "~2.0.2"
+    "grunt-karma-coveralls": "~2.0.2",
+    "grunt-contrib-concat": "~0.3.0"
   },
   "contributors": [
     {

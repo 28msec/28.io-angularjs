@@ -16,12 +16,9 @@ module.exports = function (grunt) {
             all: ['Gruntfile.js', 'src/**/*.js', 'test/*.js'],
             jshintrc: '.jshintrc'
         },
-        copy: {
+        concat: {
             options: {
-                processContent: function (contents) {
-                    contents = contents.replace(/<%= pkg.version %>/g, grunt.file.readJSON('package.json').version);
-                    return contents;
-                }
+                separator: ''
             },
             dist: {
                 src: ['src/auth.api.28.io.js', 'src/queries.api.28.io.js', 'src/modules.api.28.io.js', 'src/datasources.api.28.io.js'],
@@ -221,12 +218,12 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('test', ['karma:1.1.5']);
-    grunt.registerTask('release', ['clean:pre', 'jshint', 'copy', 'uglify', 'test', 'clean:post']);
+    grunt.registerTask('test', ['karma:1.2.0']);
+    grunt.registerTask('release', ['clean:pre', 'concat', 'test', 'clean:post']);//uglify
     grunt.registerTask('build', ['release', 'clean:pre']);
     grunt.registerTask('default', ['build']);
 
     // Used by the CLI build servers
     grunt.registerTask('test-cli', ['karma:1.0.4', 'karma:1.0.5', 'karma:1.0.6', 'karma:1.0.7', 'karma:1.0.8', 'karma:1.1.4', 'karma:1.1.5', 'karma:1.2.1', 'karma:1.2.2', 'karma:1.2.3', 'karma:1.2.4', 'karma:1.2.5', 'karma:1.2.6', 'karma:1.2.7']);
-    grunt.registerTask('cli', ['clean', 'jshint', 'copy', 'uglify', 'test-cli', 'coveralls']);
+    grunt.registerTask('cli', ['clean', 'jshint', 'concat', 'uglify', 'test-cli', 'coveralls']);
 };

@@ -6,7 +6,7 @@ module.exports = function (config) {
         files: [
             'bower_components/angular-1.2.0/angular.min.js',
             'bower_components/angular-mocks-1.2.0/angular-mocks.js',
-            'src/28.io-angularjs.js',
+            'dist/28.io-angularjs.js',
             'test/karma.start.js',
             'test/*.js'
         ],
