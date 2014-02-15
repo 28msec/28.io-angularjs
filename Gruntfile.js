@@ -34,6 +34,23 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        jsdoc: {
+           docs: {
+             src: ['src/*.js'],
+             options: {
+               destination: 'out/3.1.0'
+             }
+           }
+        },
+        'gh-pages': {
+            docs: {
+                src: '**/*',
+                options: {
+                    base: 'out'
+                }
+            }
+        }, 
         // these folders will no longer be checked into development branches
         generateSource: {
             options: {
