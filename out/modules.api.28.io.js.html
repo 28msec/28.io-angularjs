@@ -1,6 +1,33 @@
-angular.module('modules.api.28.io', [])  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: modules.api.28.io.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: modules.api.28.io.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>angular.module('modules.api.28.io', [])  
 /**
- * <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
+ * &lt;p>These resources can be used to manage JSONiq and XQuery &lt;a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules&lt;/a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named &lt;code>myproject&lt;/code>, your endpoint for this API will be: &lt;code>http://myproject.28.io/v1/_modules&lt;/code>.&lt;/p>&lt;p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.&lt;/p>
  * @module 'modules/api/28/io' 
  */
 .factory('Modules', function($q, $http, $rootScope){
@@ -30,7 +57,7 @@ angular.module('modules.api.28.io', [])
         };
         
         /**
-         * <p>This method retrieves the list of modules which can be imported by a project.</p><p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the <code>include-system</code> query parameter to <code>true</code>.</p><p>To include module namespaces or source codes, you can set the <code>include-ns</code> or <code>include-src</code> query parameters to <code>true</code>. Regardless of the value of the <code>include-src</code> parameter, the source code of system modules will not be returned.</p><p>To filter the returned modules you can use the <code>starts-with</code> query parameter. In this case, only the modules which path starts with the specified string will be returned.</p><p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.</p>
+         * &lt;p>This method retrieves the list of modules which can be imported by a project.&lt;/p>&lt;p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the &lt;code>include-system&lt;/code> query parameter to &lt;code>true&lt;/code>.&lt;/p>&lt;p>To include module namespaces or source codes, you can set the &lt;code>include-ns&lt;/code> or &lt;code>include-src&lt;/code> query parameters to &lt;code>true&lt;/code>. Regardless of the value of the &lt;code>include-src&lt;/code> parameter, the source code of system modules will not be returned.&lt;/p>&lt;p>To filter the returned modules you can use the &lt;code>starts-with&lt;/code> query parameter. In this case, only the modules which path starts with the specified string will be returned.&lt;/p>&lt;p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.&lt;/p>
          * @param {string} starts-with - Filter the available module by their module path., 
          * @param {boolean} include-system - Include modules provided by the platform., 
          * @param {boolean} include-ns - Include each module's namespace in the listing., 
@@ -54,7 +81,7 @@ angular.module('modules.api.28.io', [])
                 params['token'] = token; 
             }
             var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            if(cached &amp;&amp; 'GET' === 'GET') {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -76,7 +103,7 @@ angular.module('modules.api.28.io', [])
         };
 
         /**
-         * <p>This method retrieves the source code of a project module. The response content type is set according to the query language of the module. If the query does not <a href="http://www.w3.org/TR/xquery-30/#id-version-declaration" target="_blank">declare its own dialect</a> or cannot be parsed, the query language is considered to be <code>XQuery</code>.</p><p>This operation cannot be used to retrieve the source code of system modules.</p>
+         * &lt;p>This method retrieves the source code of a project module. The response content type is set according to the query language of the module. If the query does not &lt;a href="http://www.w3.org/TR/xquery-30/#id-version-declaration" target="_blank">declare its own dialect&lt;/a> or cannot be parsed, the query language is considered to be &lt;code>XQuery&lt;/code>.&lt;/p>&lt;p>This operation cannot be used to retrieve the source code of system modules.&lt;/p>
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * 
@@ -93,7 +120,7 @@ angular.module('modules.api.28.io', [])
                 params['token'] = token; 
             }
             var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            if(cached &amp;&amp; 'GET' === 'GET') {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -115,7 +142,7 @@ angular.module('modules.api.28.io', [])
         };
 
         /**
-         * <p>This method creates a new project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to create a project module with the same path of an existing system or project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+         * &lt;p>This method creates a new project module. If the &lt;code>compile&lt;/code> option is &lt;code>none&lt;/code>, the module will not be compiled, if it is &lt;code>lax&lt;/code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the &lt;code>compile&lt;/code> option to &lt;code>strict&lt;/code>. The default is &lt;code>lax&lt;/code>.&lt;/p>&lt;p>It is not allowed to create a project module with the same path of an existing system or project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * @param {string} module-body - The source code of the module., 
@@ -138,7 +165,7 @@ angular.module('modules.api.28.io', [])
             params['compile'] = compile;
             var body = moduleBody;
             var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            if(cached &amp;&amp; 'POST' === 'GET') {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -160,7 +187,7 @@ angular.module('modules.api.28.io', [])
         };
 
         /**
-         * <p>This method creates or updates a project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to update system modules. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+         * &lt;p>This method creates or updates a project module. If the &lt;code>compile&lt;/code> option is &lt;code>none&lt;/code>, the module will not be compiled, if it is &lt;code>lax&lt;/code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the &lt;code>compile&lt;/code> option to &lt;code>strict&lt;/code>. The default is &lt;code>lax&lt;/code>.&lt;/p>&lt;p>It is not allowed to update system modules. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * @param {string} module-body - The module source code, 
@@ -181,7 +208,7 @@ angular.module('modules.api.28.io', [])
             params['compile'] = compile;
             var body = moduleBody;
             var cached = cache.get(url);
-            if(cached && 'PUT' === 'GET') {
+            if(cached &amp;&amp; 'PUT' === 'GET') {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -203,7 +230,7 @@ angular.module('modules.api.28.io', [])
         };
 
         /**
-         * <p>This method removes the specified project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+         * &lt;p>This method removes the specified project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * 
@@ -220,7 +247,7 @@ angular.module('modules.api.28.io', [])
                 params['token'] = token; 
             }
             var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            if(cached &amp;&amp; 'DELETE' === 'GET') {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -241,4 +268,26 @@ angular.module('modules.api.28.io', [])
             return deferred.promise;    
         };
     };
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="_.html">'auth/api/28/io'</a></li><li><a href="__.html">'datasources/api/28/io'</a></li><li><a href="___.html">'modules/api/28/io'</a></li><li><a href="____.html">'queries/api/28/io'</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha4</a> on Sat Feb 15 2014 02:15:39 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

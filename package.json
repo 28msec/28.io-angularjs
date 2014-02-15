@@ -43,7 +43,8 @@
     "load-grunt-tasks": "~0.2.0",
     "grunt-karma-coveralls": "~2.0.2",
     "grunt-contrib-concat": "~0.3.0",
-    "request": "~2.33.0"
+    "request": "~2.33.0",
+    "grunt-jsdoc": "~0.5.1"
   },
   "contributors": [
     {
