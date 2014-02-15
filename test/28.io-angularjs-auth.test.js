@@ -50,5 +50,7 @@ describe('28.io Angularjs Auth', function () {
         .catch(function(error){
           //success
         });
+
+        $rootScope.$digest();
     });
 });

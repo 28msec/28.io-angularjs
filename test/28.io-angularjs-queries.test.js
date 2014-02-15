@@ -25,18 +25,28 @@ describe('28.io Angularjs Queries', function () {
                 "preCompiled" : false
             }]
         }; 
-
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/?token=WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o%D")
-        .respond(queries);
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/public/?token=WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o%D")
-        .respond({ public: queries.public });
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/private/?token=WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o%D")
-        .respond({ private: queries.private });
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/undefined?token=WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o%D")
-        .respond(500);
         
-        var projectToken = "WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o%D";
+        var projectToken = "WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o=";
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/?token=" + projectToken)
+        .respond(queries);
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/public/?token=" + projectToken)
+        .respond({ public: queries.public });
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/private/?token=" + projectToken)
+        .respond({ private: queries.private });
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/undefined?token=" + projectToken)
+        .respond(404);
+        
         var Queries = new API.Queries('http://test.28.io/v1', $cacheFactory('Queries'));
+        
+        Queries.listQueries(undefined, undefined)
+        .then(function(queries){
+            fail(JSON.stringify(queries, null, 2));
+        })
+        .catch(function(error){
+            expect(error.message).toBeDefined();
+            expect(error.message).toBe('The token parameter is required');
+        });
+        
         Queries.listQueries(undefined, projectToken)
         .then(function(queries){
             expect(queries).toBeDefined();
@@ -70,5 +80,7 @@ describe('28.io Angularjs Queries', function () {
         .catch(function(error){
             fail(JSON.stringify(error, null, 2));
         });
+        
+        $rootScope.$digest();
     });
 });
