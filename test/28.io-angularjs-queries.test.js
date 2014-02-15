@@ -27,13 +27,13 @@ describe('28.io Angularjs Queries', function () {
         }; 
         
         var projectToken = "WGkwS3E1UEljbDVPdVZVb0QxWGFGZERZdk0wPToyMDE0LTAyLTE2VDAzOjE4OjAwLjYyMzYyN1o=";
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/?token=" + projectToken)
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/?token=" + encodeURIComponent(projectToken))
         .respond(queries);
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/public/?token=" + projectToken)
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/public?token=" + encodeURIComponent(projectToken))
         .respond({ public: queries.public });
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/private/?token=" + projectToken)
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/private?token=" + encodeURIComponent(projectToken))
         .respond({ private: queries.private });
-        $httpBackend.whenGET("http://test.28.io/v1/_queries/undefined?token=" + projectToken)
+        $httpBackend.whenGET("http://test.28.io/v1/_queries/undefined?token=" + encodeURIComponent(projectToken))
         .respond(404);
         
         var Queries = new API.Queries('http://test.28.io/v1', $cacheFactory('Queries'));
@@ -47,7 +47,7 @@ describe('28.io Angularjs Queries', function () {
             expect(error.message).toBe('The token parameter is required');
         });
         
-        Queries.listQueries(undefined, projectToken)
+        Queries.listQueries('', projectToken)
         .then(function(queries){
             expect(queries).toBeDefined();
             expect(queries.public).toBeDefined();
