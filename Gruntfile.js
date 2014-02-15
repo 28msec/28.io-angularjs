@@ -3,11 +3,68 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
     require('time-grunt')(grunt);
+    
+    grunt.registerMultiTask('generateSource', 'Generate Source from Swagger files', function(){
+        var fs = require('fs');
+        var request = require('request');
+       
+        var done = this.async();
+        var options = this.options();
+        var dest = options.dest;
+     
+        var count = options.apis.length;
+        options.apis.forEach(function(api, index){
+            var swagger = fs.readFileSync(api.swagger);
+            request({
+                uri: 'http://angular-binding.28.io/get.jq',
+                qs: { module: api.module, service: api.service },
+                headers: { 'Content-Type': 'text/json; utf-8' },
+                body: swagger
+            }, function(error, response, body){
+                fs.writeFileSync(dest + api.module + '.js', body);
+                grunt.log.writeln(api.module);
+                count--;
+                if(count === 0) {
+                    done();
+                }
+            });
+        });
+    });
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         // these folders will no longer be checked into development branches
+        generateSource: {
+            options: {
+                apis: [
+                    {
+                        swagger: 'swagger/3.1/auth',
+                        module: 'auth.api.28.io',
+                        service: 'Auth'
+                    },
+                    {
+                        swagger: 'swagger/3.1/_queries',
+                        module: 'queries.api.28.io',
+                        service: 'Queries'
+                    },
+                    {
+                        swagger: 'swagger/3.1/_modules',
+                        module: 'modules.api.28.io',
+                        service: 'Modules'
+                    },
+                    {
+                        swagger: 'swagger/3.1/_datasources',
+                        module: 'datasources.api.28.io',
+                        service: 'Datasources'
+                    }
+                ],
+                dest: 'src/'
+            },
+            dist: {
+
+            }
+        },
         clean: {
             pre: ['dist/', 'coverage/'],
             post: ['coverage/']
@@ -219,11 +276,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', ['karma:1.2.0']);
-    grunt.registerTask('release', ['clean:pre', 'concat', 'test', 'clean:post']);//uglify
+    grunt.registerTask('release', ['generateSource', 'clean:pre', 'concat', 'test', 'clean:post']);//uglify
     grunt.registerTask('build', ['release', 'clean:pre']);
     grunt.registerTask('default', ['build']);
-
-    // Used by the CLI build servers
-    grunt.registerTask('test-cli', ['karma:1.0.4', 'karma:1.0.5', 'karma:1.0.6', 'karma:1.0.7', 'karma:1.0.8', 'karma:1.1.4', 'karma:1.1.5', 'karma:1.2.1', 'karma:1.2.2', 'karma:1.2.3', 'karma:1.2.4', 'karma:1.2.5', 'karma:1.2.6', 'karma:1.2.7']);
-    grunt.registerTask('cli', ['clean', 'jshint', 'concat', 'uglify', 'test-cli', 'coveralls']);
 };

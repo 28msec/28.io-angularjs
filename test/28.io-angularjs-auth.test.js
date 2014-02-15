@@ -3,6 +3,7 @@ describe('28.io Angularjs Auth', function () {
     });
 
     it('Login to 28.io', function () {
+      $httpBackend.whenPOST("http://portal.28.io/auth?email=w%2Btesting@28.io&grant_type=client_credentials&password=hello").respond(401);
       $httpBackend.whenPOST("http://portal.28.io/auth?email=w%2Btesting@28.io&grant_type=client_credentials&password=foobar").respond(
       {
         "token_type" : "bearer", 
@@ -37,7 +38,13 @@ describe('28.io Angularjs Auth', function () {
 
           fail(JSON.stringify(error, null, 2));
         });
-        //httpBackend.flush();
-        //rootScope.$digest();
+
+        Auth.authenticate('client_credentials', 'w+testing@28.io', 'hello')
+        .then(function(session){
+            fail('This method shouldn\'t have succeed');
+        })
+        .catch(function(error){
+          //success
+        });
     });
 });
