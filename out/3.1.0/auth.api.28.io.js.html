@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: auth.api.28.io.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: auth.api.28.io.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>angular.module('auth.api.28.io', [])  
+/**
+ * &lt;p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is &lt;code>http://portal.28.io/auth&lt;/code>.&lt;/p>
+ * @module 'auth/api/28/io' 
+ */
+.factory('Auth', function($q, $http, $rootScope){
+    /**
+     * @constructor
+     * @param {string} domain - The project domain
+     * @param {string} cache - An angularjs cache implementation
+     */
+    return function(domain, cache) {
+        if(typeof(domain) !== 'string') {
+            throw new Error('Domain parameter must be specified as a string.'); 
+        }
+
+        this.$on = function($scope, path, handler) {
+            var url = domain + path;
+            $scope.$on(url, function(){
+                handler();
+            });
+            return this;
+        };
+
+        this.$broadcast = function(path){
+            var url = domain + path;
+            //cache.remove(url);
+            $rootScope.$broadcast(url);
+            return this;
+        };
+        
+        /**
+         * &lt;p>This &lt;a href="http://oauth.net/2/" target="_blank">OAuth2&lt;/a> compliant endpoint can be used both create new authorization tokens or to refresh an existing ones. There are three types of authorization tokens provided by this endpoint.&lt;/p>&lt;dl class="dl-horizontal">&lt;dt>Access token&lt;/dt>&lt;dd>The access token is used to authorize requests on your 28.io account. These methods are currently unstable and are not documented yet.&lt;/dd>&lt;dt>Refresh Token&lt;/dt>&lt;dd>This token is used to renew the validity of your current authorization tokens.&lt;/dd>&lt;dt>Project token&lt;/dt>&lt;dd>This token is used to authorize requests to a 28.io project. For instance, the project token named &lt;code>myproject&lt;/code> can be used to authorize any request to the &lt;code>http://myproject.28.io&lt;/code> endpoint.&lt;/dd>&lt;/dl>&lt;p>Any successful request to this endpoint will return the access, refresh, and project tokens.&lt;/p>&lt;p>To create new authorization tokens, the &lt;code>grant_type&lt;/code> parameter must be set to &lt;code>client_credentials&lt;/code> and the &lt;code>email&lt;/code>. The &lt;code>password&lt;/code> parameters must be specified as well.&lt;/p>&lt;p>To refresh the validity of your authorized tokens, the &lt;code>grant_type&lt;/code> parameter must be set to &lt;code>refresh_token&lt;/code> and the &lt;code>refresh_token&lt;/code> parameter must be specified. In this scenario, new authorization tokens will be granted.&lt;/p>&lt;p>The format of the expiration date of a token is &lt;a href="http://www.w3.org/TR/xmlschema-2/#isoformats" target="_blank">ISO 8601 compliant&lt;/a>.&lt;/p>
+         * @param {string} grant_type - Authorization grant type. Use &lt;code>client_credentials&lt;/code> to create a token or &lt;code>refresh_token&lt;/code> to refresh a token, 
+         * @param {string} email - The account email. Mandatory if &lt;code>grant_type=client_credentials&lt;/code>., 
+         * @param {string} password - The account password. Mandatory if &lt;code>grant_type=client_credentials&lt;/code>., 
+         * @param {string} refresh_token - The &lt;code>refresh_token&lt;/code> obtained in the last successful request to this endpoint.  Mandatory if &lt;code>grant_type=refresh_token&lt;/code>., 
+         * 
+         */
+        this.authenticate = function(grant_type, email, password, refresh_token){
+            var deferred = $q.defer();
+            var path = '/auth'
+            var url = domain + path;
+            var params = {};
+            if(grant_type  === undefined) { 
+                deferred.reject(new Error('The grant_type parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['grant_type'] = grant_type; 
+            }
+            params['email'] = email;
+            params['password'] = password;
+            params['refresh_token'] = refresh_token;
+            var cached = cache.get(url);
+            if(cached && 'POST' === 'GET') {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                method: 'POST',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                cache.removeAll();
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+    };
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="_.html">'auth/api/28/io'</a></li><li><a href="__.html">'datasources/api/28/io'</a></li><li><a href="___.html">'modules/api/28/io'</a></li><li><a href="____.html">'queries/api/28/io'</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:20:24 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
