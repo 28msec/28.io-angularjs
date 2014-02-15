@@ -1,7 +1,7 @@
 angular.module('auth.api.28.io', [])  
 /**
  * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
- * @module 'auth/api/28/io' 
+ * @namespace 'auth.api.28.io' 
  */
 .factory('Auth', function($q, $http, $rootScope){
     /**
@@ -76,7 +76,7 @@ angular.module('auth.api.28.io', [])
 });angular.module('queries.api.28.io', [])  
 /**
  * <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
- * @module 'queries/api/28/io' 
+ * @namespace 'queries.api.28.io' 
  */
 .factory('Queries', function($q, $http, $rootScope){
     /**
@@ -461,7 +461,7 @@ angular.module('auth.api.28.io', [])
 });angular.module('modules.api.28.io', [])  
 /**
  * <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
- * @module 'modules/api/28/io' 
+ * @namespace 'modules.api.28.io' 
  */
 .factory('Modules', function($q, $http, $rootScope){
     /**
@@ -704,7 +704,7 @@ angular.module('auth.api.28.io', [])
 });angular.module('datasources.api.28.io', [])  
 /**
  * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
- * @module 'datasources/api/28/io' 
+ * @namespace 'datasources.api.28.io' 
  */
 .factory('Datasources', function($q, $http, $rootScope){
     /**

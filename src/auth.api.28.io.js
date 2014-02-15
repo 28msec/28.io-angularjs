@@ -1,7 +1,7 @@
 angular.module('auth.api.28.io', [])  
 /**
  * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
- * @module 'auth/api/28/io' 
+ * @namespace 'auth.api.28.io' 
  */
 .factory('Auth', function($q, $http, $rootScope){
     /**

@@ -83,8 +83,8 @@ module.exports = function (grunt) {
             }
         },
         clean: {
-            pre: ['dist/', 'coverage/'],
-            post: ['coverage/']
+            pre: ['dist/', 'coverage/', 'out/'],
+            post: []
         },
         jshint: {
             all: ['Gruntfile.js', 'src/**/*.js', 'test/*.js'],
@@ -293,7 +293,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', ['karma:1.2.0']);
-    grunt.registerTask('release', ['generateSource', 'clean:pre', 'concat', 'test', 'clean:post']);//uglify
-    grunt.registerTask('build', ['release', 'clean:pre']);
+    grunt.registerTask('release', ['generateSource', 'clean:pre', 'concat', 'test', 'jsdoc', 'clean:post']);//uglify
+    grunt.registerTask('build', ['clean:pre', 'release']);
     grunt.registerTask('default', ['build']);
 };

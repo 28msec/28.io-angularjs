@@ -1,7 +1,7 @@
 angular.module('queries.api.28.io', [])  
 /**
  * <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
- * @module 'queries/api/28/io' 
+ * @namespace 'queries.api.28.io' 
  */
 .factory('Queries', function($q, $http, $rootScope){
     /**

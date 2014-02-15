@@ -1,0 +1,5701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Global</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Global</h1>
+    
+    
+
+
+
+<section>
+    
+<header>
+    <h2>
+    
+    </h2>
+    
+</header>  
+
+<article>
+    <div class="container-overview">
+    
+    
+    
+        
+        
+        
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+        
+        
+    
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        <h3 class="subsection-title">Methods</h3>
+        
+        <dl>
+            
+<dt>
+    <h4 class="name" id="authenticate"><span class="type-signature"></span>authenticate<span class="signature">(grant_type, email, password, refresh_token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This <a href="http://oauth.net/2/" target="_blank">OAuth2</a> compliant endpoint can be used both create new authorization tokens or to refresh an existing ones. There are three types of authorization tokens provided by this endpoint.</p><dl class="dl-horizontal"><dt>Access token</dt><dd>The access token is used to authorize requests on your 28.io account. These methods are currently unstable and are not documented yet.</dd><dt>Refresh Token</dt><dd>This token is used to renew the validity of your current authorization tokens.</dd><dt>Project token</dt><dd>This token is used to authorize requests to a 28.io project. For instance, the project token named <code>myproject</code> can be used to authorize any request to the <code>http://myproject.28.io</code> endpoint.</dd></dl><p>Any successful request to this endpoint will return the access, refresh, and project tokens.</p><p>To create new authorization tokens, the <code>grant_type</code> parameter must be set to <code>client_credentials</code> and the <code>email</code>. The <code>password</code> parameters must be specified as well.</p><p>To refresh the validity of your authorized tokens, the <code>grant_type</code> parameter must be set to <code>refresh_token</code> and the <code>refresh_token</code> parameter must be specified. In this scenario, new authorization tokens will be granted.</p><p>The format of the expiration date of a token is <a href="http://www.w3.org/TR/xmlschema-2/#isoformats" target="_blank">ISO 8601 compliant</a>.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>grant_type</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Authorization grant type. Use <code>client_credentials</code> to create a token or <code>refresh_token</code> to refresh a token,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>email</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The account email. Mandatory if <code>grant_type=client_credentials</code>.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The account password. Mandatory if <code>grant_type=client_credentials</code>.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>refresh_token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The <code>refresh_token</code> obtained in the last successful request to this endpoint.  Mandatory if <code>grant_type=refresh_token</code>.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="auth.api.28.io.js.html">auth.api.28.io.js</a>, <a href="auth.api.28.io.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="compileQuery"><span class="type-signature"></span>compileQuery<span class="signature">(query-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method precompiles a query. If the specified query has already been precompiled, the precompiled query is updated.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line353">line 353</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="createCollection"><span class="type-signature"></span>createCollection<span class="signature">(category, datasource, name, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method creates a new collection within a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The name of the new collection.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line333">line 333</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="createDatasource"><span class="type-signature"></span>createDatasource<span class="signature">(category, name, token, default, credentials)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method creates a new data source. According to the specified data source category, the connection to the data source will be tested within this method. If the test does not pass the credentials will not be stored and the reponse status code will be set to 422.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be created using this method.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The name of the data source. The data source name can contain any alphabetic letter, numbers, dots, or dashes, and must start with an alphabetic letter.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>default</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether the new data source will be the default one for its category. The default value is false.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data sources credentials as JSON.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line118">line 118</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="createModule"><span class="type-signature"></span>createModule<span class="signature">(module-path, token, module-body, compile, Content-Type)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method creates a new project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to create a project module with the same path of an existing system or project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The module path.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-body</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The source code of the module.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>compile</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The kind of compilation to perform. The default is lax.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>Content-Type</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules.api.28.io.js.html">modules.api.28.io.js</a>, <a href="modules.api.28.io.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="createQuery"><span class="type-signature"></span>createQuery<span class="signature">(query-path, token, compile, query-body)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method creates a new query resource. If the <code>compile</code> option is <code>none</code>, the query will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the query to be created. To only create the query if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>none</code>.</p><p>The query file extension must be either <code>.jq</code> or <code>.xq</code>.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>compile</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The kind of compilation to perform. The default is none.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-body</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The source code of the query,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line189">line 189</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="executeQuery"><span class="type-signature"></span>executeQuery<span class="signature">(Accept, query-path, format, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method executes a query and serialize its results using a chosen serialization method. The following serialization methods are available: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid</a>, <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#text-output" target="_blank">Text</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML</a>, and <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML</a>.</p><p>It is also possible to use the 28.io serialization method. The 28.io serialization produces a JSON object with metadata about the items produced as query result. This serialization method format is unstable and will be documented as soon we are ready to commit to backward compatibility.</p><h4>Query Serialization</h4><p>If the query specifies the response content-type or encoding using the <a href="http://28.io/documentation/latest/modules/http/response?anchor=content-type-1">HTTP response module</a> and the query execution completes without raising errors, its serialization method cannot be overridden through this api. Similarly, if the query <a href="http://28.io/documentation/latest/modules/http/response?anchor=status-code-1">specifies a response status code</a> and the query execution completes without raising errors, the HTTP status code set by the query is systematically used as the response status code.</p><p>If the query does not specify a response content-type, the serialization method can be chosen by means of the <code>Accept</code> header or by specifying the <code>format</code> parameter. In case the query does not specify a response content-type and no serialization method is specified, JSON-XML-hybrid is used.</p><p>Specifically, the serialization method is chosen as follows: <ol><li>if an <code>Accept</code> header is specified and if it contains at least one supported mime-type/charset pair, the serialization method corresponding to the most preferred one (according to the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1" target="_blank">"q" modifier</a> first and the order in which the mime-types are specified second) among those supported is chosen;</li><li>otherwise, if a <code>format</code> parameter is specified, the corresponding serialization method is chosen;</li><li>otherwise, JSON-XML-hybrid is used.</li></ol></p><p>If the Accept header is specified and it contains at least one supported mime-type, the preferred supported mime-type is used to choose the serialization method, according to the following mapping: <ul><li><code>application/mixed-json-xml</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid Serialization</a></li><li><code>application/json</code> or any mime-type which ends with <code>+json</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON Serialization</a></li><li><code>text/xml</code>, <code>application/xml</code> or any mime-type which ends with <code>+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML Serialization</a></li><li><code>text/html</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML Serialization</a></li><li><code>application/xhtml+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML Serialization</a></li><li><code>application/28io+json</code>: 28.io Serialization (format definition unstable)</li><li><code>* / *</code>: the <code>Accept</code> header is ignored and the format parameter, if specified, is used to choose the serialization method.</li></ul><p class="callout-warning">Any mime-type not matching one of the conditions listed above is not supported by this resource.</p></p><p>If the format parameter is used to choose the serialization method, the following mapping is used: <ul><li><code>.mixed</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid Serialization</a></li><li><code>.json</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON Serialization</a></li><li><code>.xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML Serialization</a></li><li><code>.text</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#text-output" target="_blank">Text Serialization</a></li><li><code>.html</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML Serialization</a></li><li><code>.xhtml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML Serialization</a></li><li><code>.28io-json</code>: 28.io Serialization (format definition unstable).</li></ul></p><h4>Response Content-Type and Encoding</h4><p>The content-type of the response is determined as follows: <ol><li>If the query has set the response content-type, it will be used in the response. If this content-type, however, is not acceptable according to the <code>Accept</code> header specified in the request, an error will be raised and the response status code will be set to <code>406</code>. Note that <code>application/mixed-json-xml</code> is treated as <code>* / *</code> when considering if the content-type set by the query is accepted or not.</li><li>If the serialization method has been chosen depending on one of the mime-types specified in the <code>Accept</code> header, the following criterion are used: <ul><li>if the used mime-type is <code>* / *</code> or <code>application/mixed-json-xml</code> then the response content type depends on the first item of the result. If it is an XML node the response content-type will be <code>application/xml</code>, otherwise <code>application/json</code></li><li>for any other mime-type, the same mime-type is used in the response.</li></ul> In case no charset has been set by the query or specified for that mime-type in the <code>Accept</code> header, <code>UTF-8</code> is used.</li><li>If the serialization method has been chosen due to the format parameter or the query file extension the content-type of the response is chosen as follows: <ul><li>JSON-XML-hybrid serialization: the response content type depends on the first item of the result. If it is an XML node the response content-type will be <code>application/xml;charset=UTF-8</code>, otherwise <code>application/json;charset=UTF-8</code></li><li>JSON serialization: <code>application/json;charset=UTF-8</code></li><li>XML serialization: <code>application/xml;charset=UTF-8</code></li><li>Text serialization: <code>text/plain;charset=UTF-8</code></li><li>HTML serialization: <code>text/html;charset=UTF-8</code></li><li>XHTML serialization: <code>application/xhtml+xml;charset=UTF-8</code></li><li>28.io serialization: <code>application/28io+json;charset=UTF-8</code></li></ul></li></ol></p><p class="callout-warning">If the items produced by the query cannot be serialized using the chosen serialization method a <code>500 internal server error</code> will be raised.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>Accept</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Value of the Accept header.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with <code>public</code> or <code>private</code> and can contain slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The serialization method to use for the results of the executed query. When choosing a serialization method, this parameter has a lower priority than the <code>Accept</code> header.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line114">line 114</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="executeSimpleQuery"><span class="type-signature"></span>executeSimpleQuery<span class="signature">(query-path, format, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method executes a non-side-effecting query and serialize its results using a chosen serialization method. The following serialization methods are available: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid</a>, <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#text-output" target="_blank">Text</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML</a>, and <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML</a>.</p><p>It is also possible to use the 28.io serialization method. The 28.io serialization produces a JSON object with metadata about the items produced as query result. This serialization method format is unstable and will be documented as soon we are ready to commit to backward compatibility.</p><div class="callout-info"><p>The HTTP response of this method is using streaming. Therefore, if an error occurs after part of the response has already been sent to the client, the response status code will be 200. In this case, the streaming of the HTTP response will stop and the following string will be sent <code>"\n\n\nAn error occurred during the processing of the request.\n"</code> followed by the error description. To always get a well-formed JSON error response, and the expected HTTP error status code, it is possible to issue the same request using POST. Note however that, in this case, the HTTP response will not stream.</p></div><h4>Query Serialization</h4><p>The serialization method can be chosen by means of the <code>Accept</code> header or by specifying the <code>format</code> parameter. In case no serialization method is specified, JSON-XML-hybrid is used.</p><p>Specifically, the serialization method is chosen as follows: <ol><li>if an <code>Accept</code> header is specified and if it contains at least one supported mime-type/charset pair, the serialization method corresponding to the most preferred one (according to the <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1" target="_blank">"q" modifier</a> first and the order in which the mime-types are specified second) among those supported is chosen;</li><li>otherwise, if a <code>format</code> parameter is specified, the corresponding serialization method is chosen;</li><li>otherwise, JSON-XML-hybrid is used.</li></ol></p><p>If the Accept header is specified and it contains at least one supported mime-type, the preferred supported mime-type is used to choose the serialization method, according to the following mapping: <ul><li><code>application/mixed-json-xml</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid Serialization</a></li><li><code>application/json</code> or any mime-type which ends with <code>+json</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON Serialization</a></li><li><code>text/xml</code>, <code>application/xml</code> or any mime-type which ends with <code>+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML Serialization</a></li><li><code>text/html</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML Serialization</a></li><li><code>application/xhtml+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML Serialization</a></li><li><code>application/28io+json</code>: 28.io Serialization (format definition unstable)</li><li><code>* / *</code>: the <code>Accept</code> header is ignored and the format parameter, if specified, is used to choose the serialization method.</li></ul><p class="callout-warning">Any mime-type not matching one of the conditions listed above is not supported by this resource.</p></p><p>If the format parameter has been specified and is used to choose the serialization method, the following mapping is used: <ul><li><code>.mixed</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid Serialization</a></li><li><code>.json</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON Serialization</a></li><li><code>.xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML Serialization</a></li><li><code>.text</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#text-output" target="_blank">Text Serialization</a></li><li><code>.html</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML Serialization</a></li><li><code>.xhtml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML Serialization</a></li><li><code>.28io-json</code>: 28.io Serialization (format definition unstable).</li></ul></p><h4>Response Content-Type and Encoding</h4><p>The content-type of the response is determined as follows:<ol><li>If the serialization method has been chosen depending on one of the mime-types specified in the <code>Accept</code> header, the following criterion are used: <ul><li>if the used mime-type is <code>* / *</code> or <code>application/mixed-json-xml</code> then the response content type depends on the first item of the result. If it is an XML node the response content-type will be <code>application/xml</code>, otherwise <code>application/json</code></li><li>for any other mime-type, the same mime-type is used in the response.</li></ul> In case no charset has been specified for that mime-type in the <code>Accept</code> header, <code>UTF-8</code> is used. Otherwise, the specified charset is used.</li><li>If the serialization method has been chosen due to the format parameter or the query file extension the content-type of the response is chosen as follows: <ul><li>JSON-XML-hybrid serialization: the response content type depends on the first item of the result. If it is an XML node the response content-type will be <code>application/xml;charset=UTF-8</code>, otherwise <code>application/json;charset=UTF-8</code></li><li>JSON serialization: <code>application/json;charset=UTF-8</code></li><li>XML serialization: <code>application/xml;charset=UTF-8</code></li><li>Text serialization: <code>text/plain;charset=UTF-8</code></li><li>HTML serialization: <code>text/html;charset=UTF-8</code></li><li>XHTML serialization: <code>application/xhtml+xml;charset=UTF-8</code></li><li>28.io serialization: <code>application/28io+json;charset=UTF-8</code></li></ul></li></ol></p><p class="callout-warning">If any of the items produced by the query cannot be serialized using the chosen serialization method a <code>500 internal server error</code> will be raised.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with <code>public</code> or <code>private</code> and can contain slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>format</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The serialization method to use for the results of the executed query. When choosing a serialization method, this parameter has a lower priority than the <code>Accept</code> header.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getCollectionMetadata"><span class="type-signature"></span>getCollectionMetadata<span class="signature">(category, datasource, collection, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the metadata of a collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line380">line 380</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getDatasource"><span class="type-signature"></span>getDatasource<span class="signature">(category, datasource, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves credentials from data source.</p><p class="callout-warning">Currently, the default MongoDB credentials cannot be retrieved using this method.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line166">line 166</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getDatasourceContents"><span class="type-signature"></span>getDatasourceContents<span class="signature">(category, datasource, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the list of available collections from a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line292">line 292</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getItem"><span class="type-signature"></span>getItem<span class="signature">(category, datasource, collection, identifier, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves a collection item.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The item identifier.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line595">line 595</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getModule"><span class="type-signature"></span>getModule<span class="signature">(module-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the source code of a project module. The response content type is set according to the query language of the module. If the query does not <a href="http://www.w3.org/TR/xquery-30/#id-version-declaration" target="_blank">declare its own dialect</a> or cannot be parsed, the query language is considered to be <code>XQuery</code>.</p><p>This operation cannot be used to retrieve the source code of system modules.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The module path.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules.api.28.io.js.html">modules.api.28.io.js</a>, <a href="modules.api.28.io.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getQuery"><span class="type-signature"></span>getQuery<span class="signature">(query-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the source code of a query. The response content-type is set according to the query language. If the query does not <a href="http://www.w3.org/TR/xquery-30/#id-version-declaration" target="_blank">declare its own dialect</a>, the query file extension is used to infer the language of the query. If the query file extension is <code>.xq</code> the query language is considered to be <code>XQuery</code>, <code>JSONiq</code>, otherwise.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line148">line 148</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="getQueryPlan"><span class="type-signature"></span>getQueryPlan<span class="signature">(query-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the execution plan of a query.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line314">line 314</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="insertInCollection"><span class="type-signature"></span>insertInCollection<span class="signature">(category, datasource, collection, token, item)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method inserts an item into a data source collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>item</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The item to insert.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line511">line 511</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="listCategoryDatasources"><span class="type-signature"></span>listCategoryDatasources<span class="signature">(category, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the list of data sources from a specific category configured for the project. If no data source is present in the specified category an empty array is returned.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="listCollection"><span class="type-signature"></span>listCollection<span class="signature">(category, datasource, collection, token, offset, limit, expand, Accept)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves a list of items a the collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>offset</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The index of the first item from which to start listing the collection items. Default is 1.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>limit</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">integer</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The number of collection items to list. Default is 10.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>expand</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether to include the serialized item in the listing. The default value is false.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>Accept</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Value of the Accept header.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line466">line 466</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="listDatasources"><span class="type-signature"></span>listDatasources<span class="signature">(token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the data sources that are configured for a project.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="listModules"><span class="type-signature"></span>listModules<span class="signature">(starts-with, include-system, include-ns, include-src, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves the list of modules which can be imported by a project.</p><p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the <code>include-system</code> query parameter to <code>true</code>.</p><p>To include module namespaces or source codes, you can set the <code>include-ns</code> or <code>include-src</code> query parameters to <code>true</code>. Regardless of the value of the <code>include-src</code> parameter, the source code of system modules will not be returned.</p><p>To filter the returned modules you can use the <code>starts-with</code> query parameter. In this case, only the modules which path starts with the specified string will be returned.</p><p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>starts-with</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Filter the available module by their module path.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>include-system</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Include modules provided by the platform.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>include-ns</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Include each module's namespace in the listing.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>include-src</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Include each module's source code in the listing.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules.api.28.io.js.html">modules.api.28.io.js</a>, <a href="modules.api.28.io.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="listQueries"><span class="type-signature"></span>listQueries<span class="signature">(visibility, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method retrieves a list of queries that belong to a project. To only list public (resp. private) queries set the <code>visibility</code> parameter to <code>public</code> (resp. <code>private</code>). To list both public and private queries, omit the <code>visibility</code> parameter.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>visibility</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query visibility.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeCollection"><span class="type-signature"></span>removeCollection<span class="signature">(category, datasource, collection, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method removes a collection from a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line421">line 421</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeDatasource"><span class="type-signature"></span>removeDatasource<span class="signature">(category, datasource, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method removes a data source.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be deleted through this method.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line252">line 252</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeItem"><span class="type-signature"></span>removeItem<span class="signature">(category, datasource, collection, identifier, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method removes an item from a collection</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The item identifier.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line681">line 681</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeModule"><span class="type-signature"></span>removeModule<span class="signature">(module-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method removes the specified project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The module path.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules.api.28.io.js.html">modules.api.28.io.js</a>, <a href="modules.api.28.io.js.html#line211">line 211</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="removeQuery"><span class="type-signature"></span>removeQuery<span class="signature">(query-path, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method removes a query.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line275">line 275</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="saveModule"><span class="type-signature"></span>saveModule<span class="signature">(module-path, token, module-body, compile)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method creates or updates a project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to update system modules. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The module path.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>module-body</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The module source code,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>compile</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The kind of compilation to perform. The default is lax.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="modules.api.28.io.js.html">modules.api.28.io.js</a>, <a href="modules.api.28.io.js.html#line170">line 170</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="saveQuery"><span class="type-signature"></span>saveQuery<span class="signature">(query-path, token, compile, query-body, Content-Type)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method updates the source code of an existing query. If the <code>compile</code> option is <code>none</code>, the query will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the query to be created or updated. To only create the query if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>none</code>.</p><p>The query file extension must be either <code>.jq</code> or <code>.xq</code>.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-path</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query path. It starts with "public" or "private" and contains slashes.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>compile</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The kind of compilation to perform. The default is none.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>query-body</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The query source code,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>Content-Type</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="queries.api.28.io.js.html">queries.api.28.io.js</a>, <a href="queries.api.28.io.js.html#line233">line 233</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="truncateCollection"><span class="type-signature"></span>truncateCollection<span class="signature">(category, datasource, collection, token)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method truncates a collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line553">line 553</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="updateDatasource"><span class="type-signature"></span>updateDatasource<span class="signature">(category, datasource, token, name, default, credentials)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method updates a data source changing its name, whether it is default or not, or its credentials. At least one change, that is, one of the optional parameters, must be specified.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be modified through this method.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The new name of the data source. If not specified the data source is not renamed.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>default</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">Whether the data source should become (if true) or cease to be (if false) the default one for its category. If not specified the data source does not change its default status.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The new data sources credentials as JSON. If not specified the data sources credentials are not changed,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line209">line 209</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="updateItem"><span class="type-signature"></span>updateItem<span class="signature">(category, datasource, collection, identifier, token, item)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>This method updates a collection item.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>category</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source category.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>datasource</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The data source name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>collection</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The collection name.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>identifier</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The item identifier.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">A project token.,</td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>item</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+            
+            
+            
+            
+            
+            <td class="description last">The new item.,</td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="datasources.api.28.io.js.html">datasources.api.28.io.js</a>, <a href="datasources.api.28.io.js.html#line638">line 638</a>
+    </li></ul></dd>
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
+        </dl>
+    
+    
+    
+    
+    
+</article>
+
+</section>  
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="_.html">'auth.api.28.io'</a></li><li><a href="__.html">'datasources.api.28.io'</a></li><li><a href="___.html">'modules.api.28.io'</a></li><li><a href="____.html">'queries.api.28.io'</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#compileQuery">compileQuery</a></li><li><a href="global.html#createCollection">createCollection</a></li><li><a href="global.html#createDatasource">createDatasource</a></li><li><a href="global.html#createModule">createModule</a></li><li><a href="global.html#createQuery">createQuery</a></li><li><a href="global.html#executeQuery">executeQuery</a></li><li><a href="global.html#executeSimpleQuery">executeSimpleQuery</a></li><li><a href="global.html#getCollectionMetadata">getCollectionMetadata</a></li><li><a href="global.html#getDatasource">getDatasource</a></li><li><a href="global.html#getDatasourceContents">getDatasourceContents</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getModule">getModule</a></li><li><a href="global.html#getQuery">getQuery</a></li><li><a href="global.html#getQueryPlan">getQueryPlan</a></li><li><a href="global.html#insertInCollection">insertInCollection</a></li><li><a href="global.html#listCategoryDatasources">listCategoryDatasources</a></li><li><a href="global.html#listCollection">listCollection</a></li><li><a href="global.html#listDatasources">listDatasources</a></li><li><a href="global.html#listModules">listModules</a></li><li><a href="global.html#listQueries">listQueries</a></li><li><a href="global.html#removeCollection">removeCollection</a></li><li><a href="global.html#removeDatasource">removeDatasource</a></li><li><a href="global.html#removeItem">removeItem</a></li><li><a href="global.html#removeModule">removeModule</a></li><li><a href="global.html#removeQuery">removeQuery</a></li><li><a href="global.html#saveModule">saveModule</a></li><li><a href="global.html#saveQuery">saveQuery</a></li><li><a href="global.html#truncateCollection">truncateCollection</a></li><li><a href="global.html#updateDatasource">updateDatasource</a></li><li><a href="global.html#updateItem">updateItem</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:25:13 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
