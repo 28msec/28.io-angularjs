@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: 'auth/api/28/io'</title>
+    <title>JSDoc: Namespace: 'auth.api.28.io'</title>
     
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Module: 'auth/api/28/io'</h1>
+    <h1 class="page-title">Namespace: 'auth.api.28.io'</h1>
     
     
 
@@ -27,7 +27,7 @@
     
 <header>
     <h2>
-    'auth/api/28/io'
+    'auth.api.28.io'
     </h2>
     
 </header>  
@@ -93,196 +93,6 @@
     
     
     
-        <h3 class="subsection-title">Methods</h3>
-        
-        <dl>
-            
-<dt>
-    <h4 class="name" id="authenticate"><span class="type-signature">&lt;static> </span>authenticate<span class="signature">(grant_type, email, password, refresh_token)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>This <a href="http://oauth.net/2/" target="_blank">OAuth2</a> compliant endpoint can be used both create new authorization tokens or to refresh an existing ones. There are three types of authorization tokens provided by this endpoint.</p><dl class="dl-horizontal"><dt>Access token</dt><dd>The access token is used to authorize requests on your 28.io account. These methods are currently unstable and are not documented yet.</dd><dt>Refresh Token</dt><dd>This token is used to renew the validity of your current authorization tokens.</dd><dt>Project token</dt><dd>This token is used to authorize requests to a 28.io project. For instance, the project token named <code>myproject</code> can be used to authorize any request to the <code>http://myproject.28.io</code> endpoint.</dd></dl><p>Any successful request to this endpoint will return the access, refresh, and project tokens.</p><p>To create new authorization tokens, the <code>grant_type</code> parameter must be set to <code>client_credentials</code> and the <code>email</code>. The <code>password</code> parameters must be specified as well.</p><p>To refresh the validity of your authorized tokens, the <code>grant_type</code> parameter must be set to <code>refresh_token</code> and the <code>refresh_token</code> parameter must be specified. In this scenario, new authorization tokens will be granted.</p><p>The format of the expiration date of a token is <a href="http://www.w3.org/TR/xmlschema-2/#isoformats" target="_blank">ISO 8601 compliant</a>.</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>grant_type</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">Authorization grant type. Use <code>client_credentials</code> to create a token or <code>refresh_token</code> to refresh a token,</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>email</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The account email. Mandatory if <code>grant_type=client_credentials</code>.,</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>password</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The account password. Mandatory if <code>grant_type=client_credentials</code>.,</td>
-        </tr>
-	
-	
-	
-        <tr>
-            
-                <td class="name"><code>refresh_token</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-            
-            
-            
-            
-            
-            <td class="description last">The <code>refresh_token</code> obtained in the last successful request to this endpoint.  Mandatory if <code>grant_type=refresh_token</code>.,</td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="auth.api.28.io.js.html">auth.api.28.io.js</a>, <a href="auth.api.28.io.js.html#line40">line 40</a>
-    </li></ul></dd>
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        </dl>
-    
     
     
     
@@ -297,13 +107,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Modules</h3><ul><li><a href="_.html">'auth/api/28/io'</a></li><li><a href="__.html">'datasources/api/28/io'</a></li><li><a href="___.html">'modules/api/28/io'</a></li><li><a href="____.html">'queries/api/28/io'</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="_.html">'auth.api.28.io'</a></li><li><a href="__.html">'datasources.api.28.io'</a></li><li><a href="___.html">'modules.api.28.io'</a></li><li><a href="____.html">'queries.api.28.io'</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#compileQuery">compileQuery</a></li><li><a href="global.html#createCollection">createCollection</a></li><li><a href="global.html#createDatasource">createDatasource</a></li><li><a href="global.html#createModule">createModule</a></li><li><a href="global.html#createQuery">createQuery</a></li><li><a href="global.html#executeQuery">executeQuery</a></li><li><a href="global.html#executeSimpleQuery">executeSimpleQuery</a></li><li><a href="global.html#getCollectionMetadata">getCollectionMetadata</a></li><li><a href="global.html#getDatasource">getDatasource</a></li><li><a href="global.html#getDatasourceContents">getDatasourceContents</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getModule">getModule</a></li><li><a href="global.html#getQuery">getQuery</a></li><li><a href="global.html#getQueryPlan">getQueryPlan</a></li><li><a href="global.html#insertInCollection">insertInCollection</a></li><li><a href="global.html#listCategoryDatasources">listCategoryDatasources</a></li><li><a href="global.html#listCollection">listCollection</a></li><li><a href="global.html#listDatasources">listDatasources</a></li><li><a href="global.html#listModules">listModules</a></li><li><a href="global.html#listQueries">listQueries</a></li><li><a href="global.html#removeCollection">removeCollection</a></li><li><a href="global.html#removeDatasource">removeDatasource</a></li><li><a href="global.html#removeItem">removeItem</a></li><li><a href="global.html#removeModule">removeModule</a></li><li><a href="global.html#removeQuery">removeQuery</a></li><li><a href="global.html#saveModule">saveModule</a></li><li><a href="global.html#saveQuery">saveQuery</a></li><li><a href="global.html#truncateCollection">truncateCollection</a></li><li><a href="global.html#updateDatasource">updateDatasource</a></li><li><a href="global.html#updateItem">updateItem</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:17:25 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:25:13 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
