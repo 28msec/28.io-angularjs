@@ -28,11 +28,10 @@
             <pre class="prettyprint source"><code>angular.module('datasources.api.28.io', [])  
 /**
  * &lt;p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named &lt;code>myproject&lt;/code>, your endpoint for this API will be will be: &lt;code>http://myproject.28.io/v1/_datasources&lt;/code>.&lt;/p>
- * @namespace 'datasources.api.28.io' 
  */
 .factory('Datasources', function($q, $http, $rootScope){
     /**
-     * @constructor
+     * @class Datasources
      * @param {string} domain - The project domain
      * @param {string} cache - An angularjs cache implementation
      */
@@ -58,6 +57,8 @@
         
         /**
          * &lt;p>This method retrieves the data sources that are configured for a project.&lt;/p>
+         * @method
+         * @name Datasources#listDatasources
          * @param {string} token - A project token., 
          * 
          */
@@ -96,6 +97,8 @@
 
         /**
          * &lt;p>This method retrieves the list of data sources from a specific category configured for the project. If no data source is present in the specified category an empty array is returned.&lt;/p>
+         * @method
+         * @name Datasources#listCategoryDatasources
          * @param {string} category - The data source category., 
          * @param {string} token - A project token., 
          * 
@@ -135,6 +138,8 @@
 
         /**
          * &lt;p>This method creates a new data source. According to the specified data source category, the connection to the data source will be tested within this method. If the test does not pass the credentials will not be stored and the reponse status code will be set to 422.&lt;/p>&lt;p class="callout-warning">Currently, the default MongoDB data source cannot be created using this method.&lt;/p>
+         * @method
+         * @name Datasources#createDatasource
          * @param {string} category - The data source category., 
          * @param {string} name - The name of the data source. The data source name can contain any alphabetic letter, numbers, dots, or dashes, and must start with an alphabetic letter., 
          * @param {string} token - A project token., 
@@ -185,6 +190,8 @@
 
         /**
          * &lt;p>This method retrieves credentials from data source.&lt;/p>&lt;p class="callout-warning">Currently, the default MongoDB credentials cannot be retrieved using this method.&lt;/p>
+         * @method
+         * @name Datasources#getDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -225,6 +232,8 @@
 
         /**
          * &lt;p>This method updates a data source changing its name, whether it is default or not, or its credentials. At least one change, that is, one of the optional parameters, must be specified.&lt;/p>&lt;p class="callout-warning">Currently, the default MongoDB data source cannot be modified through this method.&lt;/p>
+         * @method
+         * @name Datasources#updateDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -271,6 +280,8 @@
 
         /**
          * &lt;p>This method removes a data source.&lt;/p>&lt;p class="callout-warning">Currently, the default MongoDB data source cannot be deleted through this method.&lt;/p>
+         * @method
+         * @name Datasources#removeDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -311,6 +322,8 @@
 
         /**
          * &lt;p>This method retrieves the list of available collections from a data source.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#getDatasourceContents
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -351,6 +364,8 @@
 
         /**
          * &lt;p>This method creates a new collection within a data source.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#createCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} name - The name of the new collection., 
@@ -398,6 +413,8 @@
 
         /**
          * &lt;p>This method retrieves the metadata of a collection.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#getCollectionMetadata
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -439,6 +456,8 @@
 
         /**
          * &lt;p>This method removes a collection from a data source.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#removeCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -480,6 +499,8 @@
 
         /**
          * &lt;p>This method retrieves a list of items a the collection.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#listCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -528,6 +549,8 @@
 
         /**
          * &lt;p>This method inserts an item into a data source collection.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#insertInCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -571,6 +594,8 @@
 
         /**
          * &lt;p>This method truncates a collection.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#truncateCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -612,6 +637,8 @@
 
         /**
          * &lt;p>This method retrieves a collection item.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#getItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -654,6 +681,8 @@
 
         /**
          * &lt;p>This method updates a collection item.&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#updateItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -698,6 +727,8 @@
 
         /**
          * &lt;p>This method removes an item from a collection&lt;/p>&lt;p class="callout-warning">Currently, this method is only available for MongoDB data sources.&lt;/p>
+         * @method
+         * @name Datasources#removeItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -748,13 +779,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="_.html">'auth.api.28.io'</a></li><li><a href="__.html">'datasources.api.28.io'</a></li><li><a href="___.html">'modules.api.28.io'</a></li><li><a href="____.html">'queries.api.28.io'</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#compileQuery">compileQuery</a></li><li><a href="global.html#createCollection">createCollection</a></li><li><a href="global.html#createDatasource">createDatasource</a></li><li><a href="global.html#createModule">createModule</a></li><li><a href="global.html#createQuery">createQuery</a></li><li><a href="global.html#executeQuery">executeQuery</a></li><li><a href="global.html#executeSimpleQuery">executeSimpleQuery</a></li><li><a href="global.html#getCollectionMetadata">getCollectionMetadata</a></li><li><a href="global.html#getDatasource">getDatasource</a></li><li><a href="global.html#getDatasourceContents">getDatasourceContents</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getModule">getModule</a></li><li><a href="global.html#getQuery">getQuery</a></li><li><a href="global.html#getQueryPlan">getQueryPlan</a></li><li><a href="global.html#insertInCollection">insertInCollection</a></li><li><a href="global.html#listCategoryDatasources">listCategoryDatasources</a></li><li><a href="global.html#listCollection">listCollection</a></li><li><a href="global.html#listDatasources">listDatasources</a></li><li><a href="global.html#listModules">listModules</a></li><li><a href="global.html#listQueries">listQueries</a></li><li><a href="global.html#removeCollection">removeCollection</a></li><li><a href="global.html#removeDatasource">removeDatasource</a></li><li><a href="global.html#removeItem">removeItem</a></li><li><a href="global.html#removeModule">removeModule</a></li><li><a href="global.html#removeQuery">removeQuery</a></li><li><a href="global.html#saveModule">saveModule</a></li><li><a href="global.html#saveQuery">saveQuery</a></li><li><a href="global.html#truncateCollection">truncateCollection</a></li><li><a href="global.html#updateDatasource">updateDatasource</a></li><li><a href="global.html#updateItem">updateItem</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Auth.html">Auth</a></li><li><a href="Datasources.html">Datasources</a></li><li><a href="Modules.html">Modules</a></li><li><a href="Queries.html">Queries</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:25:13 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:54:14 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

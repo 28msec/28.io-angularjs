@@ -28,11 +28,10 @@
             <pre class="prettyprint source"><code>angular.module('modules.api.28.io', [])  
 /**
  * &lt;p>These resources can be used to manage JSONiq and XQuery &lt;a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules&lt;/a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named &lt;code>myproject&lt;/code>, your endpoint for this API will be: &lt;code>http://myproject.28.io/v1/_modules&lt;/code>.&lt;/p>&lt;p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.&lt;/p>
- * @namespace 'modules.api.28.io' 
  */
 .factory('Modules', function($q, $http, $rootScope){
     /**
-     * @constructor
+     * @class Modules
      * @param {string} domain - The project domain
      * @param {string} cache - An angularjs cache implementation
      */
@@ -58,6 +57,8 @@
         
         /**
          * &lt;p>This method retrieves the list of modules which can be imported by a project.&lt;/p>&lt;p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the &lt;code>include-system&lt;/code> query parameter to &lt;code>true&lt;/code>.&lt;/p>&lt;p>To include module namespaces or source codes, you can set the &lt;code>include-ns&lt;/code> or &lt;code>include-src&lt;/code> query parameters to &lt;code>true&lt;/code>. Regardless of the value of the &lt;code>include-src&lt;/code> parameter, the source code of system modules will not be returned.&lt;/p>&lt;p>To filter the returned modules you can use the &lt;code>starts-with&lt;/code> query parameter. In this case, only the modules which path starts with the specified string will be returned.&lt;/p>&lt;p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.&lt;/p>
+         * @method
+         * @name Modules#listModules
          * @param {string} starts-with - Filter the available module by their module path., 
          * @param {boolean} include-system - Include modules provided by the platform., 
          * @param {boolean} include-ns - Include each module's namespace in the listing., 
@@ -104,6 +105,8 @@
 
         /**
          * &lt;p>This method retrieves the source code of a project module. The response content type is set according to the query language of the module. If the query does not &lt;a href="http://www.w3.org/TR/xquery-30/#id-version-declaration" target="_blank">declare its own dialect&lt;/a> or cannot be parsed, the query language is considered to be &lt;code>XQuery&lt;/code>.&lt;/p>&lt;p>This operation cannot be used to retrieve the source code of system modules.&lt;/p>
+         * @method
+         * @name Modules#getModule
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * 
@@ -143,6 +146,8 @@
 
         /**
          * &lt;p>This method creates a new project module. If the &lt;code>compile&lt;/code> option is &lt;code>none&lt;/code>, the module will not be compiled, if it is &lt;code>lax&lt;/code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the &lt;code>compile&lt;/code> option to &lt;code>strict&lt;/code>. The default is &lt;code>lax&lt;/code>.&lt;/p>&lt;p>It is not allowed to create a project module with the same path of an existing system or project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
+         * @method
+         * @name Modules#createModule
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * @param {string} module-body - The source code of the module., 
@@ -188,6 +193,8 @@
 
         /**
          * &lt;p>This method creates or updates a project module. If the &lt;code>compile&lt;/code> option is &lt;code>none&lt;/code>, the module will not be compiled, if it is &lt;code>lax&lt;/code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the &lt;code>compile&lt;/code> option to &lt;code>strict&lt;/code>. The default is &lt;code>lax&lt;/code>.&lt;/p>&lt;p>It is not allowed to update system modules. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
+         * @method
+         * @name Modules#saveModule
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * @param {string} module-body - The module source code, 
@@ -231,6 +238,8 @@
 
         /**
          * &lt;p>This method removes the specified project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.&lt;/p>
+         * @method
+         * @name Modules#removeModule
          * @param {string} module-path - The module path., 
          * @param {string} token - A project token., 
          * 
@@ -278,13 +287,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="_.html">'auth.api.28.io'</a></li><li><a href="__.html">'datasources.api.28.io'</a></li><li><a href="___.html">'modules.api.28.io'</a></li><li><a href="____.html">'queries.api.28.io'</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#compileQuery">compileQuery</a></li><li><a href="global.html#createCollection">createCollection</a></li><li><a href="global.html#createDatasource">createDatasource</a></li><li><a href="global.html#createModule">createModule</a></li><li><a href="global.html#createQuery">createQuery</a></li><li><a href="global.html#executeQuery">executeQuery</a></li><li><a href="global.html#executeSimpleQuery">executeSimpleQuery</a></li><li><a href="global.html#getCollectionMetadata">getCollectionMetadata</a></li><li><a href="global.html#getDatasource">getDatasource</a></li><li><a href="global.html#getDatasourceContents">getDatasourceContents</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getModule">getModule</a></li><li><a href="global.html#getQuery">getQuery</a></li><li><a href="global.html#getQueryPlan">getQueryPlan</a></li><li><a href="global.html#insertInCollection">insertInCollection</a></li><li><a href="global.html#listCategoryDatasources">listCategoryDatasources</a></li><li><a href="global.html#listCollection">listCollection</a></li><li><a href="global.html#listDatasources">listDatasources</a></li><li><a href="global.html#listModules">listModules</a></li><li><a href="global.html#listQueries">listQueries</a></li><li><a href="global.html#removeCollection">removeCollection</a></li><li><a href="global.html#removeDatasource">removeDatasource</a></li><li><a href="global.html#removeItem">removeItem</a></li><li><a href="global.html#removeModule">removeModule</a></li><li><a href="global.html#removeQuery">removeQuery</a></li><li><a href="global.html#saveModule">saveModule</a></li><li><a href="global.html#saveQuery">saveQuery</a></li><li><a href="global.html#truncateCollection">truncateCollection</a></li><li><a href="global.html#updateDatasource">updateDatasource</a></li><li><a href="global.html#updateItem">updateItem</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Auth.html">Auth</a></li><li><a href="Datasources.html">Datasources</a></li><li><a href="Modules.html">Modules</a></li><li><a href="Queries.html">Queries</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:25:13 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:54:14 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>

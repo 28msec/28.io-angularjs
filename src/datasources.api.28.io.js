@@ -1,11 +1,10 @@
 angular.module('datasources.api.28.io', [])  
 /**
  * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
- * @namespace 'datasources.api.28.io' 
  */
 .factory('Datasources', function($q, $http, $rootScope){
     /**
-     * @constructor
+     * @class Datasources
      * @param {string} domain - The project domain
      * @param {string} cache - An angularjs cache implementation
      */
@@ -31,6 +30,8 @@ angular.module('datasources.api.28.io', [])
         
         /**
          * <p>This method retrieves the data sources that are configured for a project.</p>
+         * @method
+         * @name Datasources#listDatasources
          * @param {string} token - A project token., 
          * 
          */
@@ -69,6 +70,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves the list of data sources from a specific category configured for the project. If no data source is present in the specified category an empty array is returned.</p>
+         * @method
+         * @name Datasources#listCategoryDatasources
          * @param {string} category - The data source category., 
          * @param {string} token - A project token., 
          * 
@@ -108,6 +111,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method creates a new data source. According to the specified data source category, the connection to the data source will be tested within this method. If the test does not pass the credentials will not be stored and the reponse status code will be set to 422.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be created using this method.</p>
+         * @method
+         * @name Datasources#createDatasource
          * @param {string} category - The data source category., 
          * @param {string} name - The name of the data source. The data source name can contain any alphabetic letter, numbers, dots, or dashes, and must start with an alphabetic letter., 
          * @param {string} token - A project token., 
@@ -158,6 +163,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves credentials from data source.</p><p class="callout-warning">Currently, the default MongoDB credentials cannot be retrieved using this method.</p>
+         * @method
+         * @name Datasources#getDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -198,6 +205,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method updates a data source changing its name, whether it is default or not, or its credentials. At least one change, that is, one of the optional parameters, must be specified.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be modified through this method.</p>
+         * @method
+         * @name Datasources#updateDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -244,6 +253,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method removes a data source.</p><p class="callout-warning">Currently, the default MongoDB data source cannot be deleted through this method.</p>
+         * @method
+         * @name Datasources#removeDatasource
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -284,6 +295,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves the list of available collections from a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#getDatasourceContents
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} token - A project token., 
@@ -324,6 +337,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method creates a new collection within a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#createCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} name - The name of the new collection., 
@@ -371,6 +386,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves the metadata of a collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#getCollectionMetadata
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -412,6 +429,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method removes a collection from a data source.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#removeCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -453,6 +472,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves a list of items a the collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#listCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -501,6 +522,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method inserts an item into a data source collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#insertInCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -544,6 +567,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method truncates a collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#truncateCollection
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -585,6 +610,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method retrieves a collection item.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#getItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -627,6 +654,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method updates a collection item.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#updateItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
@@ -671,6 +700,8 @@ angular.module('datasources.api.28.io', [])
 
         /**
          * <p>This method removes an item from a collection</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * @method
+         * @name Datasources#removeItem
          * @param {string} category - The data source category., 
          * @param {string} datasource - The data source name., 
          * @param {string} collection - The collection name., 
