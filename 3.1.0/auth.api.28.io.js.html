@@ -28,11 +28,10 @@
             <pre class="prettyprint source"><code>angular.module('auth.api.28.io', [])  
 /**
  * &lt;p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is &lt;code>http://portal.28.io/auth&lt;/code>.&lt;/p>
- * @namespace 'auth.api.28.io' 
  */
 .factory('Auth', function($q, $http, $rootScope){
     /**
-     * @constructor
+     * @class Auth
      * @param {string} domain - The project domain
      * @param {string} cache - An angularjs cache implementation
      */
@@ -58,6 +57,8 @@
         
         /**
          * &lt;p>This &lt;a href="http://oauth.net/2/" target="_blank">OAuth2&lt;/a> compliant endpoint can be used both create new authorization tokens or to refresh an existing ones. There are three types of authorization tokens provided by this endpoint.&lt;/p>&lt;dl class="dl-horizontal">&lt;dt>Access token&lt;/dt>&lt;dd>The access token is used to authorize requests on your 28.io account. These methods are currently unstable and are not documented yet.&lt;/dd>&lt;dt>Refresh Token&lt;/dt>&lt;dd>This token is used to renew the validity of your current authorization tokens.&lt;/dd>&lt;dt>Project token&lt;/dt>&lt;dd>This token is used to authorize requests to a 28.io project. For instance, the project token named &lt;code>myproject&lt;/code> can be used to authorize any request to the &lt;code>http://myproject.28.io&lt;/code> endpoint.&lt;/dd>&lt;/dl>&lt;p>Any successful request to this endpoint will return the access, refresh, and project tokens.&lt;/p>&lt;p>To create new authorization tokens, the &lt;code>grant_type&lt;/code> parameter must be set to &lt;code>client_credentials&lt;/code> and the &lt;code>email&lt;/code>. The &lt;code>password&lt;/code> parameters must be specified as well.&lt;/p>&lt;p>To refresh the validity of your authorized tokens, the &lt;code>grant_type&lt;/code> parameter must be set to &lt;code>refresh_token&lt;/code> and the &lt;code>refresh_token&lt;/code> parameter must be specified. In this scenario, new authorization tokens will be granted.&lt;/p>&lt;p>The format of the expiration date of a token is &lt;a href="http://www.w3.org/TR/xmlschema-2/#isoformats" target="_blank">ISO 8601 compliant&lt;/a>.&lt;/p>
+         * @method
+         * @name Auth#authenticate
          * @param {string} grant_type - Authorization grant type. Use &lt;code>client_credentials&lt;/code> to create a token or &lt;code>refresh_token&lt;/code> to refresh a token, 
          * @param {string} email - The account email. Mandatory if &lt;code>grant_type=client_credentials&lt;/code>., 
          * @param {string} password - The account password. Mandatory if &lt;code>grant_type=client_credentials&lt;/code>., 
@@ -110,13 +111,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="_.html">'auth.api.28.io'</a></li><li><a href="__.html">'datasources.api.28.io'</a></li><li><a href="___.html">'modules.api.28.io'</a></li><li><a href="____.html">'queries.api.28.io'</a></li></ul><h3>Global</h3><ul><li><a href="global.html#authenticate">authenticate</a></li><li><a href="global.html#compileQuery">compileQuery</a></li><li><a href="global.html#createCollection">createCollection</a></li><li><a href="global.html#createDatasource">createDatasource</a></li><li><a href="global.html#createModule">createModule</a></li><li><a href="global.html#createQuery">createQuery</a></li><li><a href="global.html#executeQuery">executeQuery</a></li><li><a href="global.html#executeSimpleQuery">executeSimpleQuery</a></li><li><a href="global.html#getCollectionMetadata">getCollectionMetadata</a></li><li><a href="global.html#getDatasource">getDatasource</a></li><li><a href="global.html#getDatasourceContents">getDatasourceContents</a></li><li><a href="global.html#getItem">getItem</a></li><li><a href="global.html#getModule">getModule</a></li><li><a href="global.html#getQuery">getQuery</a></li><li><a href="global.html#getQueryPlan">getQueryPlan</a></li><li><a href="global.html#insertInCollection">insertInCollection</a></li><li><a href="global.html#listCategoryDatasources">listCategoryDatasources</a></li><li><a href="global.html#listCollection">listCollection</a></li><li><a href="global.html#listDatasources">listDatasources</a></li><li><a href="global.html#listModules">listModules</a></li><li><a href="global.html#listQueries">listQueries</a></li><li><a href="global.html#removeCollection">removeCollection</a></li><li><a href="global.html#removeDatasource">removeDatasource</a></li><li><a href="global.html#removeItem">removeItem</a></li><li><a href="global.html#removeModule">removeModule</a></li><li><a href="global.html#removeQuery">removeQuery</a></li><li><a href="global.html#saveModule">saveModule</a></li><li><a href="global.html#saveQuery">saveQuery</a></li><li><a href="global.html#truncateCollection">truncateCollection</a></li><li><a href="global.html#updateDatasource">updateDatasource</a></li><li><a href="global.html#updateItem">updateItem</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Classes</h3><ul><li><a href="Auth.html">Auth</a></li><li><a href="Datasources.html">Datasources</a></li><li><a href="Modules.html">Modules</a></li><li><a href="Queries.html">Queries</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:25:13 GMT+0100 (CET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Sat Feb 15 2014 18:54:14 GMT+0100 (CET)
 </footer>
 
 <script> prettyPrint(); </script>
