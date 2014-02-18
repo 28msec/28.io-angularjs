@@ -47,7 +47,7 @@ angular.module('myApp', ['auth.api.28.io', 'queries.api.28.io'])
 }); 
 ```
 ## Development
-If you'd like to hack on AngularFire itself, you'll need
+If you'd like to hack on 28.io-angularjs itself, you'll need
 [node.js](http://nodejs.org/download/), and [Bower](http://bower.io):
 
 ```bash
