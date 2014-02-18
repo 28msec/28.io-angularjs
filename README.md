@@ -1,4 +1,4 @@
-28.io AngularJS Binding [![Build Status](https://travis-ci.org/28msec/28.io-angularjs.png?branch=master)](https://travis-ci.org/28msec/28.io-angularjs) [![Bower version](https://badge.fury.io/bo/28.io-angularjs.png)](http://badge.fury.io/bo/28.io-angularjs)
+28.io AngularJS Binding [![Build Status](https://travis-ci.org/28msec/28.io-angularjs.png?branch=master)](https://travis-ci.org/28msec/28.io-angularjs)
 ============
 
 28.io-angularjs is an officially supported [AngularJS](http://angularjs.org/) binding
