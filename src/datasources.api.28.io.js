@@ -6,25 +6,25 @@ angular.module('datasources.api.28.io', [])
     /**
      * @class Datasources
      * @param {string} domain - The project domain
-     * @param {string} cache - An angularjs cache implementation
      */
-    return function(domain, cache) {
+    return function(domain) {
         if(typeof(domain) !== 'string') {
             throw new Error('Domain parameter must be specified as a string.'); 
         }
+        
+        var root = '/_datasources';
 
         this.$on = function($scope, path, handler) {
             var url = domain + path;
-            $scope.$on(url, function(){
-                handler();
+            $scope.$on(url, function(event, data){
+                handler(data);
             });
             return this;
         };
 
-        this.$broadcast = function(path){
+        this.$broadcast = function(path, data){
             var url = domain + path;
-            //cache.remove(url);
-            $rootScope.$broadcast(url);
+            $rootScope.$broadcast(url, data);
             return this;
         };
         
@@ -35,19 +35,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.listDatasources = function(token){
+        this.listDatasources = function(parameters){
             var deferred = $q.defer();
+            var that = this;
             var path = '/_datasources'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -57,11 +58,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -76,19 +78,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.listCategoryDatasources = function(category, token){
+        this.listCategoryDatasources = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -98,11 +101,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -120,27 +124,28 @@ angular.module('datasources.api.28.io', [])
          * @param {string} credentials - The data sources credentials as JSON., 
          * 
          */
-        this.createDatasource = function(category, name, token, difault, credentials){
+        this.createDatasource = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + ''
             var url = domain + path;
             var params = {};
-            if(name  === undefined) { 
+            if(parameters.name  === undefined) { 
                 deferred.reject(new Error('The name parameter is required'));
                 return deferred.promise;
             } else { 
-                params['name'] = name; 
+                params['name'] = parameters.name; 
             }
-        if(token  === undefined) { 
+        if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['default'] = difault;
-            var body = credentials;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            params['default'] = parameters.default;
+            var body = parameters.credentials;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -150,11 +155,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -170,19 +175,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getDatasource = function(category, datasource, token){
+        this.getDatasource = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -192,11 +198,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -215,22 +222,23 @@ angular.module('datasources.api.28.io', [])
          * @param {string} credentials - The new data sources credentials as JSON. If not specified the data sources credentials are not changed, 
          * 
          */
-        this.updateDatasource = function(category, datasource, token, name, difault, credentials){
+        this.updateDatasource = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['name'] = name;
-            params['default'] = difault;
-            var body = credentials;
-            var cached = cache.get(url);
-            if(cached && 'PATCH' === 'GET') {
+            params['name'] = parameters.name;
+            params['default'] = parameters.default;
+            var body = parameters.credentials;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PATCH' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -240,11 +248,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -260,19 +268,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.removeDatasource = function(category, datasource, token){
+        this.removeDatasource = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -282,11 +291,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -302,19 +311,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getDatasourceContents = function(category, datasource, token){
+        this.getDatasourceContents = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents'
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -324,11 +334,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -345,25 +356,26 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.createCollection = function(category, datasource, name, token){
+        this.createCollection = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents'
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents'
             var url = domain + path;
             var params = {};
-            if(name  === undefined) { 
+            if(parameters.name  === undefined) { 
                 deferred.reject(new Error('The name parameter is required'));
                 return deferred.promise;
             } else { 
-                params['name'] = name; 
+                params['name'] = parameters.name; 
             }
-        if(token  === undefined) { 
+        if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -373,11 +385,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -394,19 +406,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getCollectionMetadata = function(category, datasource, collection, token){
+        this.getCollectionMetadata = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -416,11 +429,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -437,19 +451,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.removeCollection = function(category, datasource, collection, token){
+        this.removeCollection = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -459,11 +474,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -484,36 +499,38 @@ angular.module('datasources.api.28.io', [])
          * @param {string} Accept - Value of the Accept header., 
          * 
          */
-        this.listCollection = function(category, datasource, collection, token, offset, limit, expand, accept){
+        this.listCollection = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items'
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['offset'] = offset;
-            params['limit'] = limit;
-            params['expand'] = expand;
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            params['offset'] = parameters.offset;
+            params['limit'] = parameters.limit;
+            params['expand'] = parameters.expand;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
                 method: 'GET',
                 url: url,
-                params: params, headers: {'Accept': accept}
+                params: params, headers: {'Accept': parameters.accept}
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -531,20 +548,21 @@ angular.module('datasources.api.28.io', [])
          * @param {string} item - The item to insert., 
          * 
          */
-        this.insertInCollection = function(category, datasource, collection, token, item){
+        this.insertInCollection = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items'
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var body = item;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            var body = parameters.item;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -554,11 +572,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -575,19 +593,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.truncateCollection = function(category, datasource, collection, token){
+        this.truncateCollection = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items'
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -597,11 +616,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -619,19 +638,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getItem = function(category, datasource, collection, identifier, token){
+        this.getItem = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items/' + identifier + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items/' + parameters.identifier + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -641,11 +661,12 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -664,20 +685,21 @@ angular.module('datasources.api.28.io', [])
          * @param {string} item - The new item., 
          * 
          */
-        this.updateItem = function(category, datasource, collection, identifier, token, item){
+        this.updateItem = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items/' + identifier + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items/' + parameters.identifier + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var body = item;
-            var cached = cache.get(url);
-            if(cached && 'PUT' === 'GET') {
+            var body = parameters.item;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PUT' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -687,11 +709,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -709,19 +731,20 @@ angular.module('datasources.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.removeItem = function(category, datasource, collection, identifier, token){
+        this.removeItem = function(parameters){
             var deferred = $q.defer();
-            var path = '/_datasources/' + category + '/' + datasource + '/contents/' + collection + '/items/' + identifier + ''
+            var that = this;
+            var path = '/_datasources/' + parameters.category + '/' + parameters.datasource + '/contents/' + parameters.collection + '/items/' + parameters.identifier + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -731,11 +754,11 @@ angular.module('datasources.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }

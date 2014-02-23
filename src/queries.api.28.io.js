@@ -6,25 +6,25 @@ angular.module('queries.api.28.io', [])
     /**
      * @class Queries
      * @param {string} domain - The project domain
-     * @param {string} cache - An angularjs cache implementation
      */
-    return function(domain, cache) {
+    return function(domain) {
         if(typeof(domain) !== 'string') {
             throw new Error('Domain parameter must be specified as a string.'); 
         }
+        
+        var root = '/_queries';
 
         this.$on = function($scope, path, handler) {
             var url = domain + path;
-            $scope.$on(url, function(){
-                handler();
+            $scope.$on(url, function(event, data){
+                handler(data);
             });
             return this;
         };
 
-        this.$broadcast = function(path){
+        this.$broadcast = function(path, data){
             var url = domain + path;
-            //cache.remove(url);
-            $rootScope.$broadcast(url);
+            $rootScope.$broadcast(url, data);
             return this;
         };
         
@@ -36,19 +36,20 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.listQueries = function(visibility, token){
+        this.listQueries = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + visibility + ''
+            var that = this;
+            var path = '/_queries/' + parameters.visibility + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -58,11 +59,12 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -78,14 +80,15 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.executeSimpleQuery = function(queryPath, format, token){
+        this.executeSimpleQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '' + format + ''
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '' + parameters.format + ''
             var url = domain + path;
             var params = {};
-                params['token'] = token;
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+                params['token'] = parameters.token;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -95,11 +98,12 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -116,28 +120,29 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.executeQuery = function(accept, queryPath, format, token){
+        this.executeQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '' + format + ''
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '' + parameters.format + ''
             var url = domain + path;
             var params = {};
-                params['token'] = token;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+                params['token'] = parameters.token;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
                 method: 'POST',
                 url: url,
-                params: params, headers: {'Accept': accept}
+                params: params, headers: {'Accept': parameters.accept}
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -152,19 +157,20 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getQuery = function(queryPath, token){
+        this.getQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '/metadata/source'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/source'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -174,11 +180,12 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -195,21 +202,22 @@ angular.module('queries.api.28.io', [])
          * @param {string} query-body - The source code of the query, 
          * 
          */
-        this.createQuery = function(queryPath, token, compile, queryBody){
+        this.createQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '/metadata/source'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/source'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['compile'] = compile;
-            var body = queryBody;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            params['compile'] = parameters.compile;
+            var body = parameters.queryBody;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -219,11 +227,11 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -241,36 +249,37 @@ angular.module('queries.api.28.io', [])
          * @param {string} Content-Type - , 
          * 
          */
-        this.saveQuery = function(queryPath, token, compile, queryBody){
+        this.saveQuery = function(parameters){
             var deferred = $q.defer();
             var contentType = 'text/plain; charset=utf-8';
-            var path = '/_queries/' + queryPath + '/metadata/source'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/source'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['compile'] = compile;
-            var body = queryBody;
-            var cached = cache.get(url);
-            if(cached && 'PUT' === 'GET') {
+            params['compile'] = parameters.compile;
+            var body = parameters.queryBody;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PUT' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
                 method: 'PUT',
                 url: url,
-                params: params, data: body, headers: {'Content-Type': contentType}
+                params: params, data: body, headers: {'Content-Type': parameters.contentType}
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -285,19 +294,20 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.removeQuery = function(queryPath, token){
+        this.removeQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '/metadata/source'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/source'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -307,11 +317,11 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -326,19 +336,20 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getQueryPlan = function(queryPath, token){
+        this.getQueryPlan = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '/metadata/plan'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/plan'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -348,11 +359,12 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -367,19 +379,20 @@ angular.module('queries.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.compileQuery = function(queryPath, token){
+        this.compileQuery = function(parameters){
             var deferred = $q.defer();
-            var path = '/_queries/' + queryPath + '/metadata/plan'
+            var that = this;
+            var path = '/_queries/' + parameters.queryPath + '/metadata/plan'
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'PUT' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PUT' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -389,11 +402,11 @@ angular.module('queries.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
