@@ -38,7 +38,7 @@ describe('28.io Angularjs Queries', function () {
         
         var Queries = new API.Queries('http://test.28.io/v1', $cacheFactory('Queries'));
         
-        Queries.listQueries(undefined, undefined)
+        Queries.listQueries({})
         .then(function(queries){
             fail(JSON.stringify(queries, null, 2));
         })
@@ -47,7 +47,7 @@ describe('28.io Angularjs Queries', function () {
             expect(error.message).toBe('The token parameter is required');
         });
         
-        Queries.listQueries('', projectToken)
+        Queries.listQueries({ token: projectToken })
         .then(function(queries){
             expect(queries).toBeDefined();
             expect(queries.public).toBeDefined();
@@ -59,7 +59,7 @@ describe('28.io Angularjs Queries', function () {
             fail(JSON.stringify(error, null, 2));
         });
 
-        Queries.listQueries('public', projectToken)
+        Queries.listQueries({ visibility: 'public', token: projectToken })
         .then(function(queries){
             expect(queries).toBeDefined();
             expect(queries.public).toBeDefined();
@@ -70,7 +70,7 @@ describe('28.io Angularjs Queries', function () {
             fail(JSON.stringify(error, null, 2));
         });
 
-        Queries.listQueries('private', projectToken)
+        Queries.listQueries({ visibility: 'private', token: projectToken })
         .then(function(queries){
             expect(queries).toBeDefined();
             expect(queries.public).toBeUndefined();

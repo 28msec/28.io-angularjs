@@ -6,25 +6,25 @@ angular.module('auth.api.28.io', [])
     /**
      * @class Auth
      * @param {string} domain - The project domain
-     * @param {string} cache - An angularjs cache implementation
      */
-    return function(domain, cache) {
+    return function(domain) {
         if(typeof(domain) !== 'string') {
             throw new Error('Domain parameter must be specified as a string.'); 
         }
+        
+        var root = '/auth';
 
         this.$on = function($scope, path, handler) {
             var url = domain + path;
-            $scope.$on(url, function(){
-                handler();
+            $scope.$on(url, function(event, data){
+                handler(data);
             });
             return this;
         };
 
-        this.$broadcast = function(path){
+        this.$broadcast = function(path, data){
             var url = domain + path;
-            //cache.remove(url);
-            $rootScope.$broadcast(url);
+            $rootScope.$broadcast(url, data);
             return this;
         };
         
@@ -38,22 +38,23 @@ angular.module('auth.api.28.io', [])
          * @param {string} refresh_token - The <code>refresh_token</code> obtained in the last successful request to this endpoint.  Mandatory if <code>grant_type=refresh_token</code>., 
          * 
          */
-        this.authenticate = function(grant_type, email, password, refresh_token){
+        this.authenticate = function(parameters){
             var deferred = $q.defer();
+            var that = this;
             var path = '/auth'
             var url = domain + path;
             var params = {};
-            if(grant_type  === undefined) { 
+            if(parameters.grant_type  === undefined) { 
                 deferred.reject(new Error('The grant_type parameter is required'));
                 return deferred.promise;
             } else { 
-                params['grant_type'] = grant_type; 
+                params['grant_type'] = parameters.grant_type; 
             }
-            params['email'] = email;
-            params['password'] = password;
-            params['refresh_token'] = refresh_token;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            params['email'] = parameters.email;
+            params['password'] = parameters.password;
+            params['refresh_token'] = parameters.refresh_token;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -63,11 +64,11 @@ angular.module('auth.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }

@@ -16,7 +16,7 @@ module.exports = function (grunt) {
         options.apis.forEach(function(api, index){
             var swagger = fs.readFileSync(api.swagger);
             request({
-                uri: 'http://angular-binding.28.io/get.jq',
+                uri: 'http://angular-binding.28.io/get2.jq',
                 qs: { module: api.module, service: api.service },
                 headers: { 'Content-Type': 'text/json; utf-8' },
                 body: swagger
@@ -37,7 +37,7 @@ module.exports = function (grunt) {
 
         jsdoc: {
            docs: {
-             src: ['src/*.js'],
+             src: ['src/auth.api.28.io.js', 'datasources.api.28.io.js', 'modules.api.28.io.js', 'queries.api.28.io.js'],
              options: {
                destination: 'out/3.1.0'
              }
@@ -74,6 +74,16 @@ module.exports = function (grunt) {
                         swagger: 'swagger/3.1/_datasources',
                         module: 'datasources.api.28.io',
                         service: 'Datasources'
+                    },
+                    {
+                        swagger: 'swagger/3.1/account',
+                        module: 'account.api.28.io',
+                        service: 'Account'
+                    },
+                    {
+                        swagger: 'swagger/3.1/project',
+                        module: 'project.api.28.io',
+                        service: 'Project'
                     }
                 ],
                 dest: 'src/'

@@ -25,13 +25,13 @@ describe('28.io Angularjs Auth', function () {
         $httpBackend.whenPOST("http://portal.28.io/auth?email=w%2Btesting@28.io&grant_type=refresh_token&refresh_token=ZC82MVZlT3NDZThuRkRKUlYwczc4Smk2bkFvPToyMDE0LTAyLTE1VDEwOjMwOjQ4LjIzMTk5M1o=").respond(sessionTokens);
         
         var Auth = new API.Auth('http://portal.28.io', $cacheFactory('Auth'));
-        Auth.authenticate('client_credentials', 'w+testing@28.io', 'foobar')
+        Auth.authenticate({ grant_type: 'client_credentials', email: 'w+testing@28.io', password: 'foobar' })
         .then(function(session){
             expect(session.access_token).toBeDefined();
             expect(session.refresh_token).toBeDefined();
             expect(session.project_tokens).toBeDefined();
         
-            Auth.authenticate('refresh_tokens', 'w+testing@28.io', undefined, session.refresh_token)
+            Auth.authenticate({ grant_type: 'refresh_tokens', email: 'w+testing@28.io', refresh_token:  session.refresh_token })
             .then(function(session){
                 //success
             })
@@ -43,7 +43,7 @@ describe('28.io Angularjs Auth', function () {
             fail(JSON.stringify(error, null, 2));
         });
 
-        Auth.authenticate('client_credentials', 'w+testing@28.io', 'hello')
+        Auth.authenticate({ grant_type: 'client_credentials', email: 'w+testing@28.io', password: 'hello' })
         .then(function(session){
             fail('This method shouldn\'t have succeed');
         })

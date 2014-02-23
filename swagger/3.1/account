@@ -1,0 +1,689 @@
+{
+    "apiVersion": "1.0",
+    "swaggerVersion": "1.2",
+    "basePath": "http://api.xbrl.io",
+    "resourcePath": "/account",
+    "produces": [
+        "application/json"
+    ],
+    "apis": [
+        {
+            "path": "/account",
+            "operations": [
+                {
+                    "method": "POST",
+                    "summary": "Creates a new account",
+                    "notes": "The provided password must be at least 5 characters long. After the account is created a confirmation email is sent to the specified email. The email contains an URL which can be used to confirm the account. This method requires no authentication.",
+                    "type": "Success",
+                    "nickname": "createAccount",
+                    "parameters": [
+                        {
+                            "name": "firstname",
+                            "description": "The account first name.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "lastname",
+                            "description": "The account last name.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "company",
+                            "description": "The account company.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "password",
+                            "description": "The account password.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 409,
+                            "message": "Account already exists.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/account/{email}",
+            "operations": [
+                {
+                    "method": "HEAD",
+                    "summary": "Checks if an account exists",
+                    "notes": "This method requires no authentication.",
+                    "type": "void",
+                    "nickname": "checkAccount",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 404,
+                            "message": "The specified account cannot be found."
+                        }
+                    ]
+                },
+                {
+                    "method": "GET",
+                    "summary": "Retrieves an account metadata",
+                    "notes": "This method requires a valid API token which has been generated for the same account specified in the request.",
+                    "type": "Account",
+                    "nickname": "getAccountMetadata",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "token",
+                            "description": "An API token generated for the specified account.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized: the specified API token is invalid or expired.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 404,
+                            "message": "The specified account cannot be found.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                },
+                {
+                    "method": "PATCH",
+                    "summary": "Updates an account",
+                    "notes": "This method allows to change the firstname, lastname, company or password of an account. At least one change, that is, one of the optional parameters, must be specified. The provided password, if any, must be at least 5 characters long. This method requires a valid API token which has been generated for the same account specified in the request.",
+                    "type": "Success",
+                    "nickname": "updateAccount",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "token",
+                            "description": "An API token generated for the specified account.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "firstname",
+                            "description": "The account new first name. If not specified the account firstname is not modified.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "lastname",
+                            "description": "The account new last name. If not specified the account lastname is not modified.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "company",
+                            "description": "The account new company. If not specified the account company is not modified.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "password",
+                            "description": "The account new password. If not specified the account password is not modified.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized: the specified API token is invalid or expired.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 404,
+                            "message": "The specified account cannot be found.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/account/{email}/confirm",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Resends the confirmation email",
+                    "notes": "This method requires no authentication.",
+                    "type": "Success",
+                    "nickname": "resendConfirmation",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 409,
+                            "message": "Forbidden: the account has already been confirmed.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                },
+                {
+                    "method": "POST",
+                    "summary": "Confirms an account",
+                    "notes": "This method requires the confirmation token sent via email when the account is created. If the account is successfully confirmed the account is logged in and the associated account and project metadata are returned.",
+                    "type": "AccountExtendedData",
+                    "nickname": "confirmAccount",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account name.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "confirmation-token",
+                            "description": "The account confirmation token.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 401,
+                            "message": "Unauthorized: the specified confirmation token is invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 409,
+                            "message": "Forbidden: the account has already been confirmed.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "path": "/account/{email}/reset",
+            "operations": [
+                {
+                    "method": "GET",
+                    "summary": "Checks if a reset token is valid",
+                    "notes": "",
+                    "type": "Success",
+                    "nickname": "checkResetToken",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "reset-token",
+                            "description": "The reset token to check.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 401,
+                            "message": "The specified reset token is invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                },
+                {
+                    "method": "POST",
+                    "summary": "Changes an account password using a reset token",
+                    "notes": "This method requires the latest reset token sent via email. If the account is successfully reset the account is logged in and the associated account and project metadata are returned. The new account password must be at least 5 characters long.",
+                    "type": "AccountExtendedData",
+                    "nickname": "resetPassword",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "reset-token",
+                            "description": "The latest account reset token.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "password",
+                            "description": "The new account password.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 401,
+                            "message": "The specified reset token is invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                },
+                {
+                    "method": "PUT",
+                    "summary": "Sends a reset token",
+                    "notes": "This method does not require authentication. Any previous sent but unused reset token is invalidated.",
+                    "type": "Success",
+                    "nickname": "sendResetToken",
+                    "parameters": [
+                        {
+                            "name": "email",
+                            "description": "The account email.",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "path"
+                        },
+                        {
+                            "name": "portal-url",
+                            "description": "The Portal URL",
+                            "required": true,
+                            "type": "string",
+                            "paramType": "query"
+                        }
+                    ],
+                    "responseMessages": [
+                        {
+                            "code": 400,
+                            "message": "Bad request: a parameter is missing or invalid.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 404,
+                            "message": "The specified account cannot be found.",
+                            "responseModel": "Error"
+                        },
+                        {
+                            "code": 500,
+                            "message": "An internal error occurred during the processing of the request.",
+                            "responseModel": "Error"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "models": {
+        "Success": {
+            "id": "Success",
+            "description": "Default success response",
+            "required": ["success"],
+            "properties": {
+                "success": {
+                    "type": "boolean",
+                    "enum": [
+                        "true"
+                    ]
+                }
+            }
+        },
+        "Error": {
+            "id": "Error",
+            "description": "Error information",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "The XQuery error code of the error"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "A formatted string which contain the error code (always) and the module name, line and column-number and error description (when available)"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "The error description"
+                },
+                "module": {
+                    "type": "string",
+                    "description": "The error module"
+                },
+                "line-number": {
+                    "type": "string",
+                    "description": "The error line number"
+                },
+                "column-number": {
+                    "type": "string",
+                    "description": "The error column number"
+                }
+            }
+        },
+        "Account": {
+            "id": "Account",
+            "description": "Account metadata",
+            "required": [
+                "id",
+                "email",
+                "firstname",
+                "lastname",
+                "company",
+                "createdAt",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "The account unique identifier"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "The account type",
+                    "enum": [
+                        "temporary",
+                        "anonymous",
+                        "free",
+                        "full",
+                        "28msec",
+                        "admin"
+                    ]
+                },
+                "email": {
+                    "type": "string",
+                    "description": "The account email"
+                },
+                "firstname": {
+                    "type": "string",
+                    "description": "The account firstname"
+                },
+                "lastname": {
+                    "type": "string",
+                    "description": "The account lastname"
+                },
+                "company": {
+                    "type": "string",
+                    "description": "The account company"
+                },
+                "createdAt": {
+                    "type": "date-time",
+                    "description": "The date and time on which the account has been created"
+                },
+                "confirmedAt": {
+                    "type": "date-time",
+                    "description": "The date and time on which the account has been confirmed"
+                },
+                "billingAccount": {
+                    "type": "string",
+                    "description": "The account billing account"
+                }
+            }
+        },
+        "AccountExtendedData": {
+            "id": "AccountExtendedData",
+            "description": "Account extended data",
+            "required": [
+                "token_type",
+                "expiration_date",
+                "access_token",
+                "refresh_token",
+                "project_tokens",
+                "accountMetadata",
+                "projectsMetadata"
+            ],
+            "properties": {
+                "token_type": {
+                    "type": "string",
+                    "description": "The API token type",
+                    "enum": [
+                        "bearer"
+                    ]
+                },
+                "expiration_date": {
+                    "type": "date-time",
+                    "description": "The expiration date of all the tokens in the response"
+                },
+                "access_token": {
+                    "type": "string",
+                    "description": "The API token"
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "The refresh token which can be used to refresh both the API and project tokens"
+                },
+                "project_tokens": {
+                    "type": "ProjectTokens",
+                    "description": "The project tokens which can be used to make request to the APIs on the project endpoints"
+                },
+                "accountMetadata": {
+                    "type": "Account",
+                    "description": "The account data."
+                },
+                "projectsMetadata": {
+                    "type": "Projects",
+                    "description": "The account projects data."
+                }
+            }
+        },
+        "ProjectTokens": {
+            "id": "ProjectTokens",
+            "description": "An object containing zero or more project tokens. Each project token is stored in a different field project_{name}, where {name} is the project name, (e.g.: portal).",
+            "properties": {
+                "project_{name}": {
+                    "type": "string",
+                    "description": "The token for the project {name}. One field for each project owned by the account will be present"
+                }
+            }
+        },
+        "NewProject": {
+            "id": "NewProject",
+            "required": ["projectMetadata", "projectToken"],
+            "properties": {
+                "projectMetadata": {
+                    "type": "Project",
+                    "description": "The project metadata of the newly created project"
+                },
+                "projectToken": {
+                    "type": "string",
+                    "description": "A project token for the newly created project. It is guaranteed to expire no sooner than the tokens already obtained for the account in the current session."
+                }
+            }
+        },
+        "Project": {
+            "id": "Project",
+            "description": "Project data",
+            "required": [
+                "name",
+                "created",
+                "package",
+                "status",
+                "avatarKey"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The project name"
+                },
+                "created": {
+                    "type": "date-time",
+                    "description": "The date time on which the project was created"
+                },
+                "package": {
+                    "type": "string",
+                    "description": "The project package"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "The project status"
+                },
+                "avatarKey": {
+                    "type": "integer",
+                    "description": "An integer in the range [1..8] randomly chosen on project creation",
+                    "minimum": 1,
+                    "maximum": 8
+                },
+                "version": {
+                    "type": "string",
+                    "description": "The project version"
+                },
+                "sausaVersion": {
+                    "type": "string",
+                    "description": "The sausalito version used by the project"
+                },
+                "lastUpdated": {
+                    "type": "date-time",
+                    "description": "The date on which the project was last updated"
+                },
+                "browserUpdated": {
+                    "type": "date-time",
+                    "description": "The date on which the project browser was last updated"
+                },
+                "lastModified": {
+                    "type": "date-time",
+                    "description": "The date on which the project was last modified"
+                },
+                "compilerLiving": {
+                    "type": "date-time",
+                    "description": "The last date and time in which the compiler has been started, provided it is still running"
+                },
+                "namespace": {
+                    "type": "string",
+                    "description": "The project namespace"
+                },
+                "databaseType": {
+                    "type": "string",
+                    "description": "The database type of the project default MongoDB database.",
+                    "enum": [
+                        "user",
+                        "mongolab",
+                        "28msec",
+                        "local",
+                        "none"
+                    ]
+                }
+            }
+        }
+    }
+}

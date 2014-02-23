@@ -6,25 +6,25 @@ angular.module('modules.api.28.io', [])
     /**
      * @class Modules
      * @param {string} domain - The project domain
-     * @param {string} cache - An angularjs cache implementation
      */
-    return function(domain, cache) {
+    return function(domain) {
         if(typeof(domain) !== 'string') {
             throw new Error('Domain parameter must be specified as a string.'); 
         }
+        
+        var root = '/_modules';
 
         this.$on = function($scope, path, handler) {
             var url = domain + path;
-            $scope.$on(url, function(){
-                handler();
+            $scope.$on(url, function(event, data){
+                handler(data);
             });
             return this;
         };
 
-        this.$broadcast = function(path){
+        this.$broadcast = function(path, data){
             var url = domain + path;
-            //cache.remove(url);
-            $rootScope.$broadcast(url);
+            $rootScope.$broadcast(url, data);
             return this;
         };
         
@@ -39,23 +39,24 @@ angular.module('modules.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.listModules = function(startsWith, includeSystem, includeNs, includeSrc, token){
+        this.listModules = function(parameters){
             var deferred = $q.defer();
+            var that = this;
             var path = '/_modules'
             var url = domain + path;
             var params = {};
-                params['starts-with'] = startsWith;
-            params['include-system'] = includeSystem;
-            params['include-ns'] = includeNs;
-            params['include-src'] = includeSrc;
-        if(token  === undefined) { 
+                params['starts-with'] = parameters.startsWith;
+            params['include-system'] = parameters.includeSystem;
+            params['include-ns'] = parameters.includeNs;
+            params['include-src'] = parameters.includeSrc;
+        if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -65,11 +66,12 @@ angular.module('modules.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -84,19 +86,20 @@ angular.module('modules.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.getModule = function(modulePath, token){
+        this.getModule = function(parameters){
             var deferred = $q.defer();
-            var path = '/_modules/' + modulePath + ''
+            var that = this;
+            var path = '/_modules/' + parameters.modulePath + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'GET' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -106,11 +109,12 @@ angular.module('modules.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.put(url, data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -128,36 +132,37 @@ angular.module('modules.api.28.io', [])
          * @param {string} Content-Type - , 
          * 
          */
-        this.createModule = function(modulePath, token, moduleBody, compile){
+        this.createModule = function(parameters){
             var deferred = $q.defer();
             var contentType = 'text/plain; charset=utf-8';
-            var path = '/_modules/' + modulePath + ''
+            var that = this;
+            var path = '/_modules/' + parameters.modulePath + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['compile'] = compile;
-            var body = moduleBody;
-            var cached = cache.get(url);
-            if(cached && 'POST' === 'GET') {
+            params['compile'] = parameters.compile;
+            var body = parameters.moduleBody;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
                 method: 'POST',
                 url: url,
-                params: params, data: body, headers: {'Content-Type': contentType}
+                params: params, data: body, headers: {'Content-Type': parameters.contentType}
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -174,21 +179,22 @@ angular.module('modules.api.28.io', [])
          * @param {string} compile - The kind of compilation to perform. The default is lax., 
          * 
          */
-        this.saveModule = function(modulePath, token, moduleBody, compile){
+        this.saveModule = function(parameters){
             var deferred = $q.defer();
-            var path = '/_modules/' + modulePath + ''
+            var that = this;
+            var path = '/_modules/' + parameters.modulePath + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            params['compile'] = compile;
-            var body = moduleBody;
-            var cached = cache.get(url);
-            if(cached && 'PUT' === 'GET') {
+            params['compile'] = parameters.compile;
+            var body = parameters.moduleBody;
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PUT' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -198,11 +204,11 @@ angular.module('modules.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
@@ -217,19 +223,20 @@ angular.module('modules.api.28.io', [])
          * @param {string} token - A project token., 
          * 
          */
-        this.removeModule = function(modulePath, token){
+        this.removeModule = function(parameters){
             var deferred = $q.defer();
-            var path = '/_modules/' + modulePath + ''
+            var that = this;
+            var path = '/_modules/' + parameters.modulePath + ''
             var url = domain + path;
             var params = {};
-            if(token  === undefined) { 
+            if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
-                params['token'] = token; 
+                params['token'] = parameters.token; 
             }
-            var cached = cache.get(url);
-            if(cached && 'DELETE' === 'GET') {
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);
             } else {
             $http({
@@ -239,11 +246,11 @@ angular.module('modules.api.28.io', [])
             })
             .success(function(data, status, headers, config){
                 deferred.resolve(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             .error(function(data, status, headers, config){
                 deferred.reject(data);
-                cache.removeAll();
+                //cache.removeAll();
             })
             ;
             }
