@@ -437,7 +437,7 @@ angular.module('project.api.28.io', [])
         /**
          * This method requires a valid API token generated for the account which owns the specified project.
          * @method
-         * @name Project#getProjectMetadata
+         * @name Project#testDefaultMongoDB
          * @param {string} name - The project name., 
          * @param {string} token - An API token., 
          * @param {string} conn-string - The database connection string., 
@@ -447,7 +447,7 @@ angular.module('project.api.28.io', [])
          * @param {boolean} pre-digested - Whether the specified password is pre-digested or not. Default is false., 
          * 
          */
-        this.getProjectMetadata = function(parameters){
+        this.testDefaultMongoDB = function(parameters){
             var deferred = $q.defer();
             var that = this;
             var path = '/project/' + parameters.name + '/test-mongodb'

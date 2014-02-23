@@ -37,7 +37,7 @@ module.exports = function (grunt) {
 
         jsdoc: {
            docs: {
-             src: ['src/auth.api.28.io.js', 'datasources.api.28.io.js', 'modules.api.28.io.js', 'queries.api.28.io.js'],
+             src: ['src/auth.api.28.io.js', 'src/datasources.api.28.io.js', 'src/modules.api.28.io.js', 'src/queries.api.28.io.js'],
              options: {
                destination: 'out/3.1.0'
              }
