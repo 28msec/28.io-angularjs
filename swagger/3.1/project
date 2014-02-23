@@ -465,7 +465,7 @@
                     "summary": "Tests MongoDB credentials",
                     "notes": "This method requires a valid API token generated for the account which owns the specified project.",
                     "type": "MongoDBTests",
-                    "nickname": "getProjectMetadata",
+                    "nickname": "testDefaultMongoDB",
                     "parameters": [
                         {
                             "name": "name",
