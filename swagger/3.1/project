@@ -605,7 +605,7 @@
                             "description": "The project name.",
                             "required": true,
                             "type": "string",
-                            "paramType": "query"
+                            "paramType": "path"
                         },
                         {
                             "name": "domain-name",

@@ -552,16 +552,10 @@ angular.module('project.api.28.io', [])
         this.addCustomDomain = function(parameters){
             var deferred = $q.defer();
             var that = this;
-            var path = '/project/{name}/domains'
+            var path = '/project/' + parameters.name + '/domains'
             var url = domain + path;
             var params = {};
-            if(parameters.name  === undefined) { 
-                deferred.reject(new Error('The name parameter is required'));
-                return deferred.promise;
-            } else { 
-                params['name'] = parameters.name; 
-            }
-        if(parameters.domainName  === undefined) { 
+            if(parameters.domainName  === undefined) { 
                 deferred.reject(new Error('The domainName parameter is required'));
                 return deferred.promise;
             } else { 
