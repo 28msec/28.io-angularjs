@@ -29,10 +29,10 @@ angular.module('myApp', ['auth.api.28.io', 'queries.api.28.io'])
     var auth = new Auth('http://portal.28.io', $cacheFactory('Auth'));
     var queries = new Queries('http://' + projectName + '.28.io/v1', $cacheFactory('Queries'));
 
-    auth.authenticate('client_credentials', $scope.login, $scope.password)
+    auth.authenticate({ grant_type: 'client_credentials', email: $scope.login, password: $scope.password })
     .then(function(tokens){
         var projectToken = tokens.project_tokens['project_' + projectName];
-        queries.listQueries('public', projectToken)
+        queries.listQueries({ visibility: 'public', token: projectToken })
         .then(function(publicQueries){
                 $scope.publicQueries = publicQueries;
         })
