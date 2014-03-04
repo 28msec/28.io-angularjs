@@ -21,6 +21,10 @@ module.exports = function (grunt) {
                 headers: { 'Content-Type': 'text/json; utf-8' },
                 body: swagger
             }, function(error, response, body){
+                if(response.statusCode !== 200) {
+                    grunt.log.error('Error generating ' + api.module);
+                    grunt.fail.fatal(body);
+                }
                 fs.writeFileSync(dest + api.module + '.js', body);
                 grunt.log.writeln(api.module);
                 count--;
@@ -84,6 +88,11 @@ module.exports = function (grunt) {
                         swagger: 'swagger/3.1/project',
                         module: 'project.api.28.io',
                         service: 'Project'
+                    },
+                    {
+                        swagger: 'swagger/3.1/package',
+                        module: 'package.api.28.io',
+                        service: 'Package'
                     }
                 ],
                 dest: 'src/'

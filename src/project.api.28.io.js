@@ -1,4 +1,4 @@
-angular.module('project.api.28.io', [])  
+angular.module('project.api.28.io' , [])  
 /**
  * Description Missing
  */
@@ -52,6 +52,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -103,6 +104,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -139,6 +141,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'HEAD',
                 url: url,
                 params: params
@@ -181,6 +184,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -224,6 +228,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params
@@ -273,6 +278,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PATCH',
                 url: url,
                 params: params
@@ -315,6 +321,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -357,6 +364,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -417,6 +425,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params
@@ -479,6 +488,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -522,6 +532,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -572,6 +583,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -615,6 +627,7 @@ angular.module('project.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params

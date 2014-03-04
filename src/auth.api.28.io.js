@@ -1,4 +1,4 @@
-angular.module('auth.api.28.io', [])  
+angular.module('auth.api.28.io' , [])  
 /**
  * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
  */
@@ -58,6 +58,7 @@ angular.module('auth.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params

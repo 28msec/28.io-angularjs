@@ -807,7 +807,7 @@
 	{
 	    "method": "GET",
                     "summary": "Lists collection items",
-                    "notes": "<p>This method retrieves a list of items a the collection.</p><p class=\"callout-warning\">Currently, this method is only available for MongoDB data sources.</p>",
+                    "notes": "<p>This method retrieves a list of items a the collection.</p><p>The following serialization methods are available: <a href=\"http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization\" target=\"_blank\">JSON-XML-hybrid</a>, <a href=\"http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization\" target=\"_blank\">JSON</a>, <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#xml-output\" target=\"_blank\">XML</a>, <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#text-output\" target=\"_blank\">Text</a>, <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#html-output\" target=\"_blank\">HTML</a>, and <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output\" target=\"_blank\">XHTML</a>.</p><p>It is also possible to use the 28.io serialization method. The 28.io serialization produces a JSON object with metadata about the items in the collection. This serialization method format is unstable and will be documented as soon we are ready to commit to backward compatibility.</p><p>If the Accept header is specified and it contains at least one supported mime-type, the preferred supported mime-type is used to choose the serialization method, according to the following mapping: <ul><li><code>application/mixed-json-xml</code>: <a href=\"http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization\" target=\"_blank\">JSON-XML-hybrid Serialization</a></li><li><code>application/json</code> or any mime-type which ends with <code>+json</code>: <a href=\"http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization\" target=\"_blank\">JSON Serialization</a></li><li><code>text/xml</code>, <code>application/xml</code> or any mime-type which ends with <code>+xml</code>: <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#xml-output\" target=\"_blank\">XML Serialization</a></li><li><code>text/html</code>: <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#html-output\" target=\"_blank\">HTML Serialization</a></li><li><code>application/xhtml+xml</code>: <a href=\"http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output\" target=\"_blank\">XHTML Serialization</a></li><li><code>application/28io+json</code>: 28.io Serialization (format definition unstable)</li><li><code>* / *</code>: 28.io Serialization (format definition unstable).</li></ul>If the <code>Accept</code> header is not specified, the 28.io Serialization (format definition unstable) will be used.  In case no charset has been specified in the <code>Accept</code> header, <code>UTF-8</code> is used. Otherwise, the specified charset is used.<p class=\"callout-warning\">Any mime-type not matching one of the conditions listed above is not supported by this resource.</p></p><p class=\"callout-warning\">Currently, this method is only available for MongoDB data sources.</p>",
                     "type": "CollectionList28IO",
                     "produces": [
                         "*/*",
@@ -883,7 +883,7 @@
                             "name": "Accept",
                             "paramType": "header",
                             "required": false,
-                            "description": "Value of the Accept header.",
+                            "description": "Serialization format.",
                             "type": "string",
                             "enum": [
                                 "application/28.io+json",
@@ -891,7 +891,8 @@
                                 "application/json",
                                 "application/xml",
                                 "text/html",
-                                "application/xhtml+xml"
+                                "application/xhtml+xml",
+				"text/plain"
                             ]
                         }
                     ],
@@ -1511,6 +1512,62 @@
                     "description": "The item serialized using the \"json+xml hybrid\" serialization method"
                 }
             }
-       } 
+       },
+       "CollectionList28IO": {
+            "id": "CollectionList28IO",
+            "description": "Collection listing in 28.io+json formt",
+            "required": [
+                "href",
+                "offset",
+                "limit",
+                "count",
+                "items"
+            ],
+            "properties": {
+                "first": {
+                    "type": "string",
+                    "description": "The link to the first page of this collection item listing. Its offset is always 1, its limit is the same as the current request. It is present only if the the current offset is greater than 1"
+                },
+                "previous": {
+                    "type": "string",
+                    "description": "The link to the previous page of this collection item listing. Its offset is the maximum among 1 and the current offset minus the current limit. It is present only if the the current offset is greater than 1"
+                },
+                "href": {
+                    "type": "string",
+                    "description": "The link to this collection item listing, with the same offset and limit"
+                },
+                "next": {
+                    "type": "string",
+                    "description": "The link to the next page of this collection item listing.  Its offset is the sum of the current offset and the current limit. It is present only if the last item contained in the response is not the last one in the collection"
+                },
+                "last": {
+                    "type": "string",
+                    "description": "The link to the last page of this collection item listing. Its offset is the biggest number smaller or equal to the number of items in the collection which can be obtained adding one or more times the current limit to the current offset. The limit is the same as the current page. It is present only if the last item contained in the response is not the last one in the collection"
+                },
+                "offset": {
+                    "type": "integer",
+                    "description": "The requested offset",
+                    "minimum": "1"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "The requested limit",
+                    "minimum": "1",
+                    "maximum": "500"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "The declared type of the items in the collection",
+                    "minimum": "1"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Item28IO"
+                    },
+                    "description": "The list of item starting whose position (starting from 1) in the collection is between offset(included) and offset+limit (excluded)"
+                }
+            }
+        }
     }
 }

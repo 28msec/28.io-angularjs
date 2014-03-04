@@ -1,4 +1,4 @@
-angular.module('account.api.28.io', [])  
+angular.module('account.api.28.io' , [])  
 /**
  * Description Missing
  */
@@ -80,6 +80,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -116,6 +117,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'HEAD',
                 url: url,
                 params: params
@@ -158,6 +160,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -209,6 +212,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PATCH',
                 url: url,
                 params: params
@@ -245,6 +249,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -288,6 +293,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -330,6 +336,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -380,6 +387,7 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -422,7 +430,386 @@ angular.module('account.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //cache.removeAll();
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method returns the account billing data, if any, along with the data required to update it. This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#getBillingData
+         * @param {string} email - The account email., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.getBillingData = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/billing'
+            var url = domain + path;
+            var params = {};
+            if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'GET',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#listInvoices
+         * @param {string} email - The account email., 
+         * @param {string} cursor - Used to control which page is returned. Leave empty for the first page. Use the cursor returned in a reply to fetch the next page., 
+         * @param {integer} limit - The number of records to return per page up to a maximum of 200. Default is 50., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.listInvoices = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/invoices'
+            var url = domain + path;
+            var params = {};
+                params['cursor'] = parameters.cursor;
+            params['limit'] = parameters.limit;
+        if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'GET',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#getInvoice
+         * @param {string} email - The account email., 
+         * @param {string} token - An API token generated for the specified account., 
+         * @param {string} Accept - The format of the response. Default is "application/pdf", 
+         * 
+         */
+        this.getInvoice = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/invoices/{invoice}'
+            var url = domain + path;
+            var params = {};
+            if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'GET',
+                url: url,
+                params: params, headers: {'Accept': parameters.accept}
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#listSubscriptions
+         * @param {string} email - The account email., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.listSubscriptions = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/subscriptions'
+            var url = domain + path;
+            var params = {};
+            if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'GET',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#createSubscription
+         * @param {string} email - The account email., 
+         * @param {string} plan - The plan to subscribe to., 
+         * @param {integer} quantity - The quantity for the chosen plan., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.createSubscription = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/subscriptions'
+            var url = domain + path;
+            var params = {};
+            if(parameters.plan  === undefined) { 
+                deferred.reject(new Error('The plan parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['plan'] = parameters.plan; 
+            }
+        if(parameters.quantity  === undefined) { 
+                deferred.reject(new Error('The quantity parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['quantity'] = parameters.quantity; 
+            }
+        if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('POST' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'POST',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //cache.removeAll();
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#getSubscription
+         * @param {string} email - The account email., 
+         * @param {string} subscription - The subscription uuid., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.getSubscription = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/subscriptions/' + parameters.subscription + ''
+            var url = domain + path;
+            var params = {};
+            if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'GET',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //that.$broadcast(url);
+                if(parameters.$cache !== undefined) parameters.$cache.put(url, data, parameters.$cacheItemOpts ? parameters.$cacheItemOpts : {});
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#updateSubscription
+         * @param {string} email - The account email., 
+         * @param {string} subscription - The subscription uuid., 
+         * @param {integer} quantity - The new quantity., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.updateSubscription = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/subscriptions/' + parameters.subscription + ''
+            var url = domain + path;
+            var params = {};
+            if(parameters.quantity  === undefined) { 
+                deferred.reject(new Error('The quantity parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['quantity'] = parameters.quantity; 
+            }
+        if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('PUT' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'PUT',
+                url: url,
+                params: params
+            })
+            .success(function(data, status, headers, config){
+                deferred.resolve(data);
+                //cache.removeAll();
+            })
+            .error(function(data, status, headers, config){
+                deferred.reject(data);
+                //cache.removeAll();
+            })
+            ;
+            }
+            return deferred.promise;    
+        };
+
+        /**
+         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * @method
+         * @name Account#terminateSubscription
+         * @param {string} email - The account email., 
+         * @param {string} subscription - The subscription uuid., 
+         * @param {string} token - An API token generated for the specified account., 
+         * 
+         */
+        this.terminateSubscription = function(parameters){
+            var deferred = $q.defer();
+            var that = this;
+            var path = '/account/' + parameters.email + '/subscriptions/' + parameters.subscription + ''
+            var url = domain + path;
+            var params = {};
+            if(parameters.token  === undefined) { 
+                deferred.reject(new Error('The token parameter is required'));
+                return deferred.promise;
+            } else { 
+                params['token'] = parameters.token; 
+            }
+            var cached = parameters.$cache && parameters.$cache.get(url);
+            if('DELETE' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
+                deferred.resolve(cached);
+            } else {
+            $http({
+                timeout: parameters.$timeout,
+                method: 'DELETE',
                 url: url,
                 params: params
             })

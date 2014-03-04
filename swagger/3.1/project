@@ -729,7 +729,8 @@
             "description": "Error information",
             "required": [
                 "code",
-                "message"
+                "message",
+                "description"
             ],
             "properties": {
                 "code": {

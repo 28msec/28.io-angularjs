@@ -1,4 +1,4 @@
-angular.module('datasources.api.28.io', [])  
+angular.module('datasources.api.28.io' , [])  
 /**
  * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
  */
@@ -52,6 +52,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -95,6 +96,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -149,6 +151,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, data: body
@@ -192,6 +195,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -242,6 +246,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PATCH',
                 url: url,
                 params: params, data: body
@@ -285,6 +290,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -328,6 +334,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -379,6 +386,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -423,6 +431,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -468,6 +477,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -486,7 +496,7 @@ angular.module('datasources.api.28.io', [])
         };
 
         /**
-         * <p>This method retrieves a list of items a the collection.</p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
+         * <p>This method retrieves a list of items a the collection.</p><p>The following serialization methods are available: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid</a>, <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#text-output" target="_blank">Text</a>, <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML</a>, and <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML</a>.</p><p>It is also possible to use the 28.io serialization method. The 28.io serialization produces a JSON object with metadata about the items in the collection. This serialization method format is unstable and will be documented as soon we are ready to commit to backward compatibility.</p><p>If the Accept header is specified and it contains at least one supported mime-type, the preferred supported mime-type is used to choose the serialization method, according to the following mapping: <ul><li><code>application/mixed-json-xml</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON-XML-hybrid Serialization</a></li><li><code>application/json</code> or any mime-type which ends with <code>+json</code>: <a href="http://jsoniq.org/docs/JSONiqExtensionToXQuery/html-single/#section-json-serialization" target="_blank">JSON Serialization</a></li><li><code>text/xml</code>, <code>application/xml</code> or any mime-type which ends with <code>+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xml-output" target="_blank">XML Serialization</a></li><li><code>text/html</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#html-output" target="_blank">HTML Serialization</a></li><li><code>application/xhtml+xml</code>: <a href="http://www.w3.org/TR/xslt-xquery-serialization/#xhtml-output" target="_blank">XHTML Serialization</a></li><li><code>application/28io+json</code>: 28.io Serialization (format definition unstable)</li><li><code>* / *</code>: 28.io Serialization (format definition unstable).</li></ul>If the <code>Accept</code> header is not specified, the 28.io Serialization (format definition unstable) will be used.  In case no charset has been specified in the <code>Accept</code> header, <code>UTF-8</code> is used. Otherwise, the specified charset is used.<p class="callout-warning">Any mime-type not matching one of the conditions listed above is not supported by this resource.</p></p><p class="callout-warning">Currently, this method is only available for MongoDB data sources.</p>
          * @method
          * @name Datasources#listCollection
          * @param {string} category - The data source category., 
@@ -496,7 +506,7 @@ angular.module('datasources.api.28.io', [])
          * @param {integer} offset - The index of the first item from which to start listing the collection items. Default is 1., 
          * @param {integer} limit - The number of collection items to list. Default is 10., 
          * @param {boolean} expand - Whether to include the serialized item in the listing. The default value is false., 
-         * @param {string} Accept - Value of the Accept header., 
+         * @param {string} Accept - Serialization format., 
          * 
          */
         this.listCollection = function(parameters){
@@ -519,6 +529,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params, headers: {'Accept': parameters.accept}
@@ -566,6 +577,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, data: body
@@ -610,6 +622,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -655,6 +668,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -703,6 +717,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params, data: body
@@ -748,6 +763,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
