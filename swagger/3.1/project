@@ -49,7 +49,7 @@
                 {
                     "method": "POST",
                     "summary": "Creates a new project",
-                    "notes": "The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. Morever, the following project names are reserved and cannot be used: 'alpha', 'api', 'autodiscover', 'beta', 'blog', 'dev', 'docs', 'info', 'local', 'lyncdiscover', 'pages', 'portal', 'ppa', 'sip', 'static', 'wiki', 'www'. This method requires a valid API token. If the project is created successfully, the owner of the project is the account associated with the specified API token.",
+                    "notes": "<p>The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character.</p><p>If the specified package is payed, the account must have billing information and a new recurly subscription will be created.</p><p>This method requires a valid API token. If the project is created successfully, the owner of the project is the account associated with the specified API token.</p>",
                     "type": "NewProject",
                     "nickname": "createProject",
                     "parameters": [
@@ -62,11 +62,18 @@
                         },
                         {
                             "name": "template",
-                            "description": "A template name. If not specified the default template will be used.",
+                            "description": "A template name. If not specified the 'default' template will be used.",
                             "required": false,
                             "type": "string",
                             "paramType": "query"
                         },
+                        {
+                            "name": "package",
+                            "description": "A package name. If not specified the 'free' package will be used.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        },                        
                         {
                             "name": "token",
                             "description": "An API token.",
@@ -87,8 +94,18 @@
                             "responseModel": "Error"
                         },
                         {
+                            "code": 402,
+                            "message": "Recurly refused to complete the operation, due to errors in the billing information.",
+                            "responseModel": "RecurlyError"
+                        },
+                        {
                             "code": 409,
                             "message": "A project with the same name already exists.",
+                            "responseModel": "Error"
+                        },                        
+                        {
+                            "code": 424,
+                            "message": "The specified user has no billing data.",
                             "responseModel": "Error"
                         },
                         {
@@ -217,10 +234,10 @@
                 },
                 {
                     "method": "PATCH",
-                    "summary": "Renames a project",
-                    "notes": "The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. Morever, the following project names are reserved and cannot be used: 'alpha', 'api', 'autodiscover', 'beta', 'blog', 'dev', 'docs', 'info', 'local', 'lyncdiscover', 'pages', 'portal', 'ppa', 'sip', 'static', 'wiki', 'www'. This method requires a valid API token generated for the account which owns the specified project.",
+                    "summary": "Changes a project metadata",
+                    "notes": "<p>This method allows to rename or change the package of a project. Only one of the two modifications can be performed at the same time.</p><p>If renaming, the new project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. This method requires a valid API token generated for the account which owns the specified project.<p><p>If changing the project package, the following conditions must be satisfied: <ul><li>the used account must have billing information;</li><li>the current project package must be free</li><li>the specified package type must be payed</li></ul></p>",
                     "type": "Success",
-                    "nickname": "renameProject",
+                    "nickname": "updateProject",
                     "parameters": [
                         {
                             "name": "name",
@@ -230,15 +247,22 @@
                             "paramType": "path"
                         },
                         {
-                            "name": "token",
-                            "description": "An API token.",
-                            "required": true,
+                            "name": "new-name",
+                            "description": "The new project name.",
+                            "required": false,
                             "type": "string",
                             "paramType": "query"
                         },
                         {
-                            "name": "target-name",
-                            "description": "The new project name.",
+                            "name": "package",
+                            "description": "The project package.",
+                            "required": false,
+                            "type": "string",
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "token",
+                            "description": "An API token.",
                             "required": true,
                             "type": "string",
                             "paramType": "query"
@@ -256,8 +280,19 @@
                             "responseModel": "Error"
                         },
                         {
+                            "code": 402,
+                            "message": "Recurly refused to complete the operation, due to errors in the billing information.",
+                            "responseModel": "RecurlyError"
+                        },
+                        {
                             "code": 404,
                             "message": "The specified project does not exist.",
+                            "responseModel": "Error"
+                        },                       
+                        
+                        {
+                            "code": 424,
+                            "message": "The specified user has no billing data.",
                             "responseModel": "Error"
                         },
                         {
@@ -270,7 +305,7 @@
                 {
                     "method": "DELETE",
                     "summary": "Deletes a project",
-                    "notes": "This method requires a valid API token generated for the account which owns the specified project.",
+                    "notes": "<p>If the project package is payed, the corresponding recurly subscription will be terminated.</p><p>This method requires a valid API token generated for the account which owns the specified project.</p>",
                     "type": "Success",
                     "nickname": "deleteProject",
                     "parameters": [

@@ -31,10 +31,10 @@ angular.module('package.api.28.io' , [])
         /**
          * This method requires no authentication.
          * @method
-         * @name Package#createAccount
+         * @name Package#listPackages
          * 
          */
-        this.createAccount = function(parameters){
+        this.listPackages = function(parameters){
             var deferred = $q.defer();
             var that = this;
             var path = '/package'

@@ -72,11 +72,12 @@ angular.module('project.api.28.io' , [])
         };
 
         /**
-         * The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. Morever, the following project names are reserved and cannot be used: 'alpha', 'api', 'autodiscover', 'beta', 'blog', 'dev', 'docs', 'info', 'local', 'lyncdiscover', 'pages', 'portal', 'ppa', 'sip', 'static', 'wiki', 'www'. This method requires a valid API token. If the project is created successfully, the owner of the project is the account associated with the specified API token.
+         * <p>The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character.</p><p>If the specified package is payed, the account must have billing information and a new recurly subscription will be created.</p><p>This method requires a valid API token. If the project is created successfully, the owner of the project is the account associated with the specified API token.</p>
          * @method
          * @name Project#createProject
          * @param {string} project-name - The project name., 
-         * @param {string} template - A template name. If not specified the default template will be used., 
+         * @param {string} template - A template name. If not specified the 'default' template will be used., 
+         * @param {string} package - A package name. If not specified the 'free' package will be used., 
          * @param {string} token - An API token., 
          * 
          */
@@ -93,6 +94,7 @@ angular.module('project.api.28.io' , [])
                 params['project-name'] = parameters.projectName; 
             }
             params['template'] = parameters.template;
+            params['package'] = parameters.package;
         if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
@@ -247,31 +249,28 @@ angular.module('project.api.28.io' , [])
         };
 
         /**
-         * The project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. Morever, the following project names are reserved and cannot be used: 'alpha', 'api', 'autodiscover', 'beta', 'blog', 'dev', 'docs', 'info', 'local', 'lyncdiscover', 'pages', 'portal', 'ppa', 'sip', 'static', 'wiki', 'www'. This method requires a valid API token generated for the account which owns the specified project.
+         * <p>This method allows to rename or change the package of a project. Only one of the two modifications can be performed at the same time.</p><p>If renaming, the new project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. This method requires a valid API token generated for the account which owns the specified project.<p><p>If changing the project package, the following conditions must be satisfied: <ul><li>the used account must have billing information;</li><li>the current project package must be free</li><li>the specified package type must be payed</li></ul></p>
          * @method
-         * @name Project#renameProject
+         * @name Project#updateProject
          * @param {string} name - The project name., 
+         * @param {string} new-name - The new project name., 
+         * @param {string} package - The project package., 
          * @param {string} token - An API token., 
-         * @param {string} target-name - The new project name., 
          * 
          */
-        this.renameProject = function(parameters){
+        this.updateProject = function(parameters){
             var deferred = $q.defer();
             var that = this;
             var path = '/project/' + parameters.name + ''
             var url = domain + path;
             var params = {};
-            if(parameters.token  === undefined) { 
+                params['new-name'] = parameters.newName;
+            params['package'] = parameters.package;
+        if(parameters.token  === undefined) { 
                 deferred.reject(new Error('The token parameter is required'));
                 return deferred.promise;
             } else { 
                 params['token'] = parameters.token; 
-            }
-        if(parameters.targetName  === undefined) { 
-                deferred.reject(new Error('The targetName parameter is required'));
-                return deferred.promise;
-            } else { 
-                params['target-name'] = parameters.targetName; 
             }
             var cached = parameters.$cache && parameters.$cache.get(url);
             if('PATCH' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
@@ -297,7 +296,7 @@ angular.module('project.api.28.io' , [])
         };
 
         /**
-         * This method requires a valid API token generated for the account which owns the specified project.
+         * <p>If the project package is payed, the corresponding recurly subscription will be terminated.</p><p>This method requires a valid API token generated for the account which owns the specified project.</p>
          * @method
          * @name Project#deleteProject
          * @param {string} name - The project name., 

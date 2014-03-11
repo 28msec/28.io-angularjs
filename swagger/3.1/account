@@ -711,15 +711,15 @@
                             "responseModel": "Error"
                         },
                         {
-                            "code": 404,
-                            "message": "The specified user cannot be found.",
-                            "responseModel": "Error"
-                        },
-                        {
-                            "code": 422,
+                            "code": 402,
                             "message": "Recurly refused to complete the operation. The error depends on the specified parameters or on the billing information.",
                             "responseModel": "RecurlyError"
                         },
+                        {
+                            "code": 404,
+                            "message": "The specified user cannot be found.",
+                            "responseModel": "Error"
+                        },                        
                         {
                             "code": 424,
                             "message": "The specified user has no billing data.",
@@ -837,15 +837,15 @@
                             "responseModel": "Error"
                         },
                         {
-                            "code": 404,
-                            "message": "The specified user or subscription cannot be found.",
-                            "responseModel": "Error"
-                        },
-                        {
-                            "code": 422,
+                            "code": 402,
                             "message": "Recurly refused to complete the operation. The error depends on the specified parameters or on the billing information.",
                             "responseModel": "RecurlyError"
                         },
+                        {
+                            "code": 404,
+                            "message": "The specified user or subscription cannot be found.",
+                            "responseModel": "Error"
+                        },                        
                         {
                             "code": 424,
                             "message": "The specified user has no billing information.",
@@ -899,15 +899,15 @@
                             "responseModel": "Error"
                         },
                         {
-                            "code": 404,
-                            "message": "The specified user or subscription cannot be found.",
-                            "responseModel": "Error"
-                        },
-                        {
-                            "code": 422,
+                            "code": 402,
                             "message": "Recurly refused to complete the operation. The error depends on the specified parameters or on the billing information.",
                             "responseModel": "RecurlyError"
                         },
+                        {
+                            "code": 404,
+                            "message": "The specified user or subscription cannot be found.",
+                            "responseModel": "Error"
+                        },                        
                         {
                             "code": 500,
                             "message": "An internal error occurred during the processing of the request.",
