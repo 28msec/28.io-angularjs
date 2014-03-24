@@ -3,7 +3,7 @@ node_js:
   - "1.1.0"
 before_install:
   - npm install -g bower
-  - bower install
+  - bower install | xargs echo
   - npm install -g grunt-cli
 before_script:
   - export DISPLAY=:99.0
