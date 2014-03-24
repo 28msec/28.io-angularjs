@@ -1,4 +1,4 @@
-angular.module('queries.api.28.io', [])  
+angular.module('queries.api.28.io' , [])  
 /**
  * <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
  */
@@ -53,6 +53,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -92,6 +93,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -132,6 +134,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, headers: {'Accept': parameters.accept}
@@ -174,6 +177,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -221,6 +225,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, data: body
@@ -269,6 +274,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params, data: body, headers: {'Content-Type': parameters.contentType}
@@ -311,6 +317,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -353,6 +360,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -396,6 +404,7 @@ angular.module('queries.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params

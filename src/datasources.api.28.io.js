@@ -1,4 +1,4 @@
-angular.module('datasources.api.28.io', [])  
+angular.module('datasources.api.28.io' , [])  
 /**
  * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
  */
@@ -52,6 +52,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -95,6 +96,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -149,6 +151,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, data: body
@@ -192,6 +195,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -242,6 +246,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PATCH',
                 url: url,
                 params: params, data: body
@@ -285,6 +290,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -328,6 +334,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -379,6 +386,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params
@@ -423,6 +431,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -468,6 +477,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -519,6 +529,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params, headers: {'Accept': parameters.accept}
@@ -566,6 +577,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'POST',
                 url: url,
                 params: params, data: body
@@ -610,6 +622,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
@@ -655,6 +668,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'GET',
                 url: url,
                 params: params
@@ -703,6 +717,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'PUT',
                 url: url,
                 params: params, data: body
@@ -748,6 +763,7 @@ angular.module('datasources.api.28.io', [])
                 deferred.resolve(cached);
             } else {
             $http({
+                timeout: parameters.$timeout,
                 method: 'DELETE',
                 url: url,
                 params: params
