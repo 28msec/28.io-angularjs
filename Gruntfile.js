@@ -41,9 +41,9 @@ module.exports = function (grunt) {
 
         jsdoc: {
            docs: {
-             src: ['src/auth.api.28.io.js', 'src/datasources.api.28.io.js', 'src/modules.api.28.io.js', 'src/queries.api.28.io.js'],
+             src: ['src/auth.api.28.io.js', 'src/datasources.api.28.io.js', 'src/modules.api.28.io.js', 'src/queries.api.28.io.js', 'src/batch.api.28.io.js'],
              options: {
-               destination: 'out/3.1.0'
+               destination: 'out'
              }
            }
         },
@@ -60,37 +60,42 @@ module.exports = function (grunt) {
             options: {
                 apis: [
                     {
-                        swagger: 'swagger/3.1/auth',
+                        swagger: 'swagger/auth',
                         module: 'auth.api.28.io',
                         service: 'Auth'
                     },
                     {
-                        swagger: 'swagger/3.1/_queries',
+                        swagger: 'swagger/_batch',
+                        module: 'batch.api.28.io',
+                        service: 'Batch'
+                    },
+                    {
+                        swagger: 'swagger/_queries',
                         module: 'queries.api.28.io',
                         service: 'Queries'
                     },
                     {
-                        swagger: 'swagger/3.1/_modules',
+                        swagger: 'swagger/_modules',
                         module: 'modules.api.28.io',
                         service: 'Modules'
                     },
                     {
-                        swagger: 'swagger/3.1/_datasources',
+                        swagger: 'swagger/_datasources',
                         module: 'datasources.api.28.io',
                         service: 'Datasources'
                     },
                     {
-                        swagger: 'swagger/3.1/account',
+                        swagger: 'swagger/account',
                         module: 'account.api.28.io',
                         service: 'Account'
                     },
                     {
-                        swagger: 'swagger/3.1/project',
+                        swagger: 'swagger/project',
                         module: 'project.api.28.io',
                         service: 'Project'
                     },
                     {
-                        swagger: 'swagger/3.1/package',
+                        swagger: 'swagger/package',
                         module: 'package.api.28.io',
                         service: 'Package'
                     }
