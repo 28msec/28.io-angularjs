@@ -16,7 +16,7 @@
                     "method": "GET",
                     "summary": "Lists available modules",
                     "nickname": "listModules",
-                    "notes": "<p>This method retrieves the list of modules which can be imported by a project.</p><p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the <code>include-system</code> query parameter to <code>true</code>.</p><p>To include module namespaces or source codes, you can set the <code>include-ns</code> or <code>include-src</code> query parameters to <code>true</code>. Regardless of the value of the <code>include-src</code> parameter, the source code of system modules will not be returned.</p><p>To filter the returned modules you can use the <code>starts-with</code> query parameter. In this case, only the modules which path starts with the specified string will be returned.</p><p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.</p>",
+                    "notes": "<p>This method retrieves the list of modules which can be imported by a project.</p><p>By default, only modules defined in the project will be listed. To also list system-provided modules, you can set the <code>include-system</code> query parameter to <code>true</code>.</p><p>To include module source codes, you can set the <code>include-src</code> query parameter to <code>true</code>. Regardless of the value of the <code>include-src</code> parameter, the source code of system modules will not be returned.</p><p>To perform namespace analysis and report for each module whether it has a namespace, the evenutal namespace URI and whether the module can be imported without location hints, set the <code>include-ns</code> query parameter to <code>true</code>.</p><p>To filter the returned modules you can use the <code>starts-with</code> query parameter. In this case, only the modules which path starts with the specified string will be returned.</p><p>If two or more module have the same namespace and thus the same path, the details of the module which would be imported by a query are shown.</p>",
                     "type": "ModuleListing",
                     "parameters": [
                         {
@@ -162,7 +162,7 @@
                 {
                     "method": "POST",
                     "summary": "Creates a new project module",
-                    "notes": "<p>This method creates a new project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to create a project module with the same path of an existing system or project module. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>",
+                    "notes": "<p>This method creates a new project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to create a project module with the same path of an existing system or project module, even if the existing module has a different extension. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>",
                     "type": "ModuleUpdate",
                     "nickname": "createModule",
                     "parameters": [
@@ -172,6 +172,30 @@
                             "required": true,
                             "type": "string",
                             "paramType": "path"
+                        },
+                        {
+                            "name": "compile",
+                            "description": "The kind of compilation to perform. The default is \"lax\".",
+                            "required": false,
+                            "type": "string",
+                            "enum": [
+                                "strict",
+                                "lax",
+                                "none"
+                            ],
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "extension",
+                            "description": "The new module extension. The default is \"jq\".",
+                            "required": false,
+                            "type": "string",
+                            "enum": [
+                              "jq",
+                              "xq",
+                              "module"
+                            ],
+                            "paramType": "query"
                         },
                         {
                             "name": "token",
@@ -186,18 +210,6 @@
                             "required": false,
                             "type": "string",
                             "paramType": "body"
-                        },
-                        {
-                            "name": "compile",
-                            "description": "The kind of compilation to perform. The default is lax.",
-                            "required": false,
-                            "type": "string",
-                            "enum": [
-                                "strict",
-                                "lax",
-                                "none"
-                            ],
-                            "paramType": "query"
                         },
                         {
                            "name": "Content-Type",
@@ -254,7 +266,7 @@
                 {
                     "method": "PUT",
                     "summary": "Creates or updates the specified project module",
-                    "notes": "<p>This method creates or updates a project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to update system modules. If the operation succeeds any precompiled query depending on the updated module will be deleted.</p>",                    
+                    "notes": "<p>This method creates or updates a project module. If the <code>compile</code> option is <code>none</code>, the module will not be compiled, if it is <code>lax</code> it will be compiled and any potential compilation error reported. In this case, compilation errors will not prevent the module to be created or updated. To only create the module if no compilation errors are present, set the <code>compile</code> option to <code>strict</code>. The default is <code>lax</code>.</p><p>It is not allowed to update system modules. If the operation succeeds all existing modules with the same path, even with different extensions, are removed. Moreover, all precompiled queries depending on the updated module will be become non precompiled.</p>",                    
                     "type": "ModuleUpdate",
                     "nickname": "saveModule",
                     "parameters": [
@@ -264,6 +276,30 @@
                             "required": true,
                             "type": "string",
                             "paramType": "path"
+                        },
+                        {
+                            "name": "compile",
+                            "description": "The kind of compilation to perform. The default is \"lax\".",
+                            "required": false,
+                            "type": "string",
+                            "enum": [
+                                "strict",
+                                "lax",
+                                "none"
+                            ],
+                            "paramType": "query"
+                        },
+                        {
+                            "name": "extension",
+                            "description": "The new module extension. The default is \"jq\".",
+                            "required": false,
+                            "type": "string",
+                            "enum": [
+                              "jq",
+                              "xq",
+                              "module"
+                            ],
+                            "paramType": "query"
                         },
                         {
                             "name": "token",
@@ -278,18 +314,14 @@
                             "required": false,
                             "type": "string",
                             "paramType": "body"
-                        },
+                        },                        
                         {
-                            "name": "compile",
-                            "description": "The kind of compilation to perform. The default is lax.",
-                            "required": false,
+                            "name": "Content-Type",
                             "type": "string",
+                            "paramType": "header",
                             "enum": [
-                                "strict",
-                                "lax",
-                                "none"
-                            ],
-                            "paramType": "query"
+                              "text/plain; charset=utf-8"
+                            ]
                         }
 
                     ],
@@ -427,17 +459,30 @@
                             ],
                     "description": "The module language. This field is only present for non-system modules. If no language definition is contained in the module, \"xquery\" is assumed"
                 },
+                "extension": {
+                    "type": "string",
+                    "enum": [
+                                "jq",
+                                "xq",
+                                "module"
+                            ],
+                    "description": "The module extension. This field is only present for non-system modules."
+                },
                 "lastModified": {
                     "type": "date-time",
                     "description": "The date and time the module was last modified. This field is only present for non-system modules"
+                },
+                "hasNamespace": {
+                    "type": "boolean",
+                    "description": "Whether the module can be parsed without errors and contains a namespace declaration. This field is only present if the \"include-ns\" parameter has been set to true in the request"
                 },
                 "namespace": {
                     "type": "string",
                     "description": "The module namespace, provided that the module can be parsed without errors and contains a namespace declaration. This field is only present if the \"include-ns\" parameter has been set to true in the request"
                 },
-                "hasNamespace": {
+                "autoResolution": {
                     "type": "boolean",
-                    "description": "Whether the module can be parsed without errors and contains a namespace declaration. This field is only present if the \"include-ns\" parameter has been set to true in the request"
+                    "description": "Whether the module can be imported without location hints. This field is only present if the \"include-ns\" parameter has been set to true in the request"
                 },
                 "source": {
                     "type": "string",
@@ -449,7 +494,9 @@
             "id": "ModuleUpdate",
             "description": "The result of the module compilation",
             "required": [
-                "success"
+                "success",
+                "autoResolution",
+                "removedCompiledQueries"
             ],
             "properties": {
                 "success": {
@@ -461,6 +508,10 @@
                 "request_id": {
                     "type": "string",
                     "description": "The request identifier. Present only if the compilation fails"
+                },
+                "autoResolution": {
+                    "type": "boolean",
+                    "description": "Whether the module can be imported without location hints"
                 },
                 "compilationError" : {
                   "type": "CompilationError",
