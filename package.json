@@ -16,7 +16,7 @@
   "homepage": "https://28.io",
   "bugs": "https://github.com/28msec/28.io-angularjs/issues",
   "repository": {
-    "url": "https://github.com/28msec/angularjs"
+    "url": "https://github.com/28msec/28.io-angularjs"
   },
   "postinstall": "bower install",
   "dependencies": {},
