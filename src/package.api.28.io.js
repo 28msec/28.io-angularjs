@@ -36,6 +36,7 @@ angular.module('package.api.28.io', [])
              * Lists available packages
              * @method
              * @name Package#listPackages
+             * @param {{string}} category - The package category
              *
              */
             this.listPackages = function(parameters) {
@@ -47,6 +48,8 @@ angular.module('package.api.28.io', [])
                 var body;
                 var queryParameters = {};
                 var headers = {};
+
+                queryParameters['category'] = parameters.category;
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);

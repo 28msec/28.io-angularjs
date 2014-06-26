@@ -792,7 +792,7 @@
                 {
                     "method": "PUT",
                     "summary": "Updates a subscription",
-                    "notes": "This method requires a valid API token which has been generated for the same account specified in the request.",
+                    "notes": "<p>This method can be used to change the quantity of an existing subscription. The new quantity must be greater or equal to 0. If it is 0 then subscription is terminated.</p><p>This method requires a valid API token which has been generated for the same account specified in the request.</p>",
                     "type": "Subscription",
                     "nickname": "updateSubscription",
                     "parameters": [
@@ -1144,11 +1144,19 @@
             "properties": {
                 "count": {
                     "type": "integer",
-                    "description": "The total number of invoices"
+                    "description": "The number of invoices in the current page and following pages"
                 },
-                "cursor": {
+                "start": {
                     "type": "string",
-                    "description": "The cursor to use to fetch the next page, if any"
+                    "description": "The href to fetch the first page, if the current page is not the first one"
+                },
+                "next": {
+                    "type": "string",
+                    "description": "The href to fetch the next page, if the current page is not the last one"
+                },
+                "prev": {
+                    "type": "string",
+                    "description": "The href to fetch the prev page, if the current page is not the previous one"
                 },
                 "invoices": {
                     "type": "array",
@@ -1165,6 +1173,7 @@
             "required": [
                 "href",
                 "uuid",
+                "subscription",
                 "state",
                 "invoiceNumber",
                 "subtotalInCents",
@@ -1183,6 +1192,10 @@
                 "uuid": {
                     "type": "string",
                     "description": "The invoice UUID"
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": "The subscription UUID"
                 },
                 "state": {
                     "type": "string",
@@ -1268,6 +1281,7 @@
             "required": [
                 "type",
                 "uuid",
+                "subscription",
                 "state",
                 "description",
                 "origin",
@@ -1293,6 +1307,10 @@
                 "uuid": {
                     "type": "string",
                     "description": "The adjustment UUID"
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": "The subscription UUID"
                 },
                 "state": {
                     "type": "string",
@@ -1401,6 +1419,7 @@
             "required": [
                 "type",
                 "uuid",
+                "subscription",
                 "action",
                 "amountInCents",
                 "taxInCents",
@@ -1424,6 +1443,10 @@
                 "uuid": {
                     "type": "string",
                     "description": "The transaction UUID"
+                },
+                "subscription": {
+                    "type": "string",
+                    "description": "The subscription UUID"
                 },
                 "action": {
                     "type": "string",
@@ -1505,7 +1528,8 @@
                 "lastname",
                 "company",
                 "createdAt",
-                "type"
+                "type",
+                "datasources"
             ],
             "properties": {
                 "id": {
@@ -1547,6 +1571,41 @@
                 "confirmedAt": {
                     "type": "date-time",
                     "description": "The date and time on which the account has been confirmed"
+                },
+                "datasources": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "Datasource"
+                    },
+                    "description": "Credentials for the datasources owned by the account"
+                }
+            }
+        },
+        "Datasource": {
+            "id": "Datasource",
+            "description": "Datasource metadata",
+            "required": [
+                "category",
+                "kind",
+                "subscription",
+                "credentials"
+            ],
+            "properties": {
+                "category": {
+                    "type": "string",
+                    "description": "The datasource category to use to add the datasource to a project"
+                },
+                "kind": {
+                    "type": "string",                    
+                    "description": "The datasource kind to use some specific graphic in the UI"
+                },
+                "subscription": {
+                    "type": "string",                    
+                    "description": "The subscription that corresponds to this datasource"
+                },
+                "credentials": {
+                    "type": "object",                    
+                    "description": "The subscription that corresponds to this datasource"
                 }
             }
         },
