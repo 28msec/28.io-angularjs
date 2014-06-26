@@ -44,10 +44,10 @@ describe('28.io Angularjs Queries', function () {
         })
         .catch(function(error){
             expect(error.message).toBeDefined();
-            expect(error.message).toBe('The token parameter is required');
+            expect(error.message).toBe('Missing required path parameter: visibility');
         });
         
-        Queries.listQueries({ token: projectToken })
+        Queries.listQueries({ visibility: '', token: projectToken })
         .then(function(queries){
             expect(queries).toBeDefined();
             expect(queries.public).toBeDefined();

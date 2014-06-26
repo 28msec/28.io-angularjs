@@ -3,37 +3,6 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
     require('time-grunt')(grunt);
-    
-    grunt.registerMultiTask('generateSource', 'Generate Source from Swagger files', function(){
-        var fs = require('fs');
-        var request = require('request');
-       
-        var done = this.async();
-        var options = this.options();
-        var dest = options.dest;
-     
-        var count = options.apis.length;
-        options.apis.forEach(function(api, index){
-            var swagger = fs.readFileSync(api.swagger);
-            request({
-                uri: 'http://angular-binding.28.io/get2.jq',
-                qs: { module: api.module, service: api.service },
-                headers: { 'Content-Type': 'text/json; utf-8' },
-                body: swagger
-            }, function(error, response, body){
-                if(response.statusCode !== 200) {
-                    grunt.log.error('Error generating ' + api.module);
-                    grunt.fail.fatal(body);
-                }
-                fs.writeFileSync(dest + api.module + '.js', body);
-                grunt.log.writeln(api.module);
-                count--;
-                if(count === 0) {
-                    done();
-                }
-            });
-        });
-    });
 
     // Project configuration.
     grunt.initConfig({
@@ -56,48 +25,64 @@ module.exports = function (grunt) {
             }
         }, 
         // these folders will no longer be checked into development branches
-        generateSource: {
+        'swagger-js-codegen': {
             options: {
                 apis: [
                     {
                         swagger: 'swagger/auth',
-                        module: 'auth.api.28.io',
-                        service: 'Auth'
+                        moduleName: 'auth.api.28.io',
+                        className: 'Auth',
+                        fileName: 'auth.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/_batch',
-                        module: 'batch.api.28.io',
-                        service: 'Batch'
+                        moduleName: 'batch.api.28.io',
+                        className: 'Batch',
+                        fileName: 'batch.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/_queries',
-                        module: 'queries.api.28.io',
-                        service: 'Queries'
+                        moduleName: 'queries.api.28.io',
+                        className: 'Queries',
+                        fileName: 'queries.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/_modules',
-                        module: 'modules.api.28.io',
-                        service: 'Modules'
+                        moduleName: 'modules.api.28.io',
+                        className: 'Modules',
+                        fileName: 'modules.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/_datasources',
-                        module: 'datasources.api.28.io',
-                        service: 'Datasources'
+                        moduleName: 'datasources.api.28.io',
+                        className: 'Datasources',
+                        fileName: 'datasources.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/account',
-                        module: 'account.api.28.io',
-                        service: 'Account'
+                        moduleName: 'account.api.28.io',
+                        className: 'Account',
+                        fileName: 'account.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/project',
-                        module: 'project.api.28.io',
-                        service: 'Project'
+                        moduleName: 'project.api.28.io',
+                        className: 'Project',
+                        fileName: 'project.api.28.io.js',
+                        angularjs: true
                     },
                     {
                         swagger: 'swagger/package',
-                        module: 'package.api.28.io',
-                        service: 'Package'
+                        moduleName: 'package.api.28.io',
+                        className: 'Package',
+                        fileName: 'package.api.28.io.js',
+                        angularjs: true
                     }
                 ],
                 dest: 'src/'
@@ -319,7 +304,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('test', ['karma:1.2.0']);
-    grunt.registerTask('release', ['generateSource', 'clean:pre', 'concat', 'test', 'jsdoc', 'clean:post']);//uglify
+    grunt.registerTask('release', ['swagger-js-codegen', 'clean:pre', 'concat', 'test', 'jsdoc', 'clean:post']);//uglify
     grunt.registerTask('build', ['clean:pre', 'release']);
     grunt.registerTask('default', ['build']);
 };
