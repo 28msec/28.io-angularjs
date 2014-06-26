@@ -1,5 +1,7 @@
-28.io AngularJS Binding [![Build Status](https://travis-ci.org/28msec/28.io-angularjs.png?branch=master)](https://travis-ci.org/28msec/28.io-angularjs)
+28.io AngularJS Binding
 ============
+[![Build Status](http://img.shields.io/travis/28msec/28.io-angularjs/master.svg?style=flat)](https://travis-ci.org/28msec/28.io-angularjs) [![Code Climate](http://img.shields.io/codeclimate/github/28msec/28.io-angularjs.svg?style=flat)](https://codeclimate.com/github/28msec/28.io-angularjs)
+
 
 28.io-angularjs is an officially supported [AngularJS](http://angularjs.org/) binding
 for [28.io](http://28.io).
