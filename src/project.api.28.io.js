@@ -249,7 +249,7 @@ angular.module('project.api.28.io' , [])
         };
 
         /**
-         * <p>This method allows to rename or change the package of a project. Only one of the two modifications can be performed at the same time.</p><p>If renaming, the new project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. This method requires a valid API token generated for the account which owns the specified project.<p><p>If changing the project package, the following conditions must be satisfied: <ul><li>the used account must have billing information;</li><li>the current project package must be free</li><li>the specified package type must be payed</li></ul></p>
+         * <p>This method allows to rename or change the package of a project. Only one of the two modifications can be performed at the same time.</p><p>If renaming, the new project name must be between 3 and 40 characters long. It can contain only letter, numerical digits and dashes (-). A dash cannot appear as the first character. This method requires a valid API token generated for the account which owns the specified project.</p><p>If changing the project package, the following conditions must be satisfied: <ul><li>the used account must have billing information;</li><li>the current project package must be free</li><li>the specified package type must be payed</li></ul></p>
          * @method
          * @name Project#updateProject
          * @param {string} name - The project name., 

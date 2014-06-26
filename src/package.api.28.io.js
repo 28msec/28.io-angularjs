@@ -29,9 +29,10 @@ angular.module('package.api.28.io' , [])
         };
         
         /**
-         * This method requires no authentication.
+         * By default packages of all categories are listed. To list only packages of a given category the <code>category</code> parameter can be used. This method requires no authentication.
          * @method
          * @name Package#listPackages
+         * @param {string} category - The package category, 
          * 
          */
         this.listPackages = function(parameters){
@@ -40,7 +41,7 @@ angular.module('package.api.28.io' , [])
             var path = '/package'
             var url = domain + path;
             var params = {};
-            
+                params['category'] = parameters.category;
             var cached = parameters.$cache && parameters.$cache.get(url);
             if('GET' === 'GET' && cached !== undefined && parameters.$refresh !== true) {
                 deferred.resolve(cached);

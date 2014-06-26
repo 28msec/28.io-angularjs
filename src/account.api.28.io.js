@@ -732,7 +732,7 @@ angular.module('account.api.28.io' , [])
         };
 
         /**
-         * This method requires a valid API token which has been generated for the same account specified in the request.
+         * <p>This method can be used to change the quantity of an existing subscription. The new quantity must be greater or equal to 0. If it is 0 then subscription is terminated.</p><p>This method requires a valid API token which has been generated for the same account specified in the request.</p>
          * @method
          * @name Account#updateSubscription
          * @param {string} email - The account email., 
