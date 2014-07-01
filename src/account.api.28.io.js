@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- *
- */
 angular.module('account.api.28.io', [])
     .factory('Account', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         *
          * @class " || Account || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('account.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Creates a new account
              * @method
              * @name Account#createAccount
@@ -45,7 +43,6 @@ angular.module('account.api.28.io', [])
              */
             this.createAccount = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account';
 
@@ -58,44 +55,53 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['firstname'] = parameters.firstname;
+                if (parameters.firstname !== undefined) {
+                    queryParameters['firstname'] = parameters.firstname;
+                }
 
                 if (parameters.lastname === undefined) {
                     deferred.reject(new Error('Missing required query parameter: lastname'));
                     return deferred.promise;
                 }
 
-                queryParameters['lastname'] = parameters.lastname;
+                if (parameters.lastname !== undefined) {
+                    queryParameters['lastname'] = parameters.lastname;
+                }
 
                 if (parameters.company === undefined) {
                     deferred.reject(new Error('Missing required query parameter: company'));
                     return deferred.promise;
                 }
 
-                queryParameters['company'] = parameters.company;
+                if (parameters.company !== undefined) {
+                    queryParameters['company'] = parameters.company;
+                }
 
                 if (parameters.email === undefined) {
                     deferred.reject(new Error('Missing required query parameter: email'));
                     return deferred.promise;
                 }
 
-                queryParameters['email'] = parameters.email;
+                if (parameters.email !== undefined) {
+                    queryParameters['email'] = parameters.email;
+                }
 
                 if (parameters.password === undefined) {
                     deferred.reject(new Error('Missing required query parameter: password'));
                     return deferred.promise;
                 }
 
-                queryParameters['password'] = parameters.password;
+                if (parameters.password !== undefined) {
+                    queryParameters['password'] = parameters.password;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -105,12 +111,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Checks if an account exists
              * @method
              * @name Account#checkAccount
@@ -119,7 +129,6 @@ angular.module('account.api.28.io', [])
              */
             this.checkAccount = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}';
 
@@ -135,13 +144,12 @@ angular.module('account.api.28.io', [])
                 path = path.replace('{email}', parameters.email);
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'HEAD',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -151,12 +159,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves an account metadata
              * @method
              * @name Account#getAccountMetadata
@@ -166,7 +178,6 @@ angular.module('account.api.28.io', [])
              */
             this.getAccountMetadata = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}';
 
@@ -186,7 +197,9 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -199,7 +212,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -209,12 +222,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates an account
              * @method
              * @name Account#updateAccount
@@ -228,7 +245,6 @@ angular.module('account.api.28.io', [])
              */
             this.updateAccount = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}';
 
@@ -248,24 +264,33 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['firstname'] = parameters.firstname;
+                if (parameters.firstname !== undefined) {
+                    queryParameters['firstname'] = parameters.firstname;
+                }
 
-                queryParameters['lastname'] = parameters.lastname;
+                if (parameters.lastname !== undefined) {
+                    queryParameters['lastname'] = parameters.lastname;
+                }
 
-                queryParameters['company'] = parameters.company;
+                if (parameters.company !== undefined) {
+                    queryParameters['company'] = parameters.company;
+                }
 
-                queryParameters['password'] = parameters.password;
+                if (parameters.password !== undefined) {
+                    queryParameters['password'] = parameters.password;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PATCH',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -275,12 +300,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Resends the confirmation email
              * @method
              * @name Account#resendConfirmation
@@ -289,7 +318,6 @@ angular.module('account.api.28.io', [])
              */
             this.resendConfirmation = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/confirm';
 
@@ -315,7 +343,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -325,12 +353,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Confirms an account
              * @method
              * @name Account#confirmAccount
@@ -340,7 +372,6 @@ angular.module('account.api.28.io', [])
              */
             this.confirmAccount = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/confirm';
 
@@ -360,16 +391,17 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['confirmation-token'] = parameters.confirmationToken;
+                if (parameters.confirmationToken !== undefined) {
+                    queryParameters['confirmation-token'] = parameters.confirmationToken;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -379,12 +411,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Checks if a reset token is valid
              * @method
              * @name Account#checkResetToken
@@ -394,7 +430,6 @@ angular.module('account.api.28.io', [])
              */
             this.checkResetToken = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/reset';
 
@@ -414,7 +449,9 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['reset-token'] = parameters.resetToken;
+                if (parameters.resetToken !== undefined) {
+                    queryParameters['reset-token'] = parameters.resetToken;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -427,7 +464,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -437,12 +474,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Changes an account password using a reset token
              * @method
              * @name Account#resetPassword
@@ -453,7 +494,6 @@ angular.module('account.api.28.io', [])
              */
             this.resetPassword = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/reset';
 
@@ -473,23 +513,26 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['reset-token'] = parameters.resetToken;
+                if (parameters.resetToken !== undefined) {
+                    queryParameters['reset-token'] = parameters.resetToken;
+                }
 
                 if (parameters.password === undefined) {
                     deferred.reject(new Error('Missing required query parameter: password'));
                     return deferred.promise;
                 }
 
-                queryParameters['password'] = parameters.password;
+                if (parameters.password !== undefined) {
+                    queryParameters['password'] = parameters.password;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -499,12 +542,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Sends a reset token
              * @method
              * @name Account#sendResetToken
@@ -514,7 +561,6 @@ angular.module('account.api.28.io', [])
              */
             this.sendResetToken = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/reset';
 
@@ -534,16 +580,17 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['portal-url'] = parameters.portalUrl;
+                if (parameters.portalUrl !== undefined) {
+                    queryParameters['portal-url'] = parameters.portalUrl;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -553,12 +600,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves the user billing data and the data required to update it
              * @method
              * @name Account#getBillingData
@@ -568,7 +619,6 @@ angular.module('account.api.28.io', [])
              */
             this.getBillingData = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/billing';
 
@@ -588,7 +638,9 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -601,7 +653,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -611,12 +663,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists the account invoices
              * @method
              * @name Account#listInvoices
@@ -628,7 +684,6 @@ angular.module('account.api.28.io', [])
              */
             this.listInvoices = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/invoices';
 
@@ -643,16 +698,22 @@ angular.module('account.api.28.io', [])
 
                 path = path.replace('{email}', parameters.email);
 
-                queryParameters['cursor'] = parameters.cursor;
+                if (parameters.cursor !== undefined) {
+                    queryParameters['cursor'] = parameters.cursor;
+                }
 
-                queryParameters['limit'] = parameters.limit;
+                if (parameters.limit !== undefined) {
+                    queryParameters['limit'] = parameters.limit;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -665,7 +726,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -675,12 +736,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves the user billing information
              * @method
              * @name Account#getInvoice
@@ -691,7 +756,6 @@ angular.module('account.api.28.io', [])
              */
             this.getInvoice = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/invoices/{invoice}';
 
@@ -711,9 +775,13 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                headers[Accept] = parameters.accept;
+                if (parameters.accept !== undefined) {
+                    headers['Accept'] = parameters.accept;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -726,7 +794,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -736,12 +804,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists the account subscriptions
              * @method
              * @name Account#listSubscriptions
@@ -751,7 +823,6 @@ angular.module('account.api.28.io', [])
              */
             this.listSubscriptions = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/subscriptions';
 
@@ -771,7 +842,9 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -784,7 +857,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -794,12 +867,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Creates a new subscription
              * @method
              * @name Account#createSubscription
@@ -811,7 +888,6 @@ angular.module('account.api.28.io', [])
              */
             this.createSubscription = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/subscriptions';
 
@@ -831,30 +907,35 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['plan'] = parameters.plan;
+                if (parameters.plan !== undefined) {
+                    queryParameters['plan'] = parameters.plan;
+                }
 
                 if (parameters.quantity === undefined) {
                     deferred.reject(new Error('Missing required query parameter: quantity'));
                     return deferred.promise;
                 }
 
-                queryParameters['quantity'] = parameters.quantity;
+                if (parameters.quantity !== undefined) {
+                    queryParameters['quantity'] = parameters.quantity;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -864,12 +945,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves the subscription details
              * @method
              * @name Account#getSubscription
@@ -880,7 +965,6 @@ angular.module('account.api.28.io', [])
              */
             this.getSubscription = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/subscriptions/{subscription}';
 
@@ -907,7 +991,9 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -920,7 +1006,7 @@ angular.module('account.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -930,12 +1016,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates a subscription
              * @method
              * @name Account#updateSubscription
@@ -947,7 +1037,6 @@ angular.module('account.api.28.io', [])
              */
             this.updateSubscription = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/subscriptions/{subscription}';
 
@@ -974,23 +1063,26 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['quantity'] = parameters.quantity;
+                if (parameters.quantity !== undefined) {
+                    queryParameters['quantity'] = parameters.quantity;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1000,12 +1092,16 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Terminates a subscription
              * @method
              * @name Account#terminateSubscription
@@ -1016,7 +1112,6 @@ angular.module('account.api.28.io', [])
              */
             this.terminateSubscription = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/account/{email}/subscriptions/{subscription}';
 
@@ -1043,16 +1138,17 @@ angular.module('account.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1062,9 +1158,13 @@ angular.module('account.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };

@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- * <p>These resources can be used to perform batch operations. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_batch</code>.</p>
- */
 angular.module('batch.api.28.io', [])
     .factory('Batch', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>These resources can be used to perform batch operations. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_batch</code>.</p>
          * @class " || Batch || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('batch.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Import project contents from an archive
              * @method
              * @name Batch#importProject
@@ -48,7 +46,6 @@ angular.module('batch.api.28.io', [])
              */
             this.importProject = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_batch/project';
 
@@ -56,35 +53,50 @@ angular.module('batch.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                queryParameters['url'] = parameters.url;
+                if (parameters.url !== undefined) {
+                    queryParameters['url'] = parameters.url;
+                }
 
-                body = parameters.archive;
+                if (parameters.archive !== undefined) {
+                    body = parameters.archive;
+                }
 
-                queryParameters['root'] = parameters.root;
+                if (parameters.root !== undefined) {
+                    queryParameters['root'] = parameters.root;
+                }
 
-                queryParameters['overwrite'] = parameters.overwrite;
+                if (parameters.overwrite !== undefined) {
+                    queryParameters['overwrite'] = parameters.overwrite;
+                }
 
-                queryParameters['delete-orphaned'] = parameters.deleteOrphaned;
+                if (parameters.deleteOrphaned !== undefined) {
+                    queryParameters['delete-orphaned'] = parameters.deleteOrphaned;
+                }
 
-                queryParameters['simulate'] = parameters.simulate;
+                if (parameters.simulate !== undefined) {
+                    queryParameters['simulate'] = parameters.simulate;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                headers[Content - Type] = parameters.contentType;
+                if (parameters.contentType !== undefined) {
+                    headers['Content-Type'] = parameters.contentType;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -94,9 +106,13 @@ angular.module('batch.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };

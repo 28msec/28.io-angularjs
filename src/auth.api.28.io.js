@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
- */
 angular.module('auth.api.28.io', [])
     .factory('Auth', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
          * @class " || Auth || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('auth.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Creates or refreshes authorization tokens
              * @method
              * @name Auth#authenticate
@@ -44,7 +42,6 @@ angular.module('auth.api.28.io', [])
              */
             this.authenticate = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/auth';
 
@@ -57,22 +54,29 @@ angular.module('auth.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['grant_type'] = parameters.grant_type;
+                if (parameters.grant_type !== undefined) {
+                    queryParameters['grant_type'] = parameters.grant_type;
+                }
 
-                queryParameters['email'] = parameters.email;
+                if (parameters.email !== undefined) {
+                    queryParameters['email'] = parameters.email;
+                }
 
-                queryParameters['password'] = parameters.password;
+                if (parameters.password !== undefined) {
+                    queryParameters['password'] = parameters.password;
+                }
 
-                queryParameters['refresh_token'] = parameters.refresh_token;
+                if (parameters.refresh_token !== undefined) {
+                    queryParameters['refresh_token'] = parameters.refresh_token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -82,9 +86,13 @@ angular.module('auth.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };

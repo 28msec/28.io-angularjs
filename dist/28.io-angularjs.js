@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
- */
 angular.module('auth.api.28.io', [])
     .factory('Auth', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>This OAuth2 compliant API can be used to authorize requests. The endpoint for these methods is <code>http://portal.28.io/auth</code>.</p>
          * @class " || Auth || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('auth.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Creates or refreshes authorization tokens
              * @method
              * @name Auth#authenticate
@@ -44,7 +42,6 @@ angular.module('auth.api.28.io', [])
              */
             this.authenticate = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/auth';
 
@@ -57,22 +54,29 @@ angular.module('auth.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['grant_type'] = parameters.grant_type;
+                if (parameters.grant_type !== undefined) {
+                    queryParameters['grant_type'] = parameters.grant_type;
+                }
 
-                queryParameters['email'] = parameters.email;
+                if (parameters.email !== undefined) {
+                    queryParameters['email'] = parameters.email;
+                }
 
-                queryParameters['password'] = parameters.password;
+                if (parameters.password !== undefined) {
+                    queryParameters['password'] = parameters.password;
+                }
 
-                queryParameters['refresh_token'] = parameters.refresh_token;
+                if (parameters.refresh_token !== undefined) {
+                    queryParameters['refresh_token'] = parameters.refresh_token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -82,21 +86,23 @@ angular.module('auth.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };
     });/*global angular:false */
-/**
- * <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
- */
 angular.module('queries.api.28.io', [])
     .factory('Queries', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
          * @class " || Queries || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -122,7 +128,7 @@ angular.module('queries.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Lists public and/or private queries
              * @method
              * @name Queries#listQueries
@@ -132,7 +138,6 @@ angular.module('queries.api.28.io', [])
              */
             this.listQueries = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{visibility}';
 
@@ -152,7 +157,9 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -165,7 +172,7 @@ angular.module('queries.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -175,12 +182,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Executes a non-side-effecting query
              * @method
              * @name Queries#executeSimpleQuery
@@ -193,7 +204,6 @@ angular.module('queries.api.28.io', [])
              */
             this.executeSimpleQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}{format}';
 
@@ -201,7 +211,9 @@ angular.module('queries.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                headers[Accept] = parameters.accept;
+                if (parameters.accept !== undefined) {
+                    headers['Accept'] = parameters.accept;
+                }
 
                 if (parameters.queryPath === undefined) {
                     deferred.reject(new Error('Missing required path parameter: queryPath'));
@@ -212,9 +224,13 @@ angular.module('queries.api.28.io', [])
 
                 path = path.replace('{format}', parameters.format);
 
-                queryParameters['trace'] = parameters.trace;
+                if (parameters.trace !== undefined) {
+                    queryParameters['trace'] = parameters.trace;
+                }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -227,7 +243,7 @@ angular.module('queries.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -237,12 +253,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Executes a query
              * @method
              * @name Queries#executeQuery
@@ -257,7 +277,6 @@ angular.module('queries.api.28.io', [])
              */
             this.executeQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}{format}';
 
@@ -265,7 +284,9 @@ angular.module('queries.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                headers[Accept] = parameters.accept;
+                if (parameters.accept !== undefined) {
+                    headers['Accept'] = parameters.accept;
+                }
 
                 if (parameters.queryPath === undefined) {
                     deferred.reject(new Error('Missing required path parameter: queryPath'));
@@ -276,22 +297,29 @@ angular.module('queries.api.28.io', [])
 
                 path = path.replace('{format}', parameters.format);
 
-                queryParameters['async'] = parameters.async;
+                if (parameters.async !== undefined) {
+                    queryParameters['async'] = parameters.async;
+                }
 
-                queryParameters['output-collection'] = parameters.outputCollection;
+                if (parameters.outputCollection !== undefined) {
+                    queryParameters['output-collection'] = parameters.outputCollection;
+                }
 
-                queryParameters['trace'] = parameters.trace;
+                if (parameters.trace !== undefined) {
+                    queryParameters['trace'] = parameters.trace;
+                }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -301,12 +329,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a query source code
              * @method
              * @name Queries#getQuery
@@ -316,7 +348,6 @@ angular.module('queries.api.28.io', [])
              */
             this.getQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/source';
 
@@ -336,7 +367,9 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -349,7 +382,7 @@ angular.module('queries.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -359,29 +392,30 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
-             * Creates a new query
-             * @method
-             * @name Queries#createQuery
-             * @param {{string}} queryPath - The query path. It starts with "public" or "private" and contains slashes.
-             * @param {{string}} token - A project token.
-             * @param {{string}} compile - The kind of compilation to perform. The default is none.
-             * @param {{string}} queryBody - The source code of the query
-             * @param {{string}} contentType - <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
-             *
-             */
+            /**
+ * Creates a new query
+ * @method
+ * @name Queries#createQuery
+ * @param {{string}} queryPath - The query path. It starts with "public" or "private" and contains slashes.
+ * @param {{string}} token - A project token.
+ * @param {{string}} compile - The kind of compilation to perform. The default is none.
+ * @param {{string}} queryBody - The source code of the query
+
+ * 
+ */
             this.createQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/source';
-
-                var contentType = 'text/plain; charset=utf-8';
 
                 var body;
                 var queryParameters = {};
@@ -399,25 +433,32 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['compile'] = parameters.compile;
+                if (parameters.compile !== undefined) {
+                    queryParameters['compile'] = parameters.compile;
+                }
 
                 if (parameters.queryBody === undefined) {
                     deferred.reject(new Error('Missing required body parameter: queryBody'));
                     return deferred.promise;
                 }
 
-                body = parameters.queryBody;
+                if (parameters.queryBody !== undefined) {
+                    body = parameters.queryBody;
+                }
+
+                headers['Content-Type'] = 'text/plain; charset=utf-8';
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -427,29 +468,30 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
-             * Creates or updates a query
-             * @method
-             * @name Queries#saveQuery
-             * @param {{string}} queryPath - The query path. It starts with "public" or "private" and contains slashes.
-             * @param {{string}} token - A project token.
-             * @param {{string}} compile - The kind of compilation to perform. The default is none.
-             * @param {{string}} queryBody - The query source code
-             * @param {{string}} contentType - <p>These resources can be used to manage and execute queries. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_queries</code>.</p>
-             *
-             */
+            /**
+ * Creates or updates a query
+ * @method
+ * @name Queries#saveQuery
+ * @param {{string}} queryPath - The query path. It starts with "public" or "private" and contains slashes.
+ * @param {{string}} token - A project token.
+ * @param {{string}} compile - The kind of compilation to perform. The default is none.
+ * @param {{string}} queryBody - The query source code
+
+ * 
+ */
             this.saveQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/source';
-
-                var contentType = 'text/plain; charset=utf-8';
 
                 var body;
                 var queryParameters = {};
@@ -467,20 +509,27 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['compile'] = parameters.compile;
+                if (parameters.compile !== undefined) {
+                    queryParameters['compile'] = parameters.compile;
+                }
 
-                body = parameters.queryBody;
+                if (parameters.queryBody !== undefined) {
+                    body = parameters.queryBody;
+                }
+
+                headers['Content-Type'] = 'text/plain; charset=utf-8';
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -490,12 +539,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes a query
              * @method
              * @name Queries#removeQuery
@@ -505,7 +558,6 @@ angular.module('queries.api.28.io', [])
              */
             this.removeQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/source';
 
@@ -525,16 +577,17 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -544,12 +597,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a query execution plan
              * @method
              * @name Queries#getQueryPlan
@@ -559,7 +616,6 @@ angular.module('queries.api.28.io', [])
              */
             this.getQueryPlan = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/plan';
 
@@ -579,7 +635,9 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -592,7 +650,7 @@ angular.module('queries.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -602,12 +660,16 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Precompiles a query
              * @method
              * @name Queries#compileQuery
@@ -617,7 +679,6 @@ angular.module('queries.api.28.io', [])
              */
             this.compileQuery = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_queries/{query-path}/metadata/plan';
 
@@ -637,16 +698,17 @@ angular.module('queries.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -656,21 +718,23 @@ angular.module('queries.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };
     });/*global angular:false */
-/**
- * <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
- */
 angular.module('modules.api.28.io', [])
     .factory('Modules', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
          * @class " || Modules || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -696,7 +760,7 @@ angular.module('modules.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Lists available modules
              * @method
              * @name Modules#listModules
@@ -709,7 +773,6 @@ angular.module('modules.api.28.io', [])
              */
             this.listModules = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_modules';
 
@@ -717,20 +780,30 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                queryParameters['starts-with'] = parameters.startsWith;
+                if (parameters.startsWith !== undefined) {
+                    queryParameters['starts-with'] = parameters.startsWith;
+                }
 
-                queryParameters['include-system'] = parameters.includeSystem;
+                if (parameters.includeSystem !== undefined) {
+                    queryParameters['include-system'] = parameters.includeSystem;
+                }
 
-                queryParameters['include-ns'] = parameters.includeNs;
+                if (parameters.includeNs !== undefined) {
+                    queryParameters['include-ns'] = parameters.includeNs;
+                }
 
-                queryParameters['include-src'] = parameters.includeSrc;
+                if (parameters.includeSrc !== undefined) {
+                    queryParameters['include-src'] = parameters.includeSrc;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -743,7 +816,7 @@ angular.module('modules.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -753,12 +826,16 @@ angular.module('modules.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves the source code of the specified project module
              * @method
              * @name Modules#getModule
@@ -768,7 +845,6 @@ angular.module('modules.api.28.io', [])
              */
             this.getModule = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_modules/{module-path}';
 
@@ -788,7 +864,9 @@ angular.module('modules.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -801,7 +879,7 @@ angular.module('modules.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -811,30 +889,31 @@ angular.module('modules.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
-             * Creates a new project module
-             * @method
-             * @name Modules#createModule
-             * @param {{string}} modulePath - The module path.
-             * @param {{string}} compile - The kind of compilation to perform. The default is "lax".
-             * @param {{string}} extension - The new module extension. The default is "jq".
-             * @param {{string}} token - A project token.
-             * @param {{string}} moduleBody - The source code of the module.
-             * @param {{string}} contentType - <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
-             *
-             */
+            /**
+ * Creates a new project module
+ * @method
+ * @name Modules#createModule
+ * @param {{string}} modulePath - The module path.
+ * @param {{string}} compile - The kind of compilation to perform. The default is "lax".
+ * @param {{string}} extension - The new module extension. The default is "jq".
+ * @param {{string}} token - A project token.
+ * @param {{string}} moduleBody - The source code of the module.
+
+ * 
+ */
             this.createModule = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_modules/{module-path}';
-
-                var contentType = 'text/plain; charset=utf-8';
 
                 var body;
                 var queryParameters = {};
@@ -847,27 +926,36 @@ angular.module('modules.api.28.io', [])
 
                 path = path.replace('{module-path}', parameters.modulePath);
 
-                queryParameters['compile'] = parameters.compile;
+                if (parameters.compile !== undefined) {
+                    queryParameters['compile'] = parameters.compile;
+                }
 
-                queryParameters['extension'] = parameters.extension;
+                if (parameters.extension !== undefined) {
+                    queryParameters['extension'] = parameters.extension;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                body = parameters.moduleBody;
+                if (parameters.moduleBody !== undefined) {
+                    body = parameters.moduleBody;
+                }
+
+                headers['Content-Type'] = 'text/plain; charset=utf-8';
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -877,30 +965,31 @@ angular.module('modules.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
-             * Creates or updates the specified project module
-             * @method
-             * @name Modules#saveModule
-             * @param {{string}} modulePath - The module path.
-             * @param {{string}} compile - The kind of compilation to perform. The default is "lax".
-             * @param {{string}} extension - The new module extension. The default is "jq".
-             * @param {{string}} token - A project token.
-             * @param {{string}} moduleBody - The module source code
-             * @param {{string}} contentType - <p>These resources can be used to manage JSONiq and XQuery <a href="http://www.w3.org/TR/xquery-30/#dt-library-module" target="_blank">library modules</a>. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be: <code>http://myproject.28.io/v1/_modules</code>.</p><p class='callout-warning'>This API does not allow to retrieve the source code, modify or delete system modules.</p>
-             *
-             */
+            /**
+ * Creates or updates the specified project module
+ * @method
+ * @name Modules#saveModule
+ * @param {{string}} modulePath - The module path.
+ * @param {{string}} compile - The kind of compilation to perform. The default is "lax".
+ * @param {{string}} extension - The new module extension. The default is "jq".
+ * @param {{string}} token - A project token.
+ * @param {{string}} moduleBody - The module source code
+
+ * 
+ */
             this.saveModule = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_modules/{module-path}';
-
-                var contentType = 'text/plain; charset=utf-8';
 
                 var body;
                 var queryParameters = {};
@@ -913,27 +1002,36 @@ angular.module('modules.api.28.io', [])
 
                 path = path.replace('{module-path}', parameters.modulePath);
 
-                queryParameters['compile'] = parameters.compile;
+                if (parameters.compile !== undefined) {
+                    queryParameters['compile'] = parameters.compile;
+                }
 
-                queryParameters['extension'] = parameters.extension;
+                if (parameters.extension !== undefined) {
+                    queryParameters['extension'] = parameters.extension;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                body = parameters.moduleBody;
+                if (parameters.moduleBody !== undefined) {
+                    body = parameters.moduleBody;
+                }
+
+                headers['Content-Type'] = 'text/plain; charset=utf-8';
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -943,12 +1041,16 @@ angular.module('modules.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes the specified project module
              * @method
              * @name Modules#removeModule
@@ -958,7 +1060,6 @@ angular.module('modules.api.28.io', [])
              */
             this.removeModule = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_modules/{module-path}';
 
@@ -978,16 +1079,17 @@ angular.module('modules.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -997,21 +1099,23 @@ angular.module('modules.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };
     });/*global angular:false */
-/**
- * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
- */
 angular.module('datasources.api.28.io', [])
     .factory('Datasources', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
          * @class " || Datasources || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -1037,7 +1141,7 @@ angular.module('datasources.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Lists all data sources
              * @method
              * @name Datasources#listDatasources
@@ -1046,7 +1150,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listDatasources = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources';
 
@@ -1059,7 +1162,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1072,7 +1177,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1082,12 +1187,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists all data sources in a specific category
              * @method
              * @name Datasources#listCategoryDatasources
@@ -1097,7 +1206,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listCategoryDatasources = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}';
 
@@ -1117,7 +1225,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1130,7 +1240,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1140,12 +1250,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Creates a new data source
              * @method
              * @name Datasources#createDatasource
@@ -1158,7 +1272,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.createDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}';
 
@@ -1178,32 +1291,39 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['default'] = parameters.difault;
+                if (parameters.difault !== undefined) {
+                    queryParameters['default'] = parameters.difault;
+                }
 
                 if (parameters.credentials === undefined) {
                     deferred.reject(new Error('Missing required body parameter: credentials'));
                     return deferred.promise;
                 }
 
-                body = parameters.credentials;
+                if (parameters.credentials !== undefined) {
+                    body = parameters.credentials;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1213,12 +1333,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a data source credentials
              * @method
              * @name Datasources#getDatasource
@@ -1229,7 +1353,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -1256,7 +1379,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1269,7 +1394,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1279,12 +1404,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates a data source
              * @method
              * @name Datasources#updateDatasource
@@ -1298,7 +1427,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.updateDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -1325,22 +1453,29 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
-                queryParameters['default'] = parameters.difault;
+                if (parameters.difault !== undefined) {
+                    queryParameters['default'] = parameters.difault;
+                }
 
-                body = parameters.credentials;
+                if (parameters.credentials !== undefined) {
+                    body = parameters.credentials;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PATCH',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1350,12 +1485,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes a data source
              * @method
              * @name Datasources#removeDatasource
@@ -1366,7 +1505,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -1393,16 +1531,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1412,12 +1551,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * List available collections
              * @method
              * @name Datasources#getDatasourceContents
@@ -1428,7 +1571,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getDatasourceContents = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents';
 
@@ -1455,7 +1597,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1468,7 +1612,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1478,12 +1622,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Creates collection
              * @method
              * @name Datasources#createCollection
@@ -1495,7 +1643,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.createCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents';
 
@@ -1522,23 +1669,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1548,12 +1698,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves metadata about a collection
              * @method
              * @name Datasources#getCollectionMetadata
@@ -1565,7 +1719,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getCollectionMetadata = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}';
 
@@ -1599,7 +1752,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1612,7 +1767,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1622,12 +1777,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes a collection
              * @method
              * @name Datasources#removeCollection
@@ -1639,7 +1798,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}';
 
@@ -1673,16 +1831,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1692,12 +1851,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists collection items
              * @method
              * @name Datasources#listCollection
@@ -1713,7 +1876,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -1747,15 +1909,25 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['offset'] = parameters.offset;
+                if (parameters.offset !== undefined) {
+                    queryParameters['offset'] = parameters.offset;
+                }
 
-                queryParameters['limit'] = parameters.limit;
+                if (parameters.limit !== undefined) {
+                    queryParameters['limit'] = parameters.limit;
+                }
 
-                queryParameters['expand'] = parameters.expand;
+                if (parameters.expand !== undefined) {
+                    queryParameters['expand'] = parameters.expand;
+                }
 
-                headers[Accept] = parameters.accept;
+                if (parameters.accept !== undefined) {
+                    headers['Accept'] = parameters.accept;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1768,7 +1940,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1778,12 +1950,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Inserts an item into a collection
              * @method
              * @name Datasources#insertInCollection
@@ -1796,7 +1972,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.insertInCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -1830,23 +2005,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 if (parameters.item === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
-                body = parameters.item;
+                if (parameters.item !== undefined) {
+                    body = parameters.item;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1856,12 +2034,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Truncates a collection
              * @method
              * @name Datasources#truncateCollection
@@ -1873,7 +2055,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.truncateCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -1907,16 +2088,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1926,12 +2108,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a collection item
              * @method
              * @name Datasources#getItem
@@ -1944,7 +2130,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -1985,7 +2170,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -1998,7 +2185,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -2008,12 +2195,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates a collection item
              * @method
              * @name Datasources#updateItem
@@ -2027,7 +2218,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.updateItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -2068,23 +2258,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 if (parameters.item === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
-                body = parameters.item;
+                if (parameters.item !== undefined) {
+                    body = parameters.item;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -2094,12 +2287,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes an item from a collection
              * @method
              * @name Datasources#removeItem
@@ -2112,7 +2309,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -2153,16 +2349,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -2172,9 +2369,13 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };

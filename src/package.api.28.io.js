@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- *
- */
 angular.module('package.api.28.io', [])
     .factory('Package', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         *
          * @class " || Package || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('package.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Lists available packages
              * @method
              * @name Package#listPackages
@@ -41,7 +39,6 @@ angular.module('package.api.28.io', [])
              */
             this.listPackages = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/package';
 
@@ -49,7 +46,9 @@ angular.module('package.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                queryParameters['category'] = parameters.category;
+                if (parameters.category !== undefined) {
+                    queryParameters['category'] = parameters.category;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -62,7 +61,7 @@ angular.module('package.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -72,9 +71,13 @@ angular.module('package.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };

@@ -1,12 +1,10 @@
 /*global angular:false */
-/**
- * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
- */
 angular.module('datasources.api.28.io', [])
     .factory('Datasources', function($q, $http, $rootScope) {
         'use strict';
 
         /**
+         * <p>These resources can be used to manage and explore data sources. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_datasources</code>.</p>
          * @class " || Datasources || "
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
@@ -32,7 +30,7 @@ angular.module('datasources.api.28.io', [])
                 return this;
             };
 
-            /*
+            /**
              * Lists all data sources
              * @method
              * @name Datasources#listDatasources
@@ -41,7 +39,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listDatasources = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources';
 
@@ -54,7 +51,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -67,7 +66,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -77,12 +76,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists all data sources in a specific category
              * @method
              * @name Datasources#listCategoryDatasources
@@ -92,7 +95,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listCategoryDatasources = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}';
 
@@ -112,7 +114,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -125,7 +129,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -135,12 +139,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Creates a new data source
              * @method
              * @name Datasources#createDatasource
@@ -153,7 +161,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.createDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}';
 
@@ -173,32 +180,39 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['default'] = parameters.difault;
+                if (parameters.difault !== undefined) {
+                    queryParameters['default'] = parameters.difault;
+                }
 
                 if (parameters.credentials === undefined) {
                     deferred.reject(new Error('Missing required body parameter: credentials'));
                     return deferred.promise;
                 }
 
-                body = parameters.credentials;
+                if (parameters.credentials !== undefined) {
+                    body = parameters.credentials;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -208,12 +222,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a data source credentials
              * @method
              * @name Datasources#getDatasource
@@ -224,7 +242,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -251,7 +268,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -264,7 +283,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -274,12 +293,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates a data source
              * @method
              * @name Datasources#updateDatasource
@@ -293,7 +316,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.updateDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -320,22 +342,29 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
-                queryParameters['default'] = parameters.difault;
+                if (parameters.difault !== undefined) {
+                    queryParameters['default'] = parameters.difault;
+                }
 
-                body = parameters.credentials;
+                if (parameters.credentials !== undefined) {
+                    body = parameters.credentials;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PATCH',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -345,12 +374,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes a data source
              * @method
              * @name Datasources#removeDatasource
@@ -361,7 +394,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeDatasource = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}';
 
@@ -388,16 +420,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -407,12 +440,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * List available collections
              * @method
              * @name Datasources#getDatasourceContents
@@ -423,7 +460,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getDatasourceContents = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents';
 
@@ -450,7 +486,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -463,7 +501,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -473,12 +511,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Creates collection
              * @method
              * @name Datasources#createCollection
@@ -490,7 +532,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.createCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents';
 
@@ -517,23 +558,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['name'] = parameters.name;
+                if (parameters.name !== undefined) {
+                    queryParameters['name'] = parameters.name;
+                }
 
                 if (parameters.token === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -543,12 +587,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves metadata about a collection
              * @method
              * @name Datasources#getCollectionMetadata
@@ -560,7 +608,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getCollectionMetadata = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}';
 
@@ -594,7 +641,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -607,7 +656,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -617,12 +666,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes a collection
              * @method
              * @name Datasources#removeCollection
@@ -634,7 +687,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}';
 
@@ -668,16 +720,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -687,12 +740,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Lists collection items
              * @method
              * @name Datasources#listCollection
@@ -708,7 +765,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.listCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -742,15 +798,25 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
-                queryParameters['offset'] = parameters.offset;
+                if (parameters.offset !== undefined) {
+                    queryParameters['offset'] = parameters.offset;
+                }
 
-                queryParameters['limit'] = parameters.limit;
+                if (parameters.limit !== undefined) {
+                    queryParameters['limit'] = parameters.limit;
+                }
 
-                queryParameters['expand'] = parameters.expand;
+                if (parameters.expand !== undefined) {
+                    queryParameters['expand'] = parameters.expand;
+                }
 
-                headers[Accept] = parameters.accept;
+                if (parameters.accept !== undefined) {
+                    headers['Accept'] = parameters.accept;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -763,7 +829,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -773,12 +839,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Inserts an item into a collection
              * @method
              * @name Datasources#insertInCollection
@@ -791,7 +861,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.insertInCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -825,23 +894,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 if (parameters.item === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
-                body = parameters.item;
+                if (parameters.item !== undefined) {
+                    body = parameters.item;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'POST',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -851,12 +923,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Truncates a collection
              * @method
              * @name Datasources#truncateCollection
@@ -868,7 +944,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.truncateCollection = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items';
 
@@ -902,16 +977,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -921,12 +997,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Retrieves a collection item
              * @method
              * @name Datasources#getItem
@@ -939,7 +1019,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.getItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -980,7 +1059,9 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -993,7 +1074,7 @@ angular.module('datasources.api.28.io', [])
                     method: 'GET',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1003,12 +1084,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Updates a collection item
              * @method
              * @name Datasources#updateItem
@@ -1022,7 +1107,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.updateItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -1063,23 +1147,26 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 if (parameters.item === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
-                body = parameters.item;
+                if (parameters.item !== undefined) {
+                    body = parameters.item;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'PUT',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1089,12 +1176,16 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
-            /*
+            /**
              * Removes an item from a collection
              * @method
              * @name Datasources#removeItem
@@ -1107,7 +1198,6 @@ angular.module('datasources.api.28.io', [])
              */
             this.removeItem = function(parameters) {
                 var deferred = $q.defer();
-                var that = this;
 
                 var path = '/_datasources/{category}/{datasource}/contents/{collection}/items/{identifier}';
 
@@ -1148,16 +1238,17 @@ angular.module('datasources.api.28.io', [])
                     return deferred.promise;
                 }
 
-                queryParameters['token'] = parameters.token;
+                if (parameters.token !== undefined) {
+                    queryParameters['token'] = parameters.token;
+                }
 
                 var url = domain + path;
-                var cached = parameters.$cache && parameters.$cache.get(url);
                 $http({
                     timeout: parameters.$timeout,
                     method: 'DELETE',
                     url: url,
                     params: queryParameters,
-                    body: body,
+                    data: body,
                     headers: headers
                 })
                     .success(function(data, status, headers, config) {
@@ -1167,9 +1258,13 @@ angular.module('datasources.api.28.io', [])
                         }
                     })
                     .error(function(data, status, headers, config) {
-                        deferred.reject(data);
+                        deferred.reject({
+                            status: status,
+                            headers: headers,
+                            config: config,
+                            body: data
+                        });
                     });
-
                 return deferred.promise;
             };
         };
