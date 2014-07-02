@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('datasources.api.28.io', [])
     .factory('Datasources', function($q, $http, $rootScope) {
@@ -46,13 +47,13 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -83,6 +84,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -102,20 +104,20 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -146,6 +148,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -155,7 +158,7 @@ angular.module('datasources.api.28.io', [])
              * @param {{string}} category - The data source category.
              * @param {{string}} name - The name of the data source. The data source name can contain any alphabetic letter, numbers, dots, or dashes, and must start with an alphabetic letter.
              * @param {{string}} token - A project token.
-             * @param {{boolean}} difault - Whether the new data source will be the default one for its category. The default value is false.
+             * @param {{boolean}} default - Whether the new data source will be the default one for its category. The default value is false.
              * @param {{string}} credentials - The data sources credentials as JSON.
              *
              */
@@ -168,42 +171,42 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.name === undefined) {
+                if (parameters['name'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: name'));
                     return deferred.promise;
                 }
 
-                if (parameters.name !== undefined) {
-                    queryParameters['name'] = parameters.name;
+                if (parameters['name'] !== undefined) {
+                    queryParameters['name'] = parameters['name'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.difault !== undefined) {
-                    queryParameters['default'] = parameters.difault;
+                if (parameters['default'] !== undefined) {
+                    queryParameters['default'] = parameters['default'];
                 }
 
-                if (parameters.credentials === undefined) {
+                if (parameters['credentials'] === undefined) {
                     deferred.reject(new Error('Missing required body parameter: credentials'));
                     return deferred.promise;
                 }
 
                 if (parameters.credentials !== undefined) {
-                    body = parameters.credentials;
+                    body = parameters['credentials'];
                 }
 
                 var url = domain + path;
@@ -229,6 +232,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -249,27 +253,27 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -300,6 +304,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -310,7 +315,7 @@ angular.module('datasources.api.28.io', [])
              * @param {{string}} datasource - The data source name.
              * @param {{string}} token - A project token.
              * @param {{string}} name - The new name of the data source. If not specified the data source is not renamed.
-             * @param {{boolean}} difault - Whether the data source should become (if true) or cease to be (if false) the default one for its category. If not specified the data source does not change its default status.
+             * @param {{boolean}} default - Whether the data source should become (if true) or cease to be (if false) the default one for its category. If not specified the data source does not change its default status.
              * @param {{string}} credentials - The new data sources credentials as JSON. If not specified the data sources credentials are not changed
              *
              */
@@ -323,39 +328,39 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.name !== undefined) {
-                    queryParameters['name'] = parameters.name;
+                if (parameters['name'] !== undefined) {
+                    queryParameters['name'] = parameters['name'];
                 }
 
-                if (parameters.difault !== undefined) {
-                    queryParameters['default'] = parameters.difault;
+                if (parameters['default'] !== undefined) {
+                    queryParameters['default'] = parameters['default'];
                 }
 
                 if (parameters.credentials !== undefined) {
-                    body = parameters.credentials;
+                    body = parameters['credentials'];
                 }
 
                 var url = domain + path;
@@ -381,6 +386,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -401,27 +407,27 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -447,6 +453,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -467,27 +474,27 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -518,6 +525,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -539,36 +547,36 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.name === undefined) {
+                if (parameters['name'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: name'));
                     return deferred.promise;
                 }
 
-                if (parameters.name !== undefined) {
-                    queryParameters['name'] = parameters.name;
+                if (parameters['name'] !== undefined) {
+                    queryParameters['name'] = parameters['name'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -594,6 +602,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -615,34 +624,34 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -673,6 +682,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -694,34 +704,34 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -747,6 +757,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -772,50 +783,50 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.offset !== undefined) {
-                    queryParameters['offset'] = parameters.offset;
+                if (parameters['offset'] !== undefined) {
+                    queryParameters['offset'] = parameters['offset'];
                 }
 
-                if (parameters.limit !== undefined) {
-                    queryParameters['limit'] = parameters.limit;
+                if (parameters['limit'] !== undefined) {
+                    queryParameters['limit'] = parameters['limit'];
                 }
 
-                if (parameters.expand !== undefined) {
-                    queryParameters['expand'] = parameters.expand;
+                if (parameters['expand'] !== undefined) {
+                    queryParameters['expand'] = parameters['expand'];
                 }
 
                 if (parameters.accept !== undefined) {
-                    headers['Accept'] = parameters.accept;
+                    headers['Accept'] = parameters['accept'];
                 }
 
                 var url = domain + path;
@@ -846,6 +857,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -868,43 +880,43 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.item === undefined) {
+                if (parameters['item'] === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
                 if (parameters.item !== undefined) {
-                    body = parameters.item;
+                    body = parameters['item'];
                 }
 
                 var url = domain + path;
@@ -930,6 +942,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -951,34 +964,34 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1004,6 +1017,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -1026,41 +1040,41 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.identifier === undefined) {
+                if (parameters['identifier'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: identifier'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{identifier}', parameters.identifier);
+                path = path.replace('{identifier}', parameters['identifier']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1091,6 +1105,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -1114,50 +1129,50 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.identifier === undefined) {
+                if (parameters['identifier'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: identifier'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{identifier}', parameters.identifier);
+                path = path.replace('{identifier}', parameters['identifier']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.item === undefined) {
+                if (parameters['item'] === undefined) {
                     deferred.reject(new Error('Missing required body parameter: item'));
                     return deferred.promise;
                 }
 
                 if (parameters.item !== undefined) {
-                    body = parameters.item;
+                    body = parameters['item'];
                 }
 
                 var url = domain + path;
@@ -1183,6 +1198,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -1205,41 +1221,41 @@ angular.module('datasources.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category === undefined) {
+                if (parameters['category'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: category'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{category}', parameters.category);
+                path = path.replace('{category}', parameters['category']);
 
-                if (parameters.datasource === undefined) {
+                if (parameters['datasource'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: datasource'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{datasource}', parameters.datasource);
+                path = path.replace('{datasource}', parameters['datasource']);
 
-                if (parameters.collection === undefined) {
+                if (parameters['collection'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: collection'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{collection}', parameters.collection);
+                path = path.replace('{collection}', parameters['collection']);
 
-                if (parameters.identifier === undefined) {
+                if (parameters['identifier'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: identifier'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{identifier}', parameters.identifier);
+                path = path.replace('{identifier}', parameters['identifier']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1265,6 +1281,7 @@ angular.module('datasources.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };

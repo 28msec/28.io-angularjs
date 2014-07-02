@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('package.api.28.io', [])
     .factory('Package', function($q, $http, $rootScope) {
@@ -46,8 +47,8 @@ angular.module('package.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.category !== undefined) {
-                    queryParameters['category'] = parameters.category;
+                if (parameters['category'] !== undefined) {
+                    queryParameters['category'] = parameters['category'];
                 }
 
                 var url = domain + path;
@@ -78,6 +79,7 @@ angular.module('package.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };

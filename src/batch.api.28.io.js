@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('batch.api.28.io', [])
     .factory('Batch', function($q, $http, $rootScope) {
@@ -53,41 +54,41 @@ angular.module('batch.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.url !== undefined) {
-                    queryParameters['url'] = parameters.url;
+                if (parameters['url'] !== undefined) {
+                    queryParameters['url'] = parameters['url'];
                 }
 
                 if (parameters.archive !== undefined) {
-                    body = parameters.archive;
+                    body = parameters['archive'];
                 }
 
-                if (parameters.root !== undefined) {
-                    queryParameters['root'] = parameters.root;
+                if (parameters['root'] !== undefined) {
+                    queryParameters['root'] = parameters['root'];
                 }
 
-                if (parameters.overwrite !== undefined) {
-                    queryParameters['overwrite'] = parameters.overwrite;
+                if (parameters['overwrite'] !== undefined) {
+                    queryParameters['overwrite'] = parameters['overwrite'];
                 }
 
-                if (parameters.deleteOrphaned !== undefined) {
-                    queryParameters['delete-orphaned'] = parameters.deleteOrphaned;
+                if (parameters['deleteOrphaned'] !== undefined) {
+                    queryParameters['delete-orphaned'] = parameters['deleteOrphaned'];
                 }
 
-                if (parameters.simulate !== undefined) {
-                    queryParameters['simulate'] = parameters.simulate;
+                if (parameters['simulate'] !== undefined) {
+                    queryParameters['simulate'] = parameters['simulate'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 if (parameters.contentType !== undefined) {
-                    headers['Content-Type'] = parameters.contentType;
+                    headers['Content-Type'] = parameters['contentType'];
                 }
 
                 var url = domain + path;
@@ -113,6 +114,7 @@ angular.module('batch.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };

@@ -29,56 +29,56 @@ module.exports = function (grunt) {
             options: {
                 apis: [
                     {
-                        swagger: 'swagger/auth',
+                        swagger: 'swagger/auth.json',
                         moduleName: 'auth.api.28.io',
                         className: 'Auth',
                         fileName: 'auth.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/_batch',
+                        swagger: 'swagger/_batch.json',
                         moduleName: 'batch.api.28.io',
                         className: 'Batch',
                         fileName: 'batch.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/_queries',
+                        swagger: 'swagger/_queries.json',
                         moduleName: 'queries.api.28.io',
                         className: 'Queries',
                         fileName: 'queries.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/_modules',
+                        swagger: 'swagger/_modules.json',
                         moduleName: 'modules.api.28.io',
                         className: 'Modules',
                         fileName: 'modules.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/_datasources',
+                        swagger: 'swagger/_datasources.json',
                         moduleName: 'datasources.api.28.io',
                         className: 'Datasources',
                         fileName: 'datasources.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/account',
+                        swagger: 'swagger/account.json',
                         moduleName: 'account.api.28.io',
                         className: 'Account',
                         fileName: 'account.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/project',
+                        swagger: 'swagger/project.json',
                         moduleName: 'project.api.28.io',
                         className: 'Project',
                         fileName: 'project.api.28.io.js',
                         angularjs: true
                     },
                     {
-                        swagger: 'swagger/package',
+                        swagger: 'swagger/package.json',
                         moduleName: 'package.api.28.io',
                         className: 'Package',
                         fileName: 'package.api.28.io.js',
@@ -300,11 +300,20 @@ module.exports = function (grunt) {
             options: {
                 coverage_dir: 'coverage'
             }
+        },
+        jsonlint: {
+            all: {
+                src: [
+                    'package.json',
+                    'bower.json',
+                    'swagger/*.json'
+                ]
+            }
         }
     });
 
     grunt.registerTask('test', ['karma:1.2.0']);
     grunt.registerTask('release', ['swagger-js-codegen', 'clean:pre', 'concat', 'test', 'jsdoc', 'clean:post']);//uglify
-    grunt.registerTask('build', ['clean:pre', 'release']);
+    grunt.registerTask('build', ['clean:pre', 'jsonlint', 'release']);
     grunt.registerTask('default', ['build']);
 };

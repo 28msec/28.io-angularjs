@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('account.api.28.io', [])
     .factory('Account', function($q, $http, $rootScope) {
@@ -50,49 +51,49 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.firstname === undefined) {
+                if (parameters['firstname'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: firstname'));
                     return deferred.promise;
                 }
 
-                if (parameters.firstname !== undefined) {
-                    queryParameters['firstname'] = parameters.firstname;
+                if (parameters['firstname'] !== undefined) {
+                    queryParameters['firstname'] = parameters['firstname'];
                 }
 
-                if (parameters.lastname === undefined) {
+                if (parameters['lastname'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: lastname'));
                     return deferred.promise;
                 }
 
-                if (parameters.lastname !== undefined) {
-                    queryParameters['lastname'] = parameters.lastname;
+                if (parameters['lastname'] !== undefined) {
+                    queryParameters['lastname'] = parameters['lastname'];
                 }
 
-                if (parameters.company === undefined) {
+                if (parameters['company'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: company'));
                     return deferred.promise;
                 }
 
-                if (parameters.company !== undefined) {
-                    queryParameters['company'] = parameters.company;
+                if (parameters['company'] !== undefined) {
+                    queryParameters['company'] = parameters['company'];
                 }
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: email'));
                     return deferred.promise;
                 }
 
-                if (parameters.email !== undefined) {
-                    queryParameters['email'] = parameters.email;
+                if (parameters['email'] !== undefined) {
+                    queryParameters['email'] = parameters['email'];
                 }
 
-                if (parameters.password === undefined) {
+                if (parameters['password'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: password'));
                     return deferred.promise;
                 }
 
-                if (parameters.password !== undefined) {
-                    queryParameters['password'] = parameters.password;
+                if (parameters['password'] !== undefined) {
+                    queryParameters['password'] = parameters['password'];
                 }
 
                 var url = domain + path;
@@ -118,6 +119,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -136,12 +138,12 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
                 var url = domain + path;
                 $http({
@@ -166,6 +168,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -185,20 +188,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -229,6 +232,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -252,36 +256,36 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
-                if (parameters.firstname !== undefined) {
-                    queryParameters['firstname'] = parameters.firstname;
+                if (parameters['firstname'] !== undefined) {
+                    queryParameters['firstname'] = parameters['firstname'];
                 }
 
-                if (parameters.lastname !== undefined) {
-                    queryParameters['lastname'] = parameters.lastname;
+                if (parameters['lastname'] !== undefined) {
+                    queryParameters['lastname'] = parameters['lastname'];
                 }
 
-                if (parameters.company !== undefined) {
-                    queryParameters['company'] = parameters.company;
+                if (parameters['company'] !== undefined) {
+                    queryParameters['company'] = parameters['company'];
                 }
 
-                if (parameters.password !== undefined) {
-                    queryParameters['password'] = parameters.password;
+                if (parameters['password'] !== undefined) {
+                    queryParameters['password'] = parameters['password'];
                 }
 
                 var url = domain + path;
@@ -307,6 +311,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -325,12 +330,12 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
                 var url = domain + path;
                 var cached = parameters.$cache && parameters.$cache.get(url);
@@ -360,6 +365,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -379,20 +385,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.confirmationToken === undefined) {
+                if (parameters['confirmationToken'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: confirmationToken'));
                     return deferred.promise;
                 }
 
-                if (parameters.confirmationToken !== undefined) {
-                    queryParameters['confirmation-token'] = parameters.confirmationToken;
+                if (parameters['confirmationToken'] !== undefined) {
+                    queryParameters['confirmation-token'] = parameters['confirmationToken'];
                 }
 
                 var url = domain + path;
@@ -418,6 +424,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -437,20 +444,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.resetToken === undefined) {
+                if (parameters['resetToken'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: resetToken'));
                     return deferred.promise;
                 }
 
-                if (parameters.resetToken !== undefined) {
-                    queryParameters['reset-token'] = parameters.resetToken;
+                if (parameters['resetToken'] !== undefined) {
+                    queryParameters['reset-token'] = parameters['resetToken'];
                 }
 
                 var url = domain + path;
@@ -481,6 +488,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -501,29 +509,29 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.resetToken === undefined) {
+                if (parameters['resetToken'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: resetToken'));
                     return deferred.promise;
                 }
 
-                if (parameters.resetToken !== undefined) {
-                    queryParameters['reset-token'] = parameters.resetToken;
+                if (parameters['resetToken'] !== undefined) {
+                    queryParameters['reset-token'] = parameters['resetToken'];
                 }
 
-                if (parameters.password === undefined) {
+                if (parameters['password'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: password'));
                     return deferred.promise;
                 }
 
-                if (parameters.password !== undefined) {
-                    queryParameters['password'] = parameters.password;
+                if (parameters['password'] !== undefined) {
+                    queryParameters['password'] = parameters['password'];
                 }
 
                 var url = domain + path;
@@ -549,6 +557,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -568,20 +577,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.portalUrl === undefined) {
+                if (parameters['portalUrl'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: portalUrl'));
                     return deferred.promise;
                 }
 
-                if (parameters.portalUrl !== undefined) {
-                    queryParameters['portal-url'] = parameters.portalUrl;
+                if (parameters['portalUrl'] !== undefined) {
+                    queryParameters['portal-url'] = parameters['portalUrl'];
                 }
 
                 var url = domain + path;
@@ -607,6 +616,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -626,20 +636,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -670,6 +680,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -691,28 +702,28 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.cursor !== undefined) {
-                    queryParameters['cursor'] = parameters.cursor;
+                if (parameters['cursor'] !== undefined) {
+                    queryParameters['cursor'] = parameters['cursor'];
                 }
 
-                if (parameters.limit !== undefined) {
-                    queryParameters['limit'] = parameters.limit;
+                if (parameters['limit'] !== undefined) {
+                    queryParameters['limit'] = parameters['limit'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -743,6 +754,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -763,24 +775,24 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 if (parameters.accept !== undefined) {
-                    headers['Accept'] = parameters.accept;
+                    headers['Accept'] = parameters['accept'];
                 }
 
                 var url = domain + path;
@@ -811,6 +823,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -830,20 +843,20 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -874,6 +887,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -895,38 +909,38 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.plan === undefined) {
+                if (parameters['plan'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: plan'));
                     return deferred.promise;
                 }
 
-                if (parameters.plan !== undefined) {
-                    queryParameters['plan'] = parameters.plan;
+                if (parameters['plan'] !== undefined) {
+                    queryParameters['plan'] = parameters['plan'];
                 }
 
-                if (parameters.quantity === undefined) {
+                if (parameters['quantity'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: quantity'));
                     return deferred.promise;
                 }
 
-                if (parameters.quantity !== undefined) {
-                    queryParameters['quantity'] = parameters.quantity;
+                if (parameters['quantity'] !== undefined) {
+                    queryParameters['quantity'] = parameters['quantity'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -952,6 +966,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -972,27 +987,27 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.subscription === undefined) {
+                if (parameters['subscription'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: subscription'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{subscription}', parameters.subscription);
+                path = path.replace('{subscription}', parameters['subscription']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1023,6 +1038,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -1044,36 +1060,36 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.subscription === undefined) {
+                if (parameters['subscription'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: subscription'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{subscription}', parameters.subscription);
+                path = path.replace('{subscription}', parameters['subscription']);
 
-                if (parameters.quantity === undefined) {
+                if (parameters['quantity'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: quantity'));
                     return deferred.promise;
                 }
 
-                if (parameters.quantity !== undefined) {
-                    queryParameters['quantity'] = parameters.quantity;
+                if (parameters['quantity'] !== undefined) {
+                    queryParameters['quantity'] = parameters['quantity'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1099,6 +1115,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -1119,27 +1136,27 @@ angular.module('account.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.email === undefined) {
+                if (parameters['email'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: email'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{email}', parameters.email);
+                path = path.replace('{email}', parameters['email']);
 
-                if (parameters.subscription === undefined) {
+                if (parameters['subscription'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: subscription'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{subscription}', parameters.subscription);
+                path = path.replace('{subscription}', parameters['subscription']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -1165,6 +1182,7 @@ angular.module('account.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };

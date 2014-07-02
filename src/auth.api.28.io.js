@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('auth.api.28.io', [])
     .factory('Auth', function($q, $http, $rootScope) {
@@ -49,25 +50,25 @@ angular.module('auth.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.grant_type === undefined) {
+                if (parameters['grant_type'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: grant_type'));
                     return deferred.promise;
                 }
 
-                if (parameters.grant_type !== undefined) {
-                    queryParameters['grant_type'] = parameters.grant_type;
+                if (parameters['grant_type'] !== undefined) {
+                    queryParameters['grant_type'] = parameters['grant_type'];
                 }
 
-                if (parameters.email !== undefined) {
-                    queryParameters['email'] = parameters.email;
+                if (parameters['email'] !== undefined) {
+                    queryParameters['email'] = parameters['email'];
                 }
 
-                if (parameters.password !== undefined) {
-                    queryParameters['password'] = parameters.password;
+                if (parameters['password'] !== undefined) {
+                    queryParameters['password'] = parameters['password'];
                 }
 
-                if (parameters.refresh_token !== undefined) {
-                    queryParameters['refresh_token'] = parameters.refresh_token;
+                if (parameters['refresh_token'] !== undefined) {
+                    queryParameters['refresh_token'] = parameters['refresh_token'];
                 }
 
                 var url = domain + path;
@@ -93,6 +94,7 @@ angular.module('auth.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };

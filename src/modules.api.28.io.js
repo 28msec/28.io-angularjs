@@ -1,3 +1,4 @@
+/*jshint -W069 */
 /*global angular:false */
 angular.module('modules.api.28.io', [])
     .factory('Modules', function($q, $http, $rootScope) {
@@ -50,29 +51,29 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.startsWith !== undefined) {
-                    queryParameters['starts-with'] = parameters.startsWith;
+                if (parameters['startsWith'] !== undefined) {
+                    queryParameters['starts-with'] = parameters['startsWith'];
                 }
 
-                if (parameters.includeSystem !== undefined) {
-                    queryParameters['include-system'] = parameters.includeSystem;
+                if (parameters['includeSystem'] !== undefined) {
+                    queryParameters['include-system'] = parameters['includeSystem'];
                 }
 
-                if (parameters.includeNs !== undefined) {
-                    queryParameters['include-ns'] = parameters.includeNs;
+                if (parameters['includeNs'] !== undefined) {
+                    queryParameters['include-ns'] = parameters['includeNs'];
                 }
 
-                if (parameters.includeSrc !== undefined) {
-                    queryParameters['include-src'] = parameters.includeSrc;
+                if (parameters['includeSrc'] !== undefined) {
+                    queryParameters['include-src'] = parameters['includeSrc'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -103,6 +104,7 @@ angular.module('modules.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -122,20 +124,20 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.modulePath === undefined) {
+                if (parameters['modulePath'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: modulePath'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{module-path}', parameters.modulePath);
+                path = path.replace('{module-path}', parameters['modulePath']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -166,6 +168,7 @@ angular.module('modules.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -189,32 +192,32 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.modulePath === undefined) {
+                if (parameters['modulePath'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: modulePath'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{module-path}', parameters.modulePath);
+                path = path.replace('{module-path}', parameters['modulePath']);
 
-                if (parameters.compile !== undefined) {
-                    queryParameters['compile'] = parameters.compile;
+                if (parameters['compile'] !== undefined) {
+                    queryParameters['compile'] = parameters['compile'];
                 }
 
-                if (parameters.extension !== undefined) {
-                    queryParameters['extension'] = parameters.extension;
+                if (parameters['extension'] !== undefined) {
+                    queryParameters['extension'] = parameters['extension'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 if (parameters.moduleBody !== undefined) {
-                    body = parameters.moduleBody;
+                    body = parameters['moduleBody'];
                 }
 
                 headers['Content-Type'] = 'text/plain; charset=utf-8';
@@ -242,6 +245,7 @@ angular.module('modules.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -265,32 +269,32 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.modulePath === undefined) {
+                if (parameters['modulePath'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: modulePath'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{module-path}', parameters.modulePath);
+                path = path.replace('{module-path}', parameters['modulePath']);
 
-                if (parameters.compile !== undefined) {
-                    queryParameters['compile'] = parameters.compile;
+                if (parameters['compile'] !== undefined) {
+                    queryParameters['compile'] = parameters['compile'];
                 }
 
-                if (parameters.extension !== undefined) {
-                    queryParameters['extension'] = parameters.extension;
+                if (parameters['extension'] !== undefined) {
+                    queryParameters['extension'] = parameters['extension'];
                 }
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 if (parameters.moduleBody !== undefined) {
-                    body = parameters.moduleBody;
+                    body = parameters['moduleBody'];
                 }
 
                 headers['Content-Type'] = 'text/plain; charset=utf-8';
@@ -318,6 +322,7 @@ angular.module('modules.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
             /**
@@ -337,20 +342,20 @@ angular.module('modules.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
 
-                if (parameters.modulePath === undefined) {
+                if (parameters['modulePath'] === undefined) {
                     deferred.reject(new Error('Missing required path parameter: modulePath'));
                     return deferred.promise;
                 }
 
-                path = path.replace('{module-path}', parameters.modulePath);
+                path = path.replace('{module-path}', parameters['modulePath']);
 
-                if (parameters.token === undefined) {
+                if (parameters['token'] === undefined) {
                     deferred.reject(new Error('Missing required query parameter: token'));
                     return deferred.promise;
                 }
 
-                if (parameters.token !== undefined) {
-                    queryParameters['token'] = parameters.token;
+                if (parameters['token'] !== undefined) {
+                    queryParameters['token'] = parameters['token'];
                 }
 
                 var url = domain + path;
@@ -376,6 +381,7 @@ angular.module('modules.api.28.io', [])
                             body: data
                         });
                     });
+
                 return deferred.promise;
             };
         };
