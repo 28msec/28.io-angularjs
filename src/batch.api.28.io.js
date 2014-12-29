@@ -10,13 +10,16 @@ angular.module('batch.api.28.io', [])
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
          */
-        return function(domain, cache) {
-
-            if (typeof(domain) !== 'string') {
-                throw new Error('Domain parameter must be specified as a string.');
+        var Batch = (function() {
+            function Batch(domain, cache) {
+                if (typeof(domain) !== 'string') {
+                    throw new Error('Domain parameter must be specified as a string.');
+                }
+                this.domain = domain;
+                this.cache = cache;
             }
 
-            this.$on = function($scope, path, handler) {
+            Batch.prototype.$on = function($scope, path, handler) {
                 var url = domain + path;
                 $scope.$on(url, function() {
                     handler();
@@ -24,7 +27,7 @@ angular.module('batch.api.28.io', [])
                 return this;
             };
 
-            this.$broadcast = function(path) {
+            Batch.prototype.$broadcast = function(path) {
                 var url = domain + path;
                 //cache.remove(url);
                 $rootScope.$broadcast(url);
@@ -45,17 +48,19 @@ angular.module('batch.api.28.io', [])
              * @param {{string}} contentType - <p>These resources can be used to perform batch operations. The endpoint of these resources is based on your project name. For instance, if your 28.io project is named <code>myproject</code>, your endpoint for this API will be will be: <code>http://myproject.28.io/v1/_batch</code>.</p>
              *
              */
-            this.importProject = function(parameters) {
+            Batch.prototype.importProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_batch/project';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters['url'] !== undefined) {
                     queryParameters['url'] = parameters['url'];
@@ -103,14 +108,26 @@ angular.module('batch.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -128,5 +145,9 @@ angular.module('batch.api.28.io', [])
 
                 return deferred.promise;
             };
-        };
+
+            return Batch;
+        })();
+
+        return Batch;
     }]);
