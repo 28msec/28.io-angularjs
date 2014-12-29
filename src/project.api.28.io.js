@@ -10,13 +10,16 @@ angular.module('project.api.28.io', [])
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
          */
-        return function(domain, cache) {
-
-            if (typeof(domain) !== 'string') {
-                throw new Error('Domain parameter must be specified as a string.');
+        var Project = (function() {
+            function Project(domain, cache) {
+                if (typeof(domain) !== 'string') {
+                    throw new Error('Domain parameter must be specified as a string.');
+                }
+                this.domain = domain;
+                this.cache = cache;
             }
 
-            this.$on = function($scope, path, handler) {
+            Project.prototype.$on = function($scope, path, handler) {
                 var url = domain + path;
                 $scope.$on(url, function() {
                     handler();
@@ -24,7 +27,7 @@ angular.module('project.api.28.io', [])
                 return this;
             };
 
-            this.$broadcast = function(path) {
+            Project.prototype.$broadcast = function(path) {
                 var url = domain + path;
                 //cache.remove(url);
                 $rootScope.$broadcast(url);
@@ -38,17 +41,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.listProjects = function(parameters) {
+            Project.prototype.listProjects = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters['token'] !== undefined) {
                     queryParameters['token'] = parameters['token'];
@@ -73,14 +78,26 @@ angular.module('project.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -108,17 +125,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.createProject = function(parameters) {
+            Project.prototype.createProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters['projectName'] !== undefined) {
                     queryParameters['project-name'] = parameters['projectName'];
@@ -155,14 +174,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'POST',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'POST',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -187,17 +218,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} name - The project name.
              *
              */
-            this.checkProject = function(parameters) {
+            Project.prototype.checkProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -215,14 +248,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'HEAD',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'HEAD',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -248,17 +293,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.getProjectMetadata = function(parameters) {
+            Project.prototype.getProjectMetadata = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -290,14 +337,26 @@ angular.module('project.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -323,17 +382,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.upgradeProject = function(parameters) {
+            Project.prototype.upgradeProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -360,14 +421,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -395,17 +468,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.updateProject = function(parameters) {
+            Project.prototype.updateProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -440,14 +515,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PATCH',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PATCH',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -473,17 +560,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.deleteProject = function(parameters) {
+            Project.prototype.deleteProject = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -510,14 +599,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'DELETE',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'DELETE',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -543,17 +644,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.getDefaultMongoDBCredentials = function(parameters) {
+            Project.prototype.getDefaultMongoDBCredentials = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/default-mongodb';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -585,14 +688,26 @@ angular.module('project.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -624,17 +739,19 @@ angular.module('project.api.28.io', [])
              * @param {{boolean}} preDigested - Whether the specified password is pre-digested or not. Only for "user" databases. Default is false.
              *
              */
-            this.updateDefaultMongoDBCredentials = function(parameters) {
+            Project.prototype.updateDefaultMongoDBCredentials = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/default-mongodb';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -690,14 +807,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -728,17 +857,19 @@ angular.module('project.api.28.io', [])
              * @param {{boolean}} preDigested - Whether the specified password is pre-digested or not. Default is false.
              *
              */
-            this.testDefaultMongoDB = function(parameters) {
+            Project.prototype.testDefaultMongoDB = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/test-mongodb';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -800,14 +931,26 @@ angular.module('project.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -833,17 +976,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.listCustomDomains = function(parameters) {
+            Project.prototype.listCustomDomains = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/domains';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -875,14 +1020,26 @@ angular.module('project.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -909,17 +1066,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.addCustomDomain = function(parameters) {
+            Project.prototype.addCustomDomain = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/domains';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -955,14 +1114,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'POST',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'POST',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -989,17 +1160,19 @@ angular.module('project.api.28.io', [])
              * @param {{string}} token - An API token.
              *
              */
-            this.deleteCustomDomain = function(parameters) {
+            Project.prototype.deleteCustomDomain = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/project/{name}/domains/{domain-name}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{name}', parameters['name']);
 
@@ -1033,14 +1206,26 @@ angular.module('project.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'DELETE',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'DELETE',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -1058,5 +1243,9 @@ angular.module('project.api.28.io', [])
 
                 return deferred.promise;
             };
-        };
+
+            return Project;
+        })();
+
+        return Project;
     }]);

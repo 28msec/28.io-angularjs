@@ -10,13 +10,16 @@ angular.module('modules.api.28.io', [])
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
          */
-        return function(domain, cache) {
-
-            if (typeof(domain) !== 'string') {
-                throw new Error('Domain parameter must be specified as a string.');
+        var Modules = (function() {
+            function Modules(domain, cache) {
+                if (typeof(domain) !== 'string') {
+                    throw new Error('Domain parameter must be specified as a string.');
+                }
+                this.domain = domain;
+                this.cache = cache;
             }
 
-            this.$on = function($scope, path, handler) {
+            Modules.prototype.$on = function($scope, path, handler) {
                 var url = domain + path;
                 $scope.$on(url, function() {
                     handler();
@@ -24,7 +27,7 @@ angular.module('modules.api.28.io', [])
                 return this;
             };
 
-            this.$broadcast = function(path) {
+            Modules.prototype.$broadcast = function(path) {
                 var url = domain + path;
                 //cache.remove(url);
                 $rootScope.$broadcast(url);
@@ -42,17 +45,19 @@ angular.module('modules.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.listModules = function(parameters) {
+            Modules.prototype.listModules = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_modules';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters['startsWith'] !== undefined) {
                     queryParameters['starts-with'] = parameters['startsWith'];
@@ -93,14 +98,26 @@ angular.module('modules.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -126,17 +143,19 @@ angular.module('modules.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.getModule = function(parameters) {
+            Modules.prototype.getModule = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_modules/{module-path}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{module-path}', parameters['modulePath']);
 
@@ -168,14 +187,26 @@ angular.module('modules.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -205,17 +236,19 @@ angular.module('modules.api.28.io', [])
 
              * 
              */
-            this.createModule = function(parameters) {
+            Modules.prototype.createModule = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_modules/{module-path}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{module-path}', parameters['modulePath']);
 
@@ -256,14 +289,26 @@ angular.module('modules.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'POST',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'POST',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -293,17 +338,19 @@ angular.module('modules.api.28.io', [])
 
              * 
              */
-            this.saveModule = function(parameters) {
+            Modules.prototype.saveModule = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_modules/{module-path}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{module-path}', parameters['modulePath']);
 
@@ -344,14 +391,26 @@ angular.module('modules.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -377,17 +436,19 @@ angular.module('modules.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.removeModule = function(parameters) {
+            Modules.prototype.removeModule = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_modules/{module-path}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{module-path}', parameters['modulePath']);
 
@@ -414,14 +475,26 @@ angular.module('modules.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'DELETE',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'DELETE',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -439,5 +512,9 @@ angular.module('modules.api.28.io', [])
 
                 return deferred.promise;
             };
-        };
+
+            return Modules;
+        })();
+
+        return Modules;
     }]);

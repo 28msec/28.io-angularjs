@@ -10,13 +10,16 @@ angular.module('queries.api.28.io', [])
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
          */
-        return function(domain, cache) {
-
-            if (typeof(domain) !== 'string') {
-                throw new Error('Domain parameter must be specified as a string.');
+        var Queries = (function() {
+            function Queries(domain, cache) {
+                if (typeof(domain) !== 'string') {
+                    throw new Error('Domain parameter must be specified as a string.');
+                }
+                this.domain = domain;
+                this.cache = cache;
             }
 
-            this.$on = function($scope, path, handler) {
+            Queries.prototype.$on = function($scope, path, handler) {
                 var url = domain + path;
                 $scope.$on(url, function() {
                     handler();
@@ -24,7 +27,7 @@ angular.module('queries.api.28.io', [])
                 return this;
             };
 
-            this.$broadcast = function(path) {
+            Queries.prototype.$broadcast = function(path) {
                 var url = domain + path;
                 //cache.remove(url);
                 $rootScope.$broadcast(url);
@@ -39,17 +42,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.listQueries = function(parameters) {
+            Queries.prototype.listQueries = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{visibility}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{visibility}', parameters['visibility']);
 
@@ -81,14 +86,26 @@ angular.module('queries.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -117,17 +134,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.executeSimpleQuery = function(parameters) {
+            Queries.prototype.executeSimpleQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}{format}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters.accept !== undefined) {
                     headers['Accept'] = parameters['accept'];
@@ -164,14 +183,26 @@ angular.module('queries.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -202,17 +233,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.executeQuery = function(parameters) {
+            Queries.prototype.executeQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}{format}';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters.accept !== undefined) {
                     headers['Accept'] = parameters['accept'];
@@ -252,14 +285,26 @@ angular.module('queries.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'POST',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'POST',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -285,17 +330,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.getQuery = function(parameters) {
+            Queries.prototype.getQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/source';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -327,14 +374,26 @@ angular.module('queries.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -363,17 +422,19 @@ angular.module('queries.api.28.io', [])
 
              * 
              */
-            this.createQuery = function(parameters) {
+            Queries.prototype.createQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/source';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -415,14 +476,26 @@ angular.module('queries.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'POST',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'POST',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -451,17 +524,19 @@ angular.module('queries.api.28.io', [])
 
              * 
              */
-            this.saveQuery = function(parameters) {
+            Queries.prototype.saveQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/source';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -498,14 +573,26 @@ angular.module('queries.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -531,17 +618,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.removeQuery = function(parameters) {
+            Queries.prototype.removeQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/source';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -568,14 +657,26 @@ angular.module('queries.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'DELETE',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'DELETE',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -601,17 +702,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.getQueryPlan = function(parameters) {
+            Queries.prototype.getQueryPlan = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/plan';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -643,14 +746,26 @@ angular.module('queries.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -676,17 +791,19 @@ angular.module('queries.api.28.io', [])
              * @param {{string}} token - A project token.
              *
              */
-            this.compileQuery = function(parameters) {
+            Queries.prototype.compileQuery = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/_queries/{query-path}/metadata/plan';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 path = path.replace('{query-path}', parameters['queryPath']);
 
@@ -713,14 +830,26 @@ angular.module('queries.api.28.io', [])
                 }
 
                 var url = domain + path;
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'PUT',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'PUT',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -738,5 +867,9 @@ angular.module('queries.api.28.io', [])
 
                 return deferred.promise;
             };
-        };
+
+            return Queries;
+        })();
+
+        return Queries;
     }]);

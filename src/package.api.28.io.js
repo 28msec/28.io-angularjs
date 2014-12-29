@@ -10,13 +10,16 @@ angular.module('package.api.28.io', [])
          * @param {string} domain - The project domain
          * @param {string} cache - An angularjs cache implementation
          */
-        return function(domain, cache) {
-
-            if (typeof(domain) !== 'string') {
-                throw new Error('Domain parameter must be specified as a string.');
+        var Package = (function() {
+            function Package(domain, cache) {
+                if (typeof(domain) !== 'string') {
+                    throw new Error('Domain parameter must be specified as a string.');
+                }
+                this.domain = domain;
+                this.cache = cache;
             }
 
-            this.$on = function($scope, path, handler) {
+            Package.prototype.$on = function($scope, path, handler) {
                 var url = domain + path;
                 $scope.$on(url, function() {
                     handler();
@@ -24,7 +27,7 @@ angular.module('package.api.28.io', [])
                 return this;
             };
 
-            this.$broadcast = function(path) {
+            Package.prototype.$broadcast = function(path) {
                 var url = domain + path;
                 //cache.remove(url);
                 $rootScope.$broadcast(url);
@@ -38,17 +41,19 @@ angular.module('package.api.28.io', [])
              * @param {{string}} category - The package category
              *
              */
-            this.listPackages = function(parameters) {
+            Package.prototype.listPackages = function(parameters) {
                 if (parameters === undefined) {
                     parameters = {};
                 }
                 var deferred = $q.defer();
 
+                var domain = this.domain;
                 var path = '/package';
 
                 var body;
                 var queryParameters = {};
                 var headers = {};
+                var form = {};
 
                 if (parameters['category'] !== undefined) {
                     queryParameters['category'] = parameters['category'];
@@ -68,14 +73,26 @@ angular.module('package.api.28.io', [])
                     deferred.resolve(cached);
                     return deferred.promise;
                 }
-                $http({
-                        timeout: parameters.$timeout,
-                        method: 'GET',
-                        url: url,
-                        params: queryParameters,
-                        data: body,
-                        headers: headers
-                    })
+                var options = {
+                    timeout: parameters.$timeout,
+                    method: 'GET',
+                    url: url,
+                    params: queryParameters,
+                    data: body,
+                    headers: headers
+                };
+                if (Object.keys(form).length > 0) {
+                    options.data = form;
+                    options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                    options.transformRequest = function(obj) {
+                        var str = [];
+                        for (var p in obj) {
+                            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        }
+                        return str.join("&");
+                    }
+                }
+                $http(options)
                     .success(function(data, status, headers, config) {
                         deferred.resolve(data);
                         if (parameters.$cache !== undefined) {
@@ -93,5 +110,9 @@ angular.module('package.api.28.io', [])
 
                 return deferred.promise;
             };
-        };
+
+            return Package;
+        })();
+
+        return Package;
     }]);
