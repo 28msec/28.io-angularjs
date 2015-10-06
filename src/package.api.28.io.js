@@ -38,7 +38,6 @@ angular.module('package.api.28.io', [])
              * Lists available packages
              * @method
              * @name Package#listPackages
-             * @param {{string}} category - The package category
              *
              */
             Package.prototype.listPackages = function(parameters) {
@@ -54,10 +53,6 @@ angular.module('package.api.28.io', [])
                 var queryParameters = {};
                 var headers = {};
                 var form = {};
-
-                if (parameters['category'] !== undefined) {
-                    queryParameters['category'] = parameters['category'];
-                }
 
                 if (parameters.$queryParameters) {
                     Object.keys(parameters.$queryParameters)

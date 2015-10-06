@@ -761,7 +761,7 @@
                     "examples": [
                         {
                             "description": "The following request compiles the public query named <code>hello_world.jq</code>.",
-                            "request": "curl -X PUT \"http://myproject.28.io/v1/_queries/public/hello_world.jq/metadata/plan?token=dGZKZ0VYT1VWV2l1R1BLQ1NBTjVmcEJlWU04PToyMDEzLTExLTA2VDAxOjU0OjI5LjgzOTQ1Wg==\"",
+                            "request": "curl -X PUT \"http://myproject.28.io/v1/_queries/public/hello_world.jq/metadata/compiled?token=dGZKZ0VYT1VWV2l1R1BLQ1NBTjVmcEJlWU04PToyMDEzLTExLTA2VDAxOjU0OjI5LjgzOTQ1Wg==\"",
                             "response": "< 200 OK\n{\n  \"success\": true\n}",
                             "title": "Compiling a query"
                         }
