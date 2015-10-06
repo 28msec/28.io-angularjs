@@ -13,26 +13,13 @@
                 {
                     "method": "GET",
                     "summary": "Lists available packages",
-                    "notes": "By default packages of all categories are listed. To list only packages of a given category the <code>category</code> parameter can be used. This method requires no authentication.",
+                    "notes": "This method requires no authentication.",
                     "type": "array",
                     "items": {
                         "$ref": "Package"
                     },
                     "nickname": "listPackages",
-                    "parameters": [
-                        {
-                            "name": "category",
-                            "description": "The package category",
-                            "required": false,
-                            "type": "string",
-                            "enum": [
-                                "support",
-                                "datasource",
-                                "project"
-                            ],
-                            "paramType": "query"
-                        }
-                    ],
+                    "parameters": [],
                     "responseMessages": [
                         {
                             "code": 500,
@@ -86,6 +73,7 @@
             "required": [
                 "id",
                 "name",
+                "demo",
                 "description"
             ],
             "properties": {
@@ -97,19 +85,15 @@
                     "type": "string",
                     "description": "The package name"
                 },
+                "demo": {
+                    "type": "boolean",
+                    "description": "Whether the package is a demo package or not"
+                },
                 "description": {
                     "type": "string",
                     "description": "The package description"
                 },
                 "price": {
-                    "type": "string",
-                    "description": "The package price"
-                },
-                "recurlyName": {
-                    "type": "string",
-                    "description": "The name used to buy the package through the subscription API"
-                },                
-                "callUs": {
                     "type": "string",
                     "description": "The package price"
                 },                

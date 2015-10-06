@@ -6,7 +6,7 @@
   },
   "name": "28.io-angularjs",
   "description": "AngularJS bindings for 28.io.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "jsoniq",
     "xquery",
@@ -45,7 +45,7 @@
     "requirejs": "~2.1.11",
     "karma-requirejs": "~0.2.1",
     "karma-coverage": "~0.2.1",
-    "grunt-swagger-js-codegen": "~0.2.17",
+    "grunt-swagger-js-codegen": "0.4.2",
     "grunt-jsonlint": "~1.0.4"
   },
   "contributors": [
